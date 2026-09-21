@@ -1,0 +1,453 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { Content as AboutContent } from '../data/about.md';
+import { Content as VesselContent } from '../data/vessel.md';
+import team from '../data/team.json';
+import timeline from '../data/timeline.json';
+import sponsors from '../data/sponsors.json';
+import vesselImage from '../assets/vessel_main.jpeg';
+import vesselRender from '../assets/vessel_render.jpg';
+import thalesLogo from '../assets/Thales-Logo.png';
+import flindersLogo from '../assets/Flinders-Logo.png';
+import redarcLogo from '../assets/REDARC-Logo.png';
+import fuseLogo from '../assets/fuselogo.png';
+import sageLogo from '../assets/SAGE-Automation.png';
+import initialDev from '../assets/initial_dev.jpg';
+import singapore from '../assets/singappore.jpg';
+import demonstration from '../assets/demonstration.jpg';
+import conference from '../assets/conference.jpg';
+import hawaii from '../assets/RobotXHawaii.jpg';
+import electronics from '../assets/robotxElectronics.jpg';
+import beachport from '../assets/robotx2020Beachport.jpg';
+
+// Astro image imports must be static, so the timeline photos are mapped by title here.
+const sponsorLogos: Record<string, ImageMetadata> = {
+	Thales: thalesLogo,
+	'Flinders University': flindersLogo,
+	REDARC: redarcLogo,
+	FUSE: fuseLogo,
+	'SAGE Group': sageLogo,
+};
+
+const timelinePhotos: Record<string, ImageMetadata> = {
+	'First build': initialDev,
+	'Maritime RobotX, Singapore': singapore,
+	'Port River demonstration': demonstration,
+	'Driverless Cars Conference': conference,
+	'Maritime RobotX 2, Hawaii': hawaii,
+	'Electronics refresh': electronics,
+	'Beachport survey': beachport,
+};
+
+const groups = ['Academic Staff', 'Student Team Leaders', 'Team Members'];
+const tiers = ['Platinum', 'Silver', 'Bronze'];
+
+// 21 portraits — glob rather than 21 import lines. Anyone without a photo on the
+// source site falls back to the placeholder.
+const portraits = import.meta.glob<{ default: ImageMetadata }>(
+	'../assets/team/*.{jpg,jpeg,png}',
+	{ eager: true }
+);
+const portraitFor = (photo: string) =>
+	(portraits[`../assets/team/${photo}`] ?? portraits['../assets/team/default-profile-pic.jpg'])
+		.default;
+
+const specs = [
+	{ label: 'Length', value: '5 m', icon: 'straighten' },
+	{ label: 'Top speed', value: '11 knots', icon: 'speed' },
+	{ label: 'Endurance', value: '~12 hours', icon: 'battery_charging_full' },
+	{ label: 'Platform', value: 'WAM-V catamaran', icon: 'sailing' },
+	{ label: 'Propulsion', value: '2 × Torqeedo Cruise 2R', icon: 'bolt' },
+	{ label: 'Sensing', value: 'Lidar, radar, cameras, GNSS', icon: 'sensors' },
+];
+---
+
+<Layout title="About Us" description="Team Australis2, the TopCat autonomous surface vessel, and how the project developed from 2014 onwards.">
+	<PageHeader title="About Us" eyebrow="Team Australis2" />
+
+	<div class="page">
+		<section class="section prose">
+			<AboutContent />
+			<p class="body-large">
+				<a href="mailto:FlindersRoboticsTeam@gmail.com">FlindersRoboticsTeam@gmail.com</a>
+			</p>
+		</section>
+
+		<section class="section">
+			<h2>Meet the team</h2>
+			{
+				groups.map((group) => {
+					const members = team.filter((m) => m.group === group);
+					return members.length > 0 ? (
+						<div class="group">
+							<h3 class="title-large">{group}</h3>
+							<div class="card-grid">
+								{members.map((member) => (
+									<div class="md-card md-card--outlined member">
+										<Image
+											class="member__photo"
+											src={portraitFor(member.photo)}
+											alt={member.name}
+											width={240}
+											height={240}
+											loading="lazy"
+										/>
+										<span class="member__name">{member.name}</span>
+										<span class="member__role body-medium">{member.role}</span>
+										{member.linkedin && (
+											<a
+												class="member__linkedin label-large"
+												href={member.linkedin}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												<md-icon>link</md-icon>
+												LinkedIn
+											</a>
+										)}
+									</div>
+								))}
+							</div>
+						</div>
+					) : null;
+				})
+			}
+		</section>
+
+		<section class="section">
+			<h2>The vessel</h2>
+			<div class="vessel-media">
+				<figure>
+					<Image
+						src={vesselImage}
+						alt="TopCat, the Flinders University autonomous surface vessel, under way"
+						width={800}
+						height={450}
+						loading="lazy"
+					/>
+					<figcaption class="body-medium">TopCat on the water.</figcaption>
+				</figure>
+				<figure>
+					<Image
+						src={vesselRender}
+						alt="CAD render of the TopCat vessel"
+						width={800}
+						height={450}
+						loading="lazy"
+					/>
+					<figcaption class="body-medium">The vessel as designed.</figcaption>
+				</figure>
+			</div>
+			<div class="spec-grid">
+				{
+					specs.map((spec) => (
+						<div class="md-card spec">
+							<md-icon class="spec__icon">{spec.icon}</md-icon>
+							<span class="spec__value">{spec.value}</span>
+							<span class="spec__label body-medium">{spec.label}</span>
+						</div>
+					))
+				}
+			</div>
+			<div class="prose vessel-prose">
+				<VesselContent />
+			</div>
+		</section>
+
+		<section class="section">
+			<h2>Development process</h2>
+			<p class="prose body-large">
+				The Maritime RobotX Challenge was launched in 2012 by the US Office of Naval Research.
+				Flinders University, through CDERT, took part in the inaugural event in 2014 and has
+				been developing TopCat ever since.
+			</p>
+			<ol class="timeline">
+				{
+					timeline.map((entry) => (
+						<li class="timeline__item">
+							<div class="timeline__marker" aria-hidden="true" />
+							<div class="timeline__body">
+								<span class="timeline__period label-large">{entry.period}</span>
+								<h3 class="title-large">{entry.title}</h3>
+								<p class="body-medium">{entry.detail}</p>
+								{timelinePhotos[entry.title] && (
+									<Image
+										class="timeline__photo"
+										src={timelinePhotos[entry.title]}
+										alt={`${entry.title}, ${entry.period}`}
+										width={640}
+										height={360}
+										loading="lazy"
+									/>
+								)}
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</section>
+
+		<section class="section">
+			<h2>Sponsors</h2>
+			{
+				tiers.map((tier) => {
+					const group = sponsors.filter((s) => s.tier === tier);
+					return group.length > 0 ? (
+						<div class="group">
+							<h3 class="title-large tier">
+								<span class={`tier__dot tier__dot--${tier.toLowerCase()}`} aria-hidden="true" />
+								{tier}
+							</h3>
+							<div class="card-grid">
+								{group.map((sponsor) => (
+									<div class="md-card md-card--outlined sponsor">
+										{sponsorLogos[sponsor.name] && (
+											<div class="sponsor__logo">
+												<Image
+													src={sponsorLogos[sponsor.name]}
+													alt={`${sponsor.name} logo`}
+													width={320}
+													loading="lazy"
+												/>
+											</div>
+										)}
+										<span class="member__name">{sponsor.name}</span>
+										<span class="member__role body-medium">{sponsor.blurb}</span>
+									</div>
+								))}
+							</div>
+						</div>
+					) : null;
+				})
+			}
+		</section>
+	</div>
+</Layout>
+
+<script>
+	import '@material/web/icon/icon.js';
+</script>
+
+<style>
+	.group {
+		margin-block: 2rem;
+	}
+
+	.group h3 {
+		margin-bottom: 0.75rem;
+		color: var(--md-sys-color-primary);
+	}
+
+	.member {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 0.2rem;
+	}
+
+	.member__photo {
+		width: 6.5rem;
+		height: 6.5rem;
+		border-radius: 50%;
+		object-fit: cover;
+		object-position: center top;
+		margin-bottom: 0.85rem;
+		background: var(--md-sys-color-surface-variant);
+	}
+
+	.member__name {
+		font-weight: 500;
+	}
+
+	.member__role {
+		color: var(--md-sys-color-on-surface-variant);
+	}
+
+	.member__linkedin {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		margin-top: 0.6rem;
+		text-decoration: none;
+	}
+
+	.member__linkedin md-icon {
+		--md-icon-size: 18px;
+	}
+
+	.member__linkedin:hover {
+		text-decoration: underline;
+	}
+
+	.spec-grid {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+		margin-bottom: 2rem;
+	}
+
+	.spec {
+		background: var(--md-sys-color-secondary-container);
+		color: var(--md-sys-color-on-secondary-container);
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+
+	.spec__icon {
+		--md-icon-size: 28px;
+		margin-bottom: 0.35rem;
+	}
+
+	.spec__value {
+		font-size: 1.125rem;
+		font-weight: 500;
+	}
+
+	.spec__label {
+		opacity: 0.8;
+	}
+
+	.vessel-prose :global(h3) {
+		margin-top: 2rem;
+		color: var(--md-sys-color-primary);
+	}
+
+	/* === Timeline === */
+	.timeline {
+		list-style: none;
+		padding: 0;
+		margin: 2rem 0 0;
+		max-width: var(--prose-width);
+	}
+
+	.timeline__item {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1.5rem 1fr;
+		gap: 1rem;
+		padding-bottom: 2rem;
+	}
+
+	.timeline__item:not(:last-child) .timeline__marker::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 1rem;
+		bottom: -1rem;
+		width: 2px;
+		transform: translateX(-50%);
+		background: var(--md-sys-color-outline-variant);
+	}
+
+	.timeline__marker {
+		position: relative;
+		width: 0.85rem;
+		height: 0.85rem;
+		margin-top: 0.35rem;
+		margin-inline: auto;
+		border-radius: 50%;
+		background: var(--md-sys-color-primary);
+	}
+
+	.timeline__period {
+		display: block;
+		color: var(--md-sys-color-primary);
+		margin-bottom: 0.15rem;
+	}
+
+	.timeline__body h3 {
+		margin-bottom: 0.25rem;
+	}
+
+	.timeline__body p {
+		margin: 0;
+		color: var(--md-sys-color-on-surface-variant);
+	}
+
+	.timeline__photo {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		border-radius: var(--md-sys-shape-corner-medium);
+		margin-top: 0.85rem;
+	}
+
+	.vessel-media {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: 1fr;
+		margin-bottom: 1.5rem;
+	}
+
+	@media (min-width: 44rem) {
+		.vessel-media {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.vessel-media figure {
+		margin: 0;
+	}
+
+	.vessel-media :global(img) {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		border-radius: var(--md-sys-shape-corner-large);
+	}
+
+	.vessel-media figcaption {
+		margin-top: 0.5rem;
+		color: var(--md-sys-color-on-surface-variant);
+	}
+
+	/* Sponsor logos are supplied artwork in assorted aspect ratios and mostly
+	   assume a white background — box them so they sit consistently in dark mode. */
+	.sponsor__logo {
+		background: #fff;
+		border-radius: var(--md-sys-shape-corner-small);
+		padding: 0.85rem;
+		margin-bottom: 0.85rem;
+		height: 5rem;
+		display: grid;
+		place-items: center;
+	}
+
+	.sponsor__logo :global(img) {
+		max-width: 100%;
+		max-height: 100%;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+	}
+
+	.tier {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.tier__dot {
+		width: 0.75rem;
+		height: 0.75rem;
+		border-radius: 50%;
+	}
+
+	.tier__dot--platinum {
+		background: #9aa5b1;
+	}
+
+	.tier__dot--silver {
+		background: #c0c6cc;
+	}
+
+	.tier__dot--bronze {
+		background: #b08152;
+	}
+</style>

@@ -1,0 +1,155 @@
+[
+	{
+		"name": "Prof. Karl Sammut",
+		"role": "Project Supervisor",
+		"group": "Academic Staff",
+		"photo": "Karl-Photo-2022-scaled.jpg",
+		"linkedin": "https://au.linkedin.com/in/karl-sammut-81771623"
+	},
+	{
+		"name": "Assoc. Prof. Russell Brinkworth",
+		"role": "Academic Supervisor",
+		"group": "Academic Staff",
+		"photo": "RussellBrinkworth-1.jpg"
+	},
+	{
+		"name": "Dr Phillip Skelton",
+		"role": "Academic Support",
+		"group": "Academic Staff",
+		"photo": "Philip-Skelton.jpg",
+		"linkedin": "https://au.linkedin.com/in/phillip-skelton-9a500a56"
+	},
+	{
+		"name": "Anthony Eldridge",
+		"role": "Student Team Leader",
+		"group": "Student Team Leaders",
+		"photo": "Athony-Eldridge-scaled.jpeg",
+		"linkedin": "https://au.linkedin.com/in/anthony-eldridge-8029591a1"
+	},
+	{
+		"name": "Phola Ramos",
+		"role": "Management Team Leader",
+		"group": "Student Team Leaders",
+		"photo": "e9527f9a-1836-4af7-829f-851d035bef14-1.jpeg",
+		"linkedin": "https://au.linkedin.com/in/pholagonzalesramos"
+	},
+	{
+		"name": "Ryan Burdett",
+		"role": "Software Team Leader",
+		"group": "Student Team Leaders",
+		"photo": "Ryan-Burdett.jpeg",
+		"linkedin": "https://www.linkedin.com/in/ryan--burdett"
+	},
+	{
+		"name": "Jack Lannan",
+		"role": "Software Team Deputy Leader",
+		"group": "Student Team Leaders",
+		"photo": "Jack.jpg",
+		"linkedin": "https://au.linkedin.com/in/jack-lannan-a9351b236?trk"
+	},
+	{
+		"name": "Christelle Richardson",
+		"role": "Electronics/Electrical Team Leader",
+		"group": "Student Team Leaders",
+		"photo": "Christelle-Richardson.jpg",
+		"linkedin": "https://au.linkedin.com/in/christelle-richardson-4b167b198"
+	},
+	{
+		"name": "Daniel Philbey",
+		"role": "Electronics/Electrical Technical Leader",
+		"group": "Student Team Leaders",
+		"photo": "Daniel-Philbey.jpg",
+		"linkedin": "https://au.linkedin.com/in/daniel-philbey"
+	},
+	{
+		"name": "Jasmine Cooks",
+		"role": "Mechanical Team Leader",
+		"group": "Student Team Leaders",
+		"photo": "Jasmine-Cocks.jpg"
+	},
+	{
+		"name": "Eric Deng",
+		"role": "Mechanical Team Deputy Leader",
+		"group": "Student Team Leaders",
+		"photo": "Eric-Deng.jpg"
+	},
+	{
+		"name": "Dr Andrew Lammas",
+		"role": "Academic Team Member",
+		"group": "Team Members",
+		"photo": "Andrew-Lammas-scaled.jpg",
+		"linkedin": "https://au.linkedin.com/in/andrew-lammas-a67249ab"
+	},
+	{
+		"name": "Dr Jonathan Wheare",
+		"role": "Academic Team Member",
+		"group": "Team Members",
+		"photo": "JonathanWheare.jpg",
+		"linkedin": "https://au.linkedin.com/in/jonathan-wheare-ab770447"
+	},
+	{
+		"name": "Riley Spencer",
+		"role": "Electronics/Electrical Team",
+		"group": "Team Members",
+		"photo": "default-profile-pic.jpg",
+		"linkedin": "https://au.linkedin.com/in/riley-spencer-2953a1205"
+	},
+	{
+		"name": "Dilip Krishnan",
+		"role": "Electronics/Electrical Team",
+		"group": "Team Members",
+		"photo": "default-profile-pic.jpg",
+		"linkedin": "https://au.linkedin.com/in/dilip-krishnan-65a960198"
+	},
+	{
+		"name": "Angello Deionno",
+		"role": "Mechanical Team",
+		"group": "Team Members",
+		"photo": "Angello-De-Ionno.jpg"
+	},
+	{
+		"name": "Brianna Mciver",
+		"role": "Mechanical Team",
+		"group": "Team Members",
+		"photo": "Brianna-McIver-scaled.jpg"
+	},
+	{
+		"name": "Scott Brownridge",
+		"role": "Mechanical Team",
+		"group": "Team Members",
+		"photo": "Scott-Brownridge-scaled.jpg"
+	},
+	{
+		"name": "William Tran",
+		"role": "Software Team",
+		"group": "Team Members",
+		"photo": "William-Tran-1.jpg",
+		"linkedin": "https://au.linkedin.com/in/william-tran-68509b1a7"
+	},
+	{
+		"name": "Zechariah Wicks",
+		"role": "Software Team",
+		"group": "Team Members",
+		"photo": "Zechariah-Wicks.jpg"
+	},
+	{
+		"name": "Heath Eickhoff",
+		"role": "Software Team",
+		"group": "Team Members",
+		"photo": "Heath-Eickhoff_2.jpg"
+	},
+	{
+		"name": "Hayden Graham",
+		"role": "Software Team",
+		"group": "Team Members",
+		"photo": "Hayden-Graham_2.jpg",
+		"linkedin": "https://au.linkedin.com/in/hayden-graham-7661051b4"
+	},
+	{
+		"name": "Sebastian Hoey",
+		"role": "Software Team",
+		"group": "Team Members",
+		"photo": "Sebastian-Hoey.jpg",
+		"linkedin": "https://au.linkedin.com/in/sebastianhoey"
+	}
+]

@@ -1,0 +1,56 @@
+[
+	{
+		"number": 1,
+		"title": "Situational Awareness and Reporting",
+		"icon": "wifi_tethering",
+		"detail": "The vessel requests an IP address from the judges' server, opens a TCP connection, and then transmits a heartbeat at 1 Hz carrying the data relevant to whichever task is in progress."
+	},
+	{
+		"number": 2,
+		"title": "Entrance and Exit Gates",
+		"icon": "door_open",
+		"detail": "Gate boundaries are found with lidar and camera, and the active gate is identified by locating an acoustic beacon with hydrophones. The vessel passes through the correct gate, circles a black buoy, and returns through the same entrance."
+	},
+	{
+		"number": 3,
+		"title": "Follow the Path",
+		"icon": "route",
+		"detail": "Starting between two white buoys, the vessel keeps green markers to one side and red to the other while detecting and routing around black obstacle buoys."
+	},
+	{
+		"number": 4,
+		"title": "Wildlife Encounter — React and Report",
+		"icon": "pets",
+		"detail": "Marine creature markers are located and circled according to type — platypuses clockwise, turtles counterclockwise — and their positions reported back to the judges."
+	},
+	{
+		"number": 5,
+		"title": "Scan the Code",
+		"icon": "qr_code_scanner",
+		"detail": "The vessel approaches a light tower and reads a three-stage red/blue/green LED sequence, separated by black pulses, then records the pattern."
+	},
+	{
+		"number": 6,
+		"title": "Detect and Dock",
+		"icon": "anchor",
+		"detail": "Rectangular 1.5 × 1.5 m dock bays are identified with lidar and their coloured panels distinguished by camera. The colour is matched against information gathered in earlier tasks, a path is plotted, and the vessel docks."
+	},
+	{
+		"number": 7,
+		"title": "Find and Fling",
+		"icon": "sports_baseball",
+		"detail": "Coloured panels with openings are located and matched to colours carried over from previous tasks, then projectiles are launched through the correct hole."
+	},
+	{
+		"number": 8,
+		"title": "UAV Replenishment",
+		"icon": "flight_takeoff",
+		"detail": "The UAV locates helipads and supply containers, collects a payload, identifies the delivery target, drops the cargo, and returns to the vessel."
+	},
+	{
+		"number": 9,
+		"title": "UAV Search and Report",
+		"icon": "travel_explore",
+		"detail": "The UAV searches the course for markers and reports their positions back to the judges."
+	}
+]

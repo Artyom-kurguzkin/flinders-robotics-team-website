@@ -1,0 +1,164 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import singapore from '../assets/singapore_course.jpg';
+import hawaii from '../assets/RobotXHawaii.jpg';
+import vrx2019 from '../assets/2019robotx.jpg';
+import vrx2022 from '../assets/robotxvrx.png';
+
+// Astro image imports must be static, so map year -> asset here rather than
+// carrying a path through the collection frontmatter.
+const photos: Record<number, ImageMetadata> = {
+	2014: singapore,
+	2016: hawaii,
+	2019: vrx2019,
+	2022: vrx2022,
+};
+
+const entries = (await getCollection('competitions')).sort((a, b) => a.data.year - b.data.year);
+const rendered = await Promise.all(
+	entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content }))
+);
+---
+
+<Layout
+	title="Competitions"
+	description="Maritime RobotX 2014 and 2016, and Virtual RobotX 2019 and 2022 — results and lessons learnt."
+>
+	<PageHeader
+		title="Competitions"
+		eyebrow="Since 2014"
+		lead="Four events, on the water and in simulation. Each one taught us something the previous one had not."
+	/>
+
+	<div class="page">
+		<md-tabs aria-label="Competition year">
+			{
+				rendered.map(({ entry }, i) => (
+					<md-primary-tab id={`tab-${entry.id}`} aria-controls={`panel-${entry.id}`} active={i === 0}>
+						{entry.data.year}
+					</md-primary-tab>
+				))
+			}
+		</md-tabs>
+
+		{
+			rendered.map(({ entry, Content }) => (
+				<section
+					id={`panel-${entry.id}`}
+					role="tabpanel"
+					aria-labelledby={`tab-${entry.id}`}
+					class="panel"
+				>
+					<h2>{entry.data.title}</h2>
+					<div class="meta">
+						<span class="meta__item">
+							<md-icon>place</md-icon>
+							{entry.data.location}
+						</span>
+						<span class="meta__item">
+							<md-icon>calendar_month</md-icon>
+							{entry.data.dates}
+						</span>
+					</div>
+					<p class="summary body-large">{entry.data.summary}</p>
+					{photos[entry.data.year] && (
+						<Image
+							class="entry-photo"
+							src={photos[entry.data.year]}
+							alt={`${entry.data.title} — ${entry.data.location}`}
+							width={900}
+							height={500}
+							loading="lazy"
+						/>
+					)}
+					<div class="prose entry-body">
+						<Content />
+					</div>
+				</section>
+			))
+		}
+	</div>
+</Layout>
+
+<script>
+	import '@material/web/tabs/tabs.js';
+	import '@material/web/tabs/primary-tab.js';
+	import '@material/web/icon/icon.js';
+
+	// Panels render visible by default, so the page still reads fully without JS.
+	// Once tabs are live, show one at a time.
+	const tabs = document.querySelector('md-tabs');
+	const panels = [...document.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+
+	function show(index: number) {
+		panels.forEach((panel, i) => (panel.hidden = i !== index));
+	}
+
+	if (tabs && panels.length) {
+		show(0);
+		tabs.addEventListener('change', () => {
+			show((tabs as HTMLElement & { activeTabIndex: number }).activeTabIndex);
+		});
+	}
+</script>
+
+<style>
+	md-tabs {
+		margin-bottom: 2rem;
+	}
+
+	.panel h2 {
+		color: var(--md-sys-color-primary);
+	}
+
+	.meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem;
+		margin-bottom: 1rem;
+	}
+
+	.meta__item {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-size: 0.875rem;
+		color: var(--md-sys-color-on-surface-variant);
+	}
+
+	.meta__item md-icon {
+		--md-icon-size: 18px;
+	}
+
+	.summary {
+		max-width: var(--prose-width);
+		margin: 0 0 1.5rem;
+	}
+
+	.entry-photo {
+		width: 100%;
+		max-width: 48rem;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		border-radius: var(--md-sys-shape-corner-medium);
+		margin-bottom: 1.5rem;
+	}
+
+	.entry-body :global(h2) {
+		font-size: 1.25rem;
+		margin-top: 2rem;
+		color: var(--md-sys-color-on-surface);
+	}
+
+	.entry-body :global(ul) {
+		padding-left: 1.2rem;
+	}
+
+	.entry-body :global(li) {
+		margin-bottom: 0.6rem;
+	}
+</style>

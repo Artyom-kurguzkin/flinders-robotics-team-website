@@ -1,0 +1,7 @@
+[
+	{ "name": "Thales", "tier": "Platinum", "blurb": "Defence and aerospace technology." },
+	{ "name": "Flinders University", "tier": "Platinum", "blurb": "Host institution, through CDERT." },
+	{ "name": "REDARC", "tier": "Silver", "blurb": "Power management and towing solutions." },
+	{ "name": "FUSE", "tier": "Bronze", "blurb": "Flinders University Society of Engineers." },
+	{ "name": "SAGE Group", "tier": "Bronze", "blurb": "Industrial automation and control." }
+]

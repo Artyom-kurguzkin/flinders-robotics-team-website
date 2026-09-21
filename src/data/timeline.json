@@ -1,0 +1,47 @@
+[
+	{
+		"period": "Early 2014",
+		"title": "First build",
+		"detail": "Initial vessel development — engine systems fitted and the sensor mounting structures built up."
+	},
+	{
+		"period": "October 2014",
+		"title": "Maritime RobotX, Singapore",
+		"detail": "The inaugural challenge at Marina Bay. TopCat earned a special mention for its use as a research platform."
+	},
+	{
+		"period": "April 2015",
+		"title": "Port River demonstration",
+		"detail": "A public demonstration run on the Port River, sharing the water with live commercial shipping traffic."
+	},
+	{
+		"period": "November 2015",
+		"title": "Driverless Cars Conference",
+		"detail": "Demonstration on the Torrens River alongside the conference programme."
+	},
+	{
+		"period": "February – July 2016",
+		"title": "Major upgrade",
+		"detail": "New sensors and onboard computers, and a redesigned superstructure to carry them."
+	},
+	{
+		"period": "October – December 2016",
+		"title": "Maritime RobotX 2, Hawaii",
+		"detail": "Team Australis2 competed at Sand Island, O'ahu."
+	},
+	{
+		"period": "2018",
+		"title": "Electronics refresh",
+		"detail": "General improvements to the electronics and a round of maintenance upgrades."
+	},
+	{
+		"period": "2019",
+		"title": "Port River testing",
+		"detail": "Ongoing testing and incremental improvement at a private Port River test site."
+	},
+	{
+		"period": "2021 – 2022",
+		"title": "Beachport survey",
+		"detail": "A research trip to Beachport surveying beach erosion using depth-sounding equipment."
+	}
+]

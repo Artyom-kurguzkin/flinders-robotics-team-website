@@ -1,0 +1,170 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import karlPhoto from '../assets/Karl-Photo-2022.jpg';
+import russellPhoto from '../assets/RussellBrinkworth-1.jpg';
+
+const staff = [
+	{
+		name: 'Professor Karl Sammut',
+		role: 'Project Supervisor',
+		location: 'Tonsley 4.22, Flinders University',
+		phone: '+61 8 8201 5051',
+		tel: '+61882015051',
+		email: 'karl.sammut@flinders.edu.au',
+		photo: karlPhoto,
+	},
+	{
+		name: 'Associate Professor Russell Brinkworth',
+		role: 'Academic Supervisor',
+		location: 'Tonsley 4.31, Flinders University',
+		phone: '+61 8 8201 7840',
+		tel: '+61882017840',
+		email: 'russell.brinkworth@flinders.edu.au',
+		photo: russellPhoto,
+	},
+];
+---
+
+<Layout title="Contact" description="Contact Team Australis2 and the academic supervisors of the Flinders Maritime RobotX project.">
+	<PageHeader
+		title="Contact"
+		eyebrow="Get in touch"
+		lead="For team enquiries, sponsorship, or research collaboration."
+	/>
+
+	<div class="page">
+		<section class="section">
+			<div class="md-card team-card">
+				<md-icon class="team-card__icon">groups</md-icon>
+				<div>
+					<h2 class="title-large">Team Australis2</h2>
+					<p class="body-medium">
+						General enquiries, student involvement, and sponsorship.
+					</p>
+					<md-text-button href="mailto:FlindersRoboticsTeam@gmail.com" trailing-icon>
+						FlindersRoboticsTeam@gmail.com
+						<md-icon slot="icon">arrow_outward</md-icon>
+					</md-text-button>
+				</div>
+			</div>
+		</section>
+
+		<section class="section">
+			<h2>Academic staff</h2>
+			<div class="card-grid staff-grid">
+				{
+					staff.map((person) => (
+						<article class="md-card md-card--outlined person">
+							<Image
+								class="person__photo"
+								src={person.photo}
+								alt={person.name}
+								width={200}
+								height={200}
+								loading="lazy"
+							/>
+							<h3 class="title-large">{person.name}</h3>
+							<p class="person__role body-medium">{person.role}</p>
+
+							<ul class="person__details">
+								<li>
+									<md-icon>place</md-icon>
+									<span class="body-medium">{person.location}</span>
+								</li>
+								<li>
+									<md-icon>call</md-icon>
+									<a class="body-medium" href={`tel:${person.tel}`}>
+										{person.phone}
+									</a>
+								</li>
+								<li>
+									<md-icon>mail</md-icon>
+									<a class="body-medium" href={`mailto:${person.email}`}>
+										{person.email}
+									</a>
+								</li>
+							</ul>
+						</article>
+					))
+				}
+			</div>
+		</section>
+	</div>
+</Layout>
+
+<script>
+	import '@material/web/icon/icon.js';
+	import '@material/web/button/text-button.js';
+</script>
+
+<style>
+	.team-card {
+		display: flex;
+		gap: 1.25rem;
+		align-items: flex-start;
+		background: var(--md-sys-color-primary-container);
+		color: var(--md-sys-color-on-primary-container);
+		padding: 1.5rem;
+	}
+
+	.team-card__icon {
+		--md-icon-size: 32px;
+		flex: none;
+	}
+
+	.team-card h2 {
+		margin-bottom: 0.25rem;
+	}
+
+	.team-card p {
+		margin: 0 0 0.75rem;
+	}
+
+	.staff-grid {
+		grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+	}
+
+	.person__photo {
+		width: 5rem;
+		height: 5rem;
+		border-radius: 50%;
+		object-fit: cover;
+		margin-bottom: 0.85rem;
+	}
+
+	.person h3 {
+		margin-bottom: 0.15rem;
+	}
+
+	.person__role {
+		margin: 0 0 1rem;
+		color: var(--md-sys-color-primary);
+	}
+
+	.person__details {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 0.6rem;
+	}
+
+	.person__details li {
+		display: flex;
+		align-items: center;
+		gap: 0.65rem;
+		color: var(--md-sys-color-on-surface-variant);
+	}
+
+	.person__details md-icon {
+		--md-icon-size: 20px;
+		flex: none;
+		color: var(--md-sys-color-on-surface-variant);
+	}
+
+	.person__details a {
+		overflow-wrap: anywhere;
+	}
+</style>

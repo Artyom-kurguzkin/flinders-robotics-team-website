@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { href } from '../href';
+
+const pages = [
+	{ label: 'Home', path: '', blurb: 'TopCat and the Maritime RobotX Challenge.' },
+	{ label: 'About Us', path: 'about/', blurb: 'The team, the vessel, and the project timeline.' },
+	{
+		label: 'Technical Specifications',
+		path: 'technical-specifications/',
+		blurb: 'Competition tasks, communications, and safety systems.',
+	},
+	{ label: 'Research', path: 'research/', blurb: 'Maritime autonomy research at CDERT.' },
+	{ label: 'Competitions', path: 'competitions/', blurb: 'Every event entered since 2014.' },
+	{ label: 'Gallery', path: 'gallery/', blurb: 'Testing, deployment and competition photos.' },
+	{ label: 'Contact', path: 'contact/', blurb: 'Team and academic staff contacts.' },
+];
+---
+
+<Layout title="Sitemap" description="Every page on the Flinders Maritime RobotX Challenge site.">
+	<PageHeader title="Sitemap" />
+
+	<div class="page">
+		<ul class="sitemap">
+			{
+				pages.map((page) => (
+					<li>
+						<a class="sitemap__link state-layer" href={href(page.path)}>
+							<span class="sitemap__label">{page.label}</span>
+							<span class="sitemap__blurb body-medium">{page.blurb}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</Layout>
+
+<style>
+	.sitemap {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		max-width: var(--prose-width);
+		display: grid;
+		gap: 0.5rem;
+	}
+
+	.sitemap__link {
+		display: block;
+		padding: 1rem 1.25rem;
+		border-radius: var(--md-sys-shape-corner-medium);
+		background: var(--md-sys-color-surface-container-low);
+		text-decoration: none;
+		color: var(--md-sys-color-on-surface);
+	}
+
+	.sitemap__label {
+		display: block;
+		font-weight: 500;
+		color: var(--md-sys-color-primary);
+	}
+
+	.sitemap__blurb {
+		color: var(--md-sys-color-on-surface-variant);
+	}
+</style>

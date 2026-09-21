@@ -1,0 +1,106 @@
+---
+const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL;
+const href = (path: string) => `${base}${path}`.replace(/\/{2,}/g, '/');
+---
+
+<footer class="footer">
+	<div class="footer__inner">
+		<div>
+			<h2 class="title-large">Team Australis2</h2>
+			<p class="body-medium">
+				Maritime RobotX Challenge team, Centre for Defence Engineering Research and Training,
+				Flinders University.
+			</p>
+			<p class="body-medium">
+				<a href="mailto:FlindersRoboticsTeam@gmail.com">FlindersRoboticsTeam@gmail.com</a>
+			</p>
+		</div>
+
+		<nav class="footer__nav" aria-label="Footer">
+			<h2 class="title-large">Explore</h2>
+			<ul>
+				<li><a href={href('about/')}>About Us</a></li>
+				<li><a href={href('technical-specifications/')}>Technical Specifications</a></li>
+				<li><a href={href('research/')}>Research</a></li>
+				<li><a href={href('competitions/')}>Competitions</a></li>
+				<li><a href={href('gallery/')}>Gallery</a></li>
+				<li><a href={href('contact/')}>Contact</a></li>
+				<li><a href={href('sitemap/')}>Sitemap</a></li>
+			</ul>
+		</nav>
+
+		<div>
+			<h2 class="title-large">Flinders University</h2>
+			<p class="body-medium">South Australia · Northern Territory · Global · Online</p>
+			<p class="body-medium">CRICOS Provider No. 00114A</p>
+		</div>
+	</div>
+
+	<div class="footer__base">
+		<p class="body-medium">&copy; {year} Maritime RobotX Challenge, Flinders University.</p>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		background: var(--md-sys-color-surface-container-high);
+		color: var(--md-sys-color-on-surface-variant);
+		margin-top: 4rem;
+	}
+
+	.footer__inner {
+		max-width: var(--content-width);
+		margin-inline: auto;
+		padding: 3rem 1.5rem 2rem;
+		display: grid;
+		gap: 2rem;
+		grid-template-columns: 1fr;
+	}
+
+	@media (min-width: 48rem) {
+		.footer__inner {
+			grid-template-columns: 2fr 1fr 1fr;
+		}
+	}
+
+	.footer h2 {
+		font-size: 1rem;
+		font-weight: 500;
+		color: var(--md-sys-color-on-surface);
+		margin-bottom: 0.75rem;
+	}
+
+	.footer p {
+		margin: 0 0 0.5rem;
+		max-width: 32rem;
+	}
+
+	.footer__nav ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 0.4rem;
+	}
+
+	.footer__nav a {
+		font-size: 0.875rem;
+		text-decoration: none;
+	}
+
+	.footer__nav a:hover {
+		text-decoration: underline;
+	}
+
+	.footer__base {
+		border-top: 1px solid var(--md-sys-color-outline-variant);
+	}
+
+	.footer__base p {
+		max-width: var(--content-width);
+		margin-inline: auto;
+		padding: 1rem 1.5rem;
+		font-size: 0.8125rem;
+	}
+</style>
