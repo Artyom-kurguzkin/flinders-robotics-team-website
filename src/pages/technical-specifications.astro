@@ -3,205 +3,225 @@ import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import tasks from '../data/tasks.json';
-import { Content as SafetyContent } from '../data/safety-and-comms.md';
-import estop from '../assets/RobotXEstop.png';
-import shrouds from '../assets/RobotXPropellorShroud1and2.png';
+import { Content as CommsContent } from '../data/system-communication.md';
+import { Content as SafetyContent } from '../data/safety-features.md';
+import overviewDiagram from '../assets/TechnicalStructure1RobotX.png';
 
-// The eight structure diagrams are unlabelled on the source site, so they are
-// presented as a numbered set rather than captioned with guesses.
-const diagrams = Object.values(
-	import.meta.glob<{ default: ImageMetadata }>('../assets/TechnicalStructure*.png', {
-		eager: true,
-	})
-).map((mod) => mod.default);
+// Task diagrams are named in tasks.json, so resolve them by glob.
+const diagrams = import.meta.glob<{ default: ImageMetadata }>(
+	'../assets/TechnicalStructure*.png',
+	{ eager: true }
+);
+const diagramFor = (file: string) => diagrams[`../assets/${file}`]?.default;
+
+const panels = ['Task Breakdown', 'System Communication and Integration', 'Safety Features'];
 ---
 
-<Layout
-	title="Technical Specifications"
-	description="The competition task list, TopCat's communication architecture, and its safety systems."
->
-	<PageHeader
-		title="Technical Specifications"
-		eyebrow="TopCat"
-		lead="Baseline algorithms were developed for each competition task — identifying buoys by shape and position with lidar, and by colour with the cameras."
-	/>
+<Layout title="Technical Specifications">
+	<PageHeader title="Technical Information" />
 
 	<div class="page">
-		<section class="section">
-			<h2>Task breakdown</h2>
-			<p class="prose body-large">
-				The competition is scored as a set of discrete tasks. Each one is expanded below.
+		<section class="section prose intro">
+			<p>
+				To complete the tasks outlined in the competition, our team came up with these algorithms as
+				a baseline to find solutions.
 			</p>
+			<p>General functions required for the tasks:</p>
+			<ol>
+				<li>
+					Identifying a shape, colour, and position of buoys
+					<ol type="a">
+						<li>Use of lidar to recognize the shape and position of buoys</li>
+						<li>Use of LiveCams to recognize the colour of the buoys</li>
+						<li>Calibration of the lidar and cameras to overlay feed in the control system</li>
+					</ol>
+				</li>
+			</ol>
 
-			<div class="tasks">
-				{
-					tasks.map((task) => (
-						<details class="task">
-							<summary class="task__summary state-layer">
-								<span class="task__number">{task.number}</span>
-								<md-icon class="task__icon">{task.icon}</md-icon>
-								<span class="task__title">{task.title}</span>
-								<md-icon class="task__chevron" aria-hidden="true">
-									expand_more
-								</md-icon>
-							</summary>
-							<p class="task__detail body-medium">{task.detail}</p>
-						</details>
-					))
-				}
-			</div>
+			<figure class="figure">
+				<Image src={overviewDiagram} alt="" width={931} loading="lazy" />
+				<figcaption class="body-medium">image courtesy of Andrew Lammas</figcaption>
+			</figure>
 		</section>
 
-		<section class="section prose systems">
+		<div class="tabbar">
+			<md-tabs aria-label="Technical section">
+				{
+					panels.map((label, i) => (
+						<md-primary-tab
+							id={`tab-${i}`}
+							aria-controls={`panel-${i}`}
+							active={i === 0 ? true : undefined}
+						>
+							{label}
+						</md-primary-tab>
+					))
+				}
+			</md-tabs>
+		</div>
+
+		<section id="panel-0" role="tabpanel" aria-labelledby="tab-0" class="panel tasks">
+			{
+				tasks.map((task) => (
+					<article class="task">
+						<h2>{task.heading}</h2>
+						{task.intro && <p>{task.intro}</p>}
+						<ol>
+							{task.steps.map((step) =>
+								typeof step === 'string' ? (
+									<li>{step}</li>
+								) : (
+									<li>
+										{step.text}
+										<ol type="a">
+											{step.sub.map((sub) => (
+												<li>{sub}</li>
+											))}
+										</ol>
+									</li>
+								)
+							)}
+						</ol>
+						{task.figure && diagramFor(task.figure) && (
+							<figure class="figure">
+								<Image src={diagramFor(task.figure)!} alt="" width={900} loading="lazy" />
+								<figcaption class="body-medium">{task.caption}</figcaption>
+							</figure>
+						)}
+					</article>
+				))
+			}
+		</section>
+
+		<section id="panel-1" role="tabpanel" aria-labelledby="tab-1" class="panel prose-wide">
+			<CommsContent />
+		</section>
+
+		<section id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="panel prose-wide">
 			<SafetyContent />
-		</section>
-
-		<section class="section">
-			<h2>Safety hardware</h2>
-			<div class="figures">
-				<figure class="md-card md-card--outlined">
-					<Image src={shrouds} alt="Propeller shrouds fabricated at Flinders University" width={700} height={450} loading="lazy" />
-					<figcaption class="body-medium">
-						Propeller shrouds, rolled and assembled in-house.
-					</figcaption>
-				</figure>
-				<figure class="md-card md-card--outlined">
-					<Image src={estop} alt="IP67-rated emergency stop installed on the vessel" width={700} height={450} loading="lazy" />
-					<figcaption class="body-medium">
-						One of four IP67 emergency stops on its acetal faceplate.
-					</figcaption>
-				</figure>
-			</div>
-		</section>
-
-		<section class="section">
-			<h2>System diagrams</h2>
-			<div class="figures figures--diagrams">
-				{
-					diagrams.map((diagram, i) => (
-						<figure class="md-card md-card--outlined diagram">
-							<Image src={diagram} alt={`TopCat system diagram ${i + 1}`} width={900} loading="lazy" />
-							<figcaption class="body-medium">Diagram {i + 1}</figcaption>
-						</figure>
-					))
-				}
-			</div>
 		</section>
 	</div>
 </Layout>
 
 <script>
-	import '@material/web/icon/icon.js';
+	import '@material/web/tabs/tabs.js';
+	import '@material/web/tabs/primary-tab.js';
+
+	// Panels render visible by default, so the page reads fully without JS.
+	const tabs = document.querySelector('md-tabs');
+	const panels = [...document.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+
+	function show(index: number) {
+		panels.forEach((panel, i) => (panel.hidden = i !== index));
+	}
+
+	if (tabs && panels.length) {
+		show(0);
+		tabs.addEventListener('change', () => {
+			show((tabs as HTMLElement & { activeTabIndex: number }).activeTabIndex);
+		});
+	}
 </script>
 
 <style>
-	/* ponytail: native <details> — free keyboard handling and open/close state.
-	   Styled to read as an M3 expandable list item. */
+	.intro :global(ol) {
+		padding-left: 1.4rem;
+	}
+
+	.intro :global(li),
+	.task li {
+		line-height: 1.6;
+		color: var(--md-sys-color-on-surface-variant);
+	}
+
+	.figure {
+		margin: 1.25rem 0 0;
+		max-width: 48rem;
+	}
+
+	.figure :global(img) {
+		width: 100%;
+		height: auto;
+		border-radius: var(--md-sys-shape-corner-medium);
+		background: #fff;
+		padding: 0.5rem;
+	}
+
+	.figure figcaption {
+		margin-top: 0.4rem;
+		color: var(--md-sys-color-on-surface-variant);
+		font-style: italic;
+	}
+
 	.tasks {
-		display: grid;
-		gap: 0.5rem;
-		margin-top: 1.5rem;
+		max-width: 60rem;
 	}
 
 	.task {
-		background: var(--md-sys-color-surface-container-low);
-		border-radius: var(--md-sys-shape-corner-medium);
-		overflow: hidden;
+		margin-bottom: 2.5rem;
 	}
 
-	.task__summary {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		padding: 1rem 1.25rem;
-		cursor: pointer;
-		list-style: none;
-		font-weight: 500;
+	.task h2 {
+		font-size: 1.375rem;
 	}
 
-	.task__summary::-webkit-details-marker {
-		display: none;
+	.task ol {
+		padding-left: 1.4rem;
+		margin: 0.5rem 0 0;
 	}
 
-	.task__number {
-		flex: none;
-		width: 1.75rem;
-		height: 1.75rem;
-		display: grid;
-		place-items: center;
-		border-radius: 50%;
-		background: var(--md-sys-color-primary);
-		color: var(--md-sys-color-on-primary);
-		font-size: 0.8125rem;
+	.task li {
+		margin-bottom: 0.4rem;
 	}
 
-	.task__icon {
-		flex: none;
-		color: var(--md-sys-color-primary);
+	.task p {
+		color: var(--md-sys-color-on-surface-variant);
+		line-height: 1.6;
 	}
 
-	.task__title {
-		flex: 1 1 auto;
-		min-width: 0;
+	/* Markdown-rendered panels */
+	.prose-wide {
+		max-width: 52rem;
 	}
 
-	.task__chevron {
-		flex: none;
+	.prose-wide :global(h2) {
+		margin-top: 2rem;
+	}
+
+	.prose-wide :global(h2:first-child) {
+		margin-top: 0;
+	}
+
+	.prose-wide :global(p),
+	.prose-wide :global(li) {
+		line-height: 1.65;
 		color: var(--md-sys-color-on-surface-variant);
 	}
 
-	.task[open] .task__chevron {
-		transform: rotate(180deg);
+	.prose-wide :global(ul) {
+		padding-left: 1.2rem;
 	}
 
-	@media (prefers-reduced-motion: no-preference) {
-		.task__chevron {
-			transition: transform var(--md-sys-motion-duration-short)
-				var(--md-sys-motion-easing-standard);
-		}
+	.prose-wide :global(li) {
+		margin-bottom: 0.4rem;
 	}
 
-	.task__detail {
-		margin: 0;
-		padding: 0 1.25rem 1.25rem calc(1.25rem + 1.75rem + 1rem);
-		color: var(--md-sys-color-on-surface-variant);
-		max-width: 70ch;
-	}
-
-	.systems :global(h2) {
-		margin-top: 2.5rem;
-		color: var(--md-sys-color-primary);
-	}
-
-	.figures {
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-	}
-
-	.figures figure {
-		margin: 0;
-		padding: 1rem;
-	}
-
-	.figures :global(img) {
+	.prose-wide :global(img) {
 		width: 100%;
+		max-width: 40rem;
 		height: auto;
-		border-radius: var(--md-sys-shape-corner-small);
+		border-radius: var(--md-sys-shape-corner-medium);
 		background: #fff;
+		padding: 0.5rem;
+		margin-top: 1rem;
 	}
 
-	.figures figcaption {
-		margin-top: 0.75rem;
-		color: var(--md-sys-color-on-surface-variant);
-	}
-
-	/* Diagrams carry fine detail and thin lines — give them more width each. */
-	.figures--diagrams {
-		grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
-	}
-
-	.diagram :global(img) {
-		object-fit: contain;
+	/* An italic line that follows an image acts as its caption. Scoped to
+	   paragraphs containing an image, so ordinary inline italics (linkloss, stop,
+	   manual, auto) stay inline. */
+	.prose-wide :global(p:has(> img) > em) {
+		display: block;
+		margin-top: 0.4rem;
+		font-size: 0.875rem;
 	}
 </style>

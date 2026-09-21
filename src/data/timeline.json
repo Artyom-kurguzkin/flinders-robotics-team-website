@@ -1,47 +1,59 @@
 [
 	{
 		"period": "Early 2014",
-		"title": "First build",
-		"detail": "Initial vessel development — engine systems fitted and the sensor mounting structures built up."
+		"title": "Initial Vessel Development",
+		"photo": "initial_dev.jpg",
+		"html": "In early 2014 Australian Maritime College students developed and tested engine buoyancy systems and installed Torqeedo electric outboards. The vessel was then brought to Flinders University where students designed and built sensor mounting structures for LiDAR, Radar, GPS and camera systems. At the same time honours students were developing software systems to solve the challenges for RobotX 2014."
 	},
 	{
 		"period": "October 2014",
-		"title": "Maritime RobotX, Singapore",
-		"detail": "The inaugural challenge at Marina Bay. TopCat earned a special mention for its use as a research platform."
+		"title": "Inaugural Maritime RobotX – Singapore",
+		"photo": "singappore.jpg",
+		"html": "Topcat made it to the first Maritime RobotX challenge in October 2014. It was a rush to develop everything on time and not everything worked as planned but the experience was great. The team got to meet people from around the world who shared a passion for robotics. We just missed out on the finals but were awarded a special mention for our use of the boat as a research platform."
 	},
 	{
 		"period": "April 2015",
-		"title": "Port River demonstration",
-		"detail": "A public demonstration run on the Port River, sharing the water with live commercial shipping traffic."
+		"title": "Topcat Demonstration",
+		"photo": "demonstration.jpg",
+		"html": "Shortly after SAAB Australia announced their Bonefish USV we were asked to demonstrate Topcat on the Port River for a news article. This was the first time Topcat operated in public access waters with shipping traffic. Although weather on the test day was horrible it was a successful demonstration of the vessels ability to operate in a commercial area."
 	},
 	{
 		"period": "November 2015",
 		"title": "Driverless Cars Conference",
-		"detail": "Demonstration on the Torrens River alongside the conference programme."
+		"photo": "conference.jpg",
+		"html": "Yes we know, Topcat is a boat at a car conference! Nevertheless, we were asked to demonstrate the vessel on the Torrens River for the International Driverless Cars Conference. This was a great opportunity for us to meet industry leaders interested in autonomous technology and also great public exposure as the demonstration was in the middle of the city. It was also the first time Topcat operated in amongst rowers and paddlers."
 	},
 	{
-		"period": "February – July 2016",
-		"title": "Major upgrade",
-		"detail": "New sensors and onboard computers, and a redesigned superstructure to carry them."
+		"period": "February-July 2016",
+		"title": "System Upgrades",
+		"photo": "vessel_render.jpg",
+		"html": "Throughout the first half of 2016 Topcat went through a major upgrade phase. New sensors, a new computer and electronic systems were added. The overall superstructure was redesigned, the batteries mounted in an underslung cradle and a steering system added. These upgrades were designed to prepare the vessel for ocean trials and the 2016 Maritime RobotX Challenge."
 	},
 	{
-		"period": "October – December 2016",
-		"title": "Maritime RobotX 2, Hawaii",
-		"detail": "Team Australis2 competed at Sand Island, O'ahu."
+		"period": "October-December 2016",
+		"title": "Maritime RobotX 2 – Hawaii",
+		"photo": "RobotXHawaii.jpg",
+		"html": "Topcat has entered the 2016 Maritime RobotX Challenge in Hawaii. Preparations are in full swing, the hardware systems have been tested and software is well on its way. In just a few days we will be packing everything up and shipping it all! We are excited to participate again and look forward to the challenges this year’s competition will bring!"
 	},
 	{
-		"period": "2018",
-		"title": "Electronics refresh",
-		"detail": "General improvements to the electronics and a round of maintenance upgrades."
+		"period": "Progress 2018",
+		"title": "General Improvements",
+		"photo": "robotxElectronics.jpg",
+		"caption": "Image courtesy of Christelle Richardson",
+		"html": "Some general improvments were made to the boat. This included reworking the electronics box to make it easier to use and service. Other improvments incuded fixing the light bar and other quality of life fixes."
 	},
 	{
-		"period": "2019",
-		"title": "Port River testing",
-		"detail": "Ongoing testing and incremental improvement at a private Port River test site."
+		"period": "Progress 2019",
+		"title": "General Testing and Improvements",
+		"photo": "2019robotx.jpg",
+		"caption": "Image courtesy of Michael Campbell",
+		"html": "Flinders University gained access to a private testing site for Autonomous Surface Vessels in the Port River.  At this site, the vessel undertook experiments in perception and vehicle control."
 	},
 	{
-		"period": "2021 – 2022",
-		"title": "Beachport survey",
-		"detail": "A research trip to Beachport surveying beach erosion using depth-sounding equipment."
+		"period": "Progress 2021-2022",
+		"title": "Beachport Research Trip",
+		"photo": "robotx2020Beachport.jpg",
+		"caption": "Image courtey of Professor Patrick Hesp",
+		"html": "A highlight of 2020 was a field trip to Beachport, a small town on the south-west coast of South Australia.  During this trip, the TopCat ASV undertook a survey of beach erosion in the bay near post office rock (<a href=\"https://www.abc.net.au/news/2020-10-28/beachport-erosion-robotic-vessel-deployed-climate-change/12821360\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.abc.net.au/news/2020-10-28/beachport-erosion-robotic-vessel-deployed-climate-change/12821360</a>).<br />During this survey, the TopCat ASV carried depth sounding equipment within the bay that had formed inshore of a reef."
 	}
 ]

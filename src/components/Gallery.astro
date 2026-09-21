@@ -1,0 +1,446 @@
+---
+import { Image, getImage } from 'astro:assets';
+import gallery from '../data/gallery.json';
+
+const files = import.meta.glob<{ default: ImageMetadata }>(
+	'../assets/gallery/*.{jpg,jpeg,png}',
+	{ eager: true }
+);
+
+// ponytail: originals are up to 5 MB, so the full-size view is a build-time
+// optimised webp too — nothing here ships the raw upload.
+// Order and titles are the source page's own; `category` is derived from the place
+// name in each title (gallery.json) and drives the filter chips.
+const items = await Promise.all(
+	gallery.map(async ({ file, title, category }, index) => {
+		const src = files[`../assets/gallery/${file}`].default;
+		return {
+			src,
+			title,
+			category: category ?? '',
+			index,
+			full: (await getImage({ src, width: 1600, format: 'webp' })).src,
+		};
+	})
+);
+
+// chips in order of first appearance, with how many photos each holds
+const categories = [...new Set(items.map((i) => i.category).filter(Boolean))].map((name) => ({
+	name,
+	count: items.filter((i) => i.category === name).length,
+}));
+---
+
+<section id="gallery" class="gallery" aria-labelledby="gallery-title">
+	<div class="gallery__head">
+		<h2 id="gallery-title" class="display">Gallery</h2>
+
+		<div class="controls">
+			<div class="chips" role="group" aria-label="Filter photos">
+				<button type="button" class="chip is-active" data-filter="all" aria-pressed="true">
+					All <span class="chip__n">{items.length}</span>
+				</button>
+				{
+					categories.map((c) => (
+						<button type="button" class="chip" data-filter={c.name} aria-pressed="false">
+							{c.name} <span class="chip__n">{c.count}</span>
+						</button>
+					))
+				}
+			</div>
+
+			<label class="sort">
+				<span class="visually-hidden">Sort photos</span>
+				<select id="gallery-sort">
+					<option value="order">Original order</option>
+					<option value="title-asc">Title A–Z</option>
+					<option value="title-desc">Title Z–A</option>
+				</select>
+			</label>
+		</div>
+	</div>
+
+	<ul class="grid" id="gallery-grid">
+		{
+			items.map((item) => (
+				<li class="cell" data-category={item.category} data-title={item.title} data-index={item.index}>
+					<button
+						class="tile riso-hover"
+						type="button"
+						data-full={item.full}
+						data-caption={item.title}
+						aria-label={`Open photo: ${item.title}`}
+					>
+						<Image class="fill" src={item.src} alt="" width={640} height={480} loading="lazy" />
+						<span class="label">{item.title}</span>
+					</button>
+				</li>
+			))
+		}
+	</ul>
+
+	<md-dialog id="lightbox">
+		<div slot="content">
+			<img id="lightbox-img" src="" alt="" />
+			<p id="lightbox-caption" class="body-medium"></p>
+		</div>
+		<div slot="actions">
+			<md-text-button id="lightbox-close">Close</md-text-button>
+		</div>
+	</md-dialog>
+</section>
+
+<script>
+	import '@material/web/dialog/dialog.js';
+	import '@material/web/button/text-button.js';
+
+	const grid = document.getElementById('gallery-grid')!;
+	const chips = document.querySelectorAll<HTMLButtonElement>('.gallery .chip');
+	const sortSelect = document.getElementById('gallery-sort') as HTMLSelectElement;
+
+	function applyFilter() {
+		const active =
+			document.querySelector<HTMLElement>('.gallery .chip.is-active')?.dataset.filter ?? 'all';
+		for (const cell of grid.children) {
+			const el = cell as HTMLElement;
+			el.classList.toggle('is-hidden', active !== 'all' && el.dataset.category !== active);
+		}
+	}
+
+	function applySort() {
+		const [key, dir] = sortSelect.value.split('-');
+		const cells = [...grid.children] as HTMLElement[];
+		cells.sort((a, b) => {
+			const cmp =
+				key === 'title'
+					? (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '', undefined, { sensitivity: 'base' })
+					: Number(a.dataset.index) - Number(b.dataset.index);
+			return dir === 'desc' ? -cmp : cmp;
+		});
+		cells.forEach((cell) => grid.append(cell));
+	}
+
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const cells = () => [...grid.children] as HTMLElement[];
+	let swapId = 0;
+
+	// Swap the visible set through the print filter: the old photos take on the halftone
+	// look, fade away, the grid eases to its new height, and the new photos start out filtered
+	// and "develop" into clear ones one after another. A later call (a click mid-swap) simply
+	// takes over from wherever this one got to.
+	const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+	const tilesOf = (list: HTMLElement[]) =>
+		list.map((c) => c.querySelector<HTMLElement>('.tile')!);
+
+	async function swap() {
+		if (reduceMotion.matches) return applyFilter();
+		const id = ++swapId;
+		const leaving = cells().filter((c) => !c.classList.contains('is-hidden'));
+		const fromHeight = grid.offsetHeight;
+		grid.style.height = `${fromHeight}px`;
+		grid.style.transition = 'none';
+
+		tilesOf(leaving).forEach((t) => t.classList.add('is-filtered'));
+		await wait(650);
+		if (id !== swapId) return;
+		await Promise.all(
+			leaving.map(
+				(c) => c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 350, easing: 'ease-in', fill: 'forwards' }).finished
+			)
+		);
+		if (id !== swapId) return;
+
+		applyFilter();
+		leaving.forEach((c) => c.getAnimations().forEach((a) => a.cancel()));
+		tilesOf(leaving).forEach((t) => t.classList.remove('is-filtered'));
+
+		const arriving = cells().filter((c) => !c.classList.contains('is-hidden'));
+		const arrivingTiles = tilesOf(arriving);
+		// start filtered; the class is removed one by one below so each photo develops in turn
+		arrivingTiles.forEach((t) => {
+			t.style.transition = 'none';
+			t.classList.add('is-filtered');
+		});
+
+		grid.style.height = 'auto';
+		const toHeight = grid.offsetHeight;
+		grid.style.height = `${fromHeight}px`;
+		void grid.offsetHeight; // commit the start state before transitioning
+		grid.style.transition = 'height 0.6s cubic-bezier(0.22, 0.8, 0.24, 1)';
+		grid.style.height = `${toHeight}px`;
+		arrivingTiles.forEach((t) => (t.style.transition = ''));
+
+		arriving.forEach((c, i) => {
+			const delay = Math.min(i, 8) * 90;
+			c.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], {
+				duration: 600,
+				delay,
+				easing: 'cubic-bezier(0.22, 0.8, 0.24, 1)',
+				fill: 'backwards',
+			});
+			setTimeout(() => {
+				if (id === swapId) arrivingTiles[i].classList.remove('is-filtered');
+			}, 250 + delay);
+		});
+		setTimeout(() => {
+			if (id !== swapId) return;
+			grid.style.height = '';
+			grid.style.transition = '';
+		}, 700);
+	}
+
+	// Show a chip's photos.
+	function select(chip: HTMLButtonElement) {
+		chips.forEach((c) => {
+			c.classList.toggle('is-active', c === chip);
+			c.setAttribute('aria-pressed', String(c === chip));
+		});
+		swap();
+	}
+
+	// Auto-rotation: step through the place chips (not "All") every few seconds, but only
+	// while the gallery is on screen. The swap is an instant cut for reduced-motion users (the
+	// fade is gated in CSS), so it is not skipped for them.
+	// Any click by the visitor on a chip, the sort control or a photo stops it for good, so
+	// they can settle on what they came for.
+	const places = [...chips].filter((c) => c.dataset.filter !== 'all');
+	const STEP_MS = 6500;
+	let stopped = false;
+	let next = 0;
+	let timer = 0;
+
+	function step() {
+		if (document.hidden) return;
+		select(places[next % places.length]);
+		next += 1;
+	}
+
+	function stop() {
+		stopped = true;
+		window.clearInterval(timer);
+		watcher.disconnect();
+	}
+
+	const watcher = new IntersectionObserver(
+		([entry]) => {
+			window.clearInterval(timer);
+			if (entry.isIntersecting && !stopped) timer = window.setInterval(step, STEP_MS);
+		},
+		{ threshold: 0.3 }
+	);
+	watcher.observe(document.getElementById('gallery')!);
+
+	chips.forEach((chip) => {
+		chip.addEventListener('click', () => {
+			stop();
+			select(chip);
+		});
+	});
+
+	sortSelect.addEventListener('change', () => {
+		stop();
+		applySort();
+	});
+
+	// lightbox
+	const dialog = document.getElementById('lightbox') as HTMLElement & {
+		show(): void;
+		close(): void;
+	};
+	const full = document.getElementById('lightbox-img') as HTMLImageElement;
+	const caption = document.getElementById('lightbox-caption') as HTMLElement;
+
+	grid.addEventListener('click', (event) => {
+		const tile = (event.target as HTMLElement).closest<HTMLButtonElement>('.tile');
+		if (!tile) return;
+		stop();
+		full.src = tile.dataset.full ?? '';
+		full.alt = tile.dataset.caption ?? '';
+		caption.textContent = tile.dataset.caption ?? '';
+		dialog.show();
+	});
+
+	document.getElementById('lightbox-close')?.addEventListener('click', () => dialog.close());
+</script>
+
+<style>
+	.gallery {
+		margin-top: clamp(2.5rem, 6vw, 5rem);
+		/* the sticky pill header would otherwise cover the heading after a #gallery jump */
+		scroll-margin-top: 5.5rem;
+	}
+
+	.gallery__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 1.25rem 2rem;
+		margin-bottom: 1.25rem;
+		padding-inline: 0.5rem;
+	}
+
+	/* a section heading, not a hero: much smaller than the shared .display size */
+	.gallery__head :global(.display)::after {
+		content: '';
+	display: block;
+	width: 3rem;
+	height: 0.3rem;
+	margin-top: 0.55rem;
+	border-radius: 2px;
+		background: var(--brand-orange);
+	}
+
+	.gallery__head :global(.display) {
+		font-size: clamp(1.5rem, 2.2vw, 2rem);
+		letter-spacing: -0.02em;
+		line-height: 1.1;
+	}
+
+	.controls {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.chip,
+	.sort select {
+		font: inherit;
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--brand-navy);
+		background: #fff;
+		border: 1px solid var(--md-sys-color-outline-variant);
+		border-radius: 999px;
+		padding: 0.55rem 1rem;
+	}
+
+	.chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+		transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+	}
+
+	.chip:hover {
+		border-color: var(--brand-yellow);
+		background: var(--brand-butter);
+	}
+
+	.chip.is-active {
+		background: var(--brand-yellow);
+		border-color: var(--brand-yellow);
+		color: #1447b0;
+	}
+
+	.chip__n {
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 0.05rem 0.45rem;
+		border-radius: 999px;
+		background: var(--brand-butter);
+		color: var(--brand-navy);
+	}
+
+	.chip.is-active .chip__n {
+		background: #fff;
+	}
+
+	.sort select {
+		cursor: pointer;
+		padding-right: 1rem;
+	}
+
+	.grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 0.75rem;
+		/* auto-fill, not auto-fit: a filtered set keeps its tile size instead of
+		   stretching two photos across the whole row */
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+	}
+
+	.cell.is-hidden {
+		display: none;
+	}
+
+	.tile {
+		position: relative;
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		padding: 0;
+		border: none;
+		border-radius: 1.5rem;
+		overflow: hidden;
+		cursor: pointer;
+		background: var(--brand-navy);
+		isolation: isolate;
+	}
+
+	.tile :global(.fill) {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: -2;
+		transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+
+	.tile::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: linear-gradient(to top, rgb(13 27 53 / 0.75), rgb(13 27 53 / 0) 50%);
+	}
+
+	.tile:hover :global(.fill) {
+		transform: scale(1.06);
+	}
+
+	.tile:focus-visible {
+		outline: 3px solid var(--brand-yellow);
+		outline-offset: 2px;
+	}
+
+	.label {
+		position: absolute;
+		left: 1rem;
+		right: 1rem;
+		bottom: 0.9rem;
+		color: #fff;
+		font-weight: 700;
+		font-size: 1rem;
+		letter-spacing: -0.01em;
+		line-height: 1.15;
+		text-align: left;
+		overflow-wrap: anywhere;
+	}
+
+	md-dialog {
+		max-width: min(60rem, 92vw);
+	}
+
+	#lightbox-img {
+		width: 100%;
+		height: auto;
+		border-radius: var(--md-sys-shape-corner-small);
+	}
+
+	#lightbox-caption {
+		margin: 0.75rem 0 0;
+		color: var(--md-sys-color-on-surface-variant);
+	}
+</style>

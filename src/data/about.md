@@ -2,9 +2,6 @@
 title: About Us
 ---
 
-We develop autonomous maritime technology — uncrewed surface and undersea vehicles — with
-the aim of improving marine research, surveillance, and search-and-rescue capability in
-South Australia.
+Autonomous maritime technology is the way of the future and it is our mission to be at the forefront of research and development into uncrewed surface and undersea vehicles. We hope our work will help to create a safer and more efficient way to conduct marine research, surveillance, and search and rescue missions.
 
-The team brings together academic staff and students across management, software,
-electronics and mechanical engineering, and competes internationally as **Team Australis2**.
+We aim to develop a maritime platform for government, industry, and university researchers to further the development of autonomous vehicles here in South Australia.

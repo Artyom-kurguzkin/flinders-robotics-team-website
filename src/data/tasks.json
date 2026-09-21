@@ -1,56 +1,104 @@
 [
 	{
-		"number": 1,
-		"title": "Situational Awareness and Reporting",
-		"icon": "wifi_tethering",
-		"detail": "The vessel requests an IP address from the judges' server, opens a TCP connection, and then transmits a heartbeat at 1 Hz carrying the data relevant to whichever task is in progress."
+		"heading": "Task 1 – Situational Awareness and Reporting",
+		"steps": [
+			"Request IP address from Judges DHCP server.",
+			"Wait for response",
+			"Establish TCP Socket with IP address and port number specific to course.",
+			"Continuously send heartbeat messages at 1Hz with message ID and task specific information using format unique to each task."
+		]
 	},
 	{
-		"number": 2,
-		"title": "Entrance and Exit Gates",
-		"icon": "door_open",
-		"detail": "Gate boundaries are found with lidar and camera, and the active gate is identified by locating an acoustic beacon with hydrophones. The vessel passes through the correct gate, circles a black buoy, and returns through the same entrance."
+		"heading": "Task 2 – Entrance and Exit Gates",
+		"steps": [
+			"Identify the gate boundaries – use of lidar to recognize the shape and position of buoys, use of camera to recognize color",
+			"Identify the beacon’s location – use of hydrophones and ADLink to find direction of signal with required frequency",
+			"Associate beacon’s location with a particular gate – correlate lidar, camera and ADLink data to reflect position of required gate. Send position information to control system.",
+			"Pass through gate associated with the beacon – use control system and path finding algorithm to propel vessel in correct direction between buoys.",
+			"Identify black circle buoy – Use of lidar to recognize shape and position of black buoy, use of camera to recognize the color",
+			"Circle black buoy – use control system and path finding algorithm to propel vessel in correct direction around the black buoy",
+			"Return through same gate as entered"
+		],
+		"figure": "TechnicalStructure2RobotX.png",
+		"caption": "image courtesy of Heath Eickhoff"
 	},
 	{
-		"number": 3,
-		"title": "Follow the Path",
-		"icon": "route",
-		"detail": "Starting between two white buoys, the vessel keeps green markers to one side and red to the other while detecting and routing around black obstacle buoys."
+		"heading": "Task 3 – Follow the Path",
+		"steps": [
+			{ "text": "Task entrances and exits", "sub": ["Recognize the pair of white buoys as start gates – enter between them"] },
+			{ "text": "Identify course boundaries by green and red buoys", "sub": ["Locate positions of the green and red buoys – must stay to the left of the green markers, must stay to the right of the red markers"] },
+			{ "text": "Identify obstacles by black buoys", "sub": ["Locate position of black buoys – must avoid them while meeting the above criteria"] },
+			{ "text": "Plot path through course avoiding obstacles", "sub": ["Using pathfinding algorithm"] },
+			"Follow previously created path"
+		],
+		"figure": "TechnicalStructure3RobotX.png",
+		"caption": "image courtesy of Heath Eickhoff"
 	},
 	{
-		"number": 4,
-		"title": "Wildlife Encounter — React and Report",
-		"icon": "pets",
-		"detail": "Marine creature markers are located and circled according to type — platypuses clockwise, turtles counterclockwise — and their positions reported back to the judges."
+		"heading": "Task 4 – Wildlife Encounter – React and Report",
+		"steps": [
+			"Identify creatures",
+			"Determine creatures’ locations",
+			"Circle platypus in clockwise direction",
+			"Circle Turtle in anti-clockwise direction",
+			"Report data back to the judges"
+		]
 	},
 	{
-		"number": 5,
-		"title": "Scan the Code",
-		"icon": "qr_code_scanner",
-		"detail": "The vessel approaches a light tower and reads a three-stage red/blue/green LED sequence, separated by black pulses, then records the pattern."
+		"heading": "Task 5 – Scan the Code",
+		"intro": "Sequence of lights will consist of three stages separated with a long black pulse. Each stage contains a pattern of three lights with no colour appearing twice in a row.",
+		"steps": [
+			"Identify light tower – travel to light tower and position vessel so cameras have clear view of LED panel",
+			"Identify light colour – recognize red, blue and green colours using cameras",
+			"Record sequence of lights – store colours recognized into control system to be repeated later"
+		],
+		"figure": "TechnicalStructure4RobotX.png",
+		"caption": "image courtesy of Heath Eickhoff"
 	},
 	{
-		"number": 6,
-		"title": "Detect and Dock",
-		"icon": "anchor",
-		"detail": "Rectangular 1.5 × 1.5 m dock bays are identified with lidar and their coloured panels distinguished by camera. The colour is matched against information gathered in earlier tasks, a path is plotted, and the vessel docks."
+		"heading": "Task 6 – Detect and Dock",
+		"steps": [
+			{ "text": "Identify bays", "sub": ["Use the lidar to recognize the rectangular shape of the light panel, and the approximate size of 1.5×1.5m base dimension sitting in the water"] },
+			{ "text": "Identify colors", "sub": ["Distinguish between red, green and blue panels on the docks"] },
+			{ "text": "Associate bays with a color", "sub": ["Recognize position of the panels with the position of their respective docks and color"] },
+			"Identify correct dock to using information gathered from another task (probably Task 5)",
+			"Plot path to correct bay",
+			"Follow path to bay",
+			"Dock at bay"
+		],
+		"figure": "TechnicalStructure5RobotX.png",
+		"caption": "image courtesy of Heath Eickhoff"
 	},
 	{
-		"number": 7,
-		"title": "Find and Fling",
-		"icon": "sports_baseball",
-		"detail": "Coloured panels with openings are located and matched to colours carried over from previous tasks, then projectiles are launched through the correct hole."
+		"heading": "Task 7 – Find and Fling",
+		"steps": [
+			"Identify panels",
+			"Identify holes in panel",
+			"Identify colours",
+			"Associate panels with a colour",
+			"Identify correct panel to using information gathered from another task (probably Task 5)",
+			"Fling projectile through either hole in the correct panel"
+		],
+		"figure": "TechnicalStructure6RobotX.png",
+		"caption": "image courtesy of Heath Eickhoff"
 	},
 	{
-		"number": 8,
-		"title": "UAV Replenishment",
-		"icon": "flight_takeoff",
-		"detail": "The UAV locates helipads and supply containers, collects a payload, identifies the delivery target, drops the cargo, and returns to the vessel."
+		"heading": "Task 8 – UAV Replenishment",
+		"steps": [
+			"Identify helipad",
+			"Identify tin",
+			"Collect Tin",
+			"Identify target",
+			"Deliver Tin to target",
+			"Return to USV"
+		]
 	},
 	{
-		"number": 9,
-		"title": "UAV Search and Report",
-		"icon": "travel_explore",
-		"detail": "The UAV searches the course for markers and reports their positions back to the judges."
+		"heading": "Task 9 – UAV Search and Report",
+		"steps": [
+			"Identify markers",
+			"Determine markers location",
+			"Report markers location"
+		]
 	}
 ]

@@ -1,155 +1,25 @@
 [
-	{
-		"name": "Prof. Karl Sammut",
-		"role": "Project Supervisor",
-		"group": "Academic Staff",
-		"photo": "Karl-Photo-2022-scaled.jpg",
-		"linkedin": "https://au.linkedin.com/in/karl-sammut-81771623"
-	},
-	{
-		"name": "Assoc. Prof. Russell Brinkworth",
-		"role": "Academic Supervisor",
-		"group": "Academic Staff",
-		"photo": "RussellBrinkworth-1.jpg"
-	},
-	{
-		"name": "Dr Phillip Skelton",
-		"role": "Academic Support",
-		"group": "Academic Staff",
-		"photo": "Philip-Skelton.jpg",
-		"linkedin": "https://au.linkedin.com/in/phillip-skelton-9a500a56"
-	},
-	{
-		"name": "Anthony Eldridge",
-		"role": "Student Team Leader",
-		"group": "Student Team Leaders",
-		"photo": "Athony-Eldridge-scaled.jpeg",
-		"linkedin": "https://au.linkedin.com/in/anthony-eldridge-8029591a1"
-	},
-	{
-		"name": "Phola Ramos",
-		"role": "Management Team Leader",
-		"group": "Student Team Leaders",
-		"photo": "e9527f9a-1836-4af7-829f-851d035bef14-1.jpeg",
-		"linkedin": "https://au.linkedin.com/in/pholagonzalesramos"
-	},
-	{
-		"name": "Ryan Burdett",
-		"role": "Software Team Leader",
-		"group": "Student Team Leaders",
-		"photo": "Ryan-Burdett.jpeg",
-		"linkedin": "https://www.linkedin.com/in/ryan--burdett"
-	},
-	{
-		"name": "Jack Lannan",
-		"role": "Software Team Deputy Leader",
-		"group": "Student Team Leaders",
-		"photo": "Jack.jpg",
-		"linkedin": "https://au.linkedin.com/in/jack-lannan-a9351b236?trk"
-	},
-	{
-		"name": "Christelle Richardson",
-		"role": "Electronics/Electrical Team Leader",
-		"group": "Student Team Leaders",
-		"photo": "Christelle-Richardson.jpg",
-		"linkedin": "https://au.linkedin.com/in/christelle-richardson-4b167b198"
-	},
-	{
-		"name": "Daniel Philbey",
-		"role": "Electronics/Electrical Technical Leader",
-		"group": "Student Team Leaders",
-		"photo": "Daniel-Philbey.jpg",
-		"linkedin": "https://au.linkedin.com/in/daniel-philbey"
-	},
-	{
-		"name": "Jasmine Cooks",
-		"role": "Mechanical Team Leader",
-		"group": "Student Team Leaders",
-		"photo": "Jasmine-Cocks.jpg"
-	},
-	{
-		"name": "Eric Deng",
-		"role": "Mechanical Team Deputy Leader",
-		"group": "Student Team Leaders",
-		"photo": "Eric-Deng.jpg"
-	},
-	{
-		"name": "Dr Andrew Lammas",
-		"role": "Academic Team Member",
-		"group": "Team Members",
-		"photo": "Andrew-Lammas-scaled.jpg",
-		"linkedin": "https://au.linkedin.com/in/andrew-lammas-a67249ab"
-	},
-	{
-		"name": "Dr Jonathan Wheare",
-		"role": "Academic Team Member",
-		"group": "Team Members",
-		"photo": "JonathanWheare.jpg",
-		"linkedin": "https://au.linkedin.com/in/jonathan-wheare-ab770447"
-	},
-	{
-		"name": "Riley Spencer",
-		"role": "Electronics/Electrical Team",
-		"group": "Team Members",
-		"photo": "default-profile-pic.jpg",
-		"linkedin": "https://au.linkedin.com/in/riley-spencer-2953a1205"
-	},
-	{
-		"name": "Dilip Krishnan",
-		"role": "Electronics/Electrical Team",
-		"group": "Team Members",
-		"photo": "default-profile-pic.jpg",
-		"linkedin": "https://au.linkedin.com/in/dilip-krishnan-65a960198"
-	},
-	{
-		"name": "Angello Deionno",
-		"role": "Mechanical Team",
-		"group": "Team Members",
-		"photo": "Angello-De-Ionno.jpg"
-	},
-	{
-		"name": "Brianna Mciver",
-		"role": "Mechanical Team",
-		"group": "Team Members",
-		"photo": "Brianna-McIver-scaled.jpg"
-	},
-	{
-		"name": "Scott Brownridge",
-		"role": "Mechanical Team",
-		"group": "Team Members",
-		"photo": "Scott-Brownridge-scaled.jpg"
-	},
-	{
-		"name": "William Tran",
-		"role": "Software Team",
-		"group": "Team Members",
-		"photo": "William-Tran-1.jpg",
-		"linkedin": "https://au.linkedin.com/in/william-tran-68509b1a7"
-	},
-	{
-		"name": "Zechariah Wicks",
-		"role": "Software Team",
-		"group": "Team Members",
-		"photo": "Zechariah-Wicks.jpg"
-	},
-	{
-		"name": "Heath Eickhoff",
-		"role": "Software Team",
-		"group": "Team Members",
-		"photo": "Heath-Eickhoff_2.jpg"
-	},
-	{
-		"name": "Hayden Graham",
-		"role": "Software Team",
-		"group": "Team Members",
-		"photo": "Hayden-Graham_2.jpg",
-		"linkedin": "https://au.linkedin.com/in/hayden-graham-7661051b4"
-	},
-	{
-		"name": "Sebastian Hoey",
-		"role": "Software Team",
-		"group": "Team Members",
-		"photo": "Sebastian-Hoey.jpg",
-		"linkedin": "https://au.linkedin.com/in/sebastianhoey"
-	}
+	{"name": "Karl Sammut", "photo": "Karl-Photo-2022-scaled.jpg", "role": "Project Supervisor", "qualifications": "PhD Computer Engineering", "email": "karl.sammut@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/karl-sammut-81771623"},
+	{"name": "Russell Brinkworth", "photo": "RussellBrinkworth-1.jpg", "role": "Academic Supervisor", "qualifications": "PhD Physiology", "email": "russell.brinkworth@flinders.edu.au"},
+	{"name": "Anthony Eldridge", "photo": "Athony-Eldridge-scaled.jpeg", "role": "Student Team Leader", "qualifications": "Bachelor of Engineering (Electronics)(Hons) (Graduate)", "email": "anthony.eldridge@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/anthony-eldridge-8029591a1"},
+	{"name": "Jonathan Wheare", "photo": "JonathanWheare.jpg", "role": "Academic Support/Long term member", "qualifications": "Master of Engineering (Electronics), PhD (Engineering)", "email": "jonathan.wheare@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/jonathan-wheare-ab770447"},
+	{"name": "Andrew Lammas", "photo": "Andrew-Lammas-scaled.jpg", "role": "Academic Support/Long term member", "qualifications": "BEng (Computer Systems Engineering), PhD (Electronics)", "email": "andrew.lammas@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/andrew-lammas-a67249ab"},
+	{"name": "Philip Skelton", "photo": "Philip-Skelton.jpg", "role": "Academic Support", "qualifications": "Bachelor of Engineering (Mechanical and Mechatronic)(Hons), PhD (Mechatronics Engineering)", "email": "phillip.skelton@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/phillip-skelton-9a500a56"},
+	{"name": "Phola Ramos", "photo": "e9527f9a-1836-4af7-829f-851d035bef14-1.jpeg", "role": "Management Team Leader", "qualifications": "Bachelor of Science (Forensic and Analytical Science)(Graduate)", "email": "phola.ramos@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/pholagonzalesramos"},
+	{"name": "Abigail Wicks", "photo": "Abigail-Wicks-1.jpg", "role": "Management Team Deputy Leader", "qualifications": "Bachelor of Engineering (Biomedical)(Hons)/Master of Engineering (Biomedical)", "email": "abigail.wicks@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/abigail-wicks-b04719218"},
+	{"name": "Ryan Burdett", "photo": "Ryan-Burdett.jpeg", "role": "Software Team Leader", "qualifications": "Bachelor of Science (Mathematics)(Hons), Doctor of Philosophy (Mathematics)", "email": "ryan.burdett@flinders.edu.au", "linkedin": "https://www.linkedin.com/in/ryan--burdett"},
+	{"name": "Jack Lannan", "photo": "Jack.jpg", "role": "Software Deputy Team Lead", "qualifications": "Bachelor of Engineering (Software)(Hons)/Bachelor of Information Technology (Networks and Cybersecurity)", "email": "lann0007@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/jack-lannan-a9351b236?trk"},
+	{"name": "Christelle Richardson", "photo": "Christelle-Richardson.jpg", "role": "Electronics Team Leader", "qualifications": "Bachelor of Engineering (Electrical and Electronic)(Hons)/Master of Engineering (Mechanical)", "email": "christelle.richardson@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/christelle-richardson-4b167b198"},
+	{"name": "Daniel Philbey", "photo": "Daniel-Philbey.jpg", "role": "Electronics Technical Leader", "qualifications": "Bachelor of Engineering (Robotics)(Hons)", "email": "daniel.philbey@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/daniel-philbey"},
+	{"name": "Jasmine Cooks", "photo": "Jasmine-Cocks.jpg", "role": "Mechanical Team Leader", "qualifications": "Bachelor of Engineering (Biomedical)(Hons)/ Master of Engineering (Biomedical)", "email": "jasmine.cooks@flinders.edu.au"},
+	{"name": "Eric Deng", "photo": "Eric-Deng.jpg", "role": "Mechanical Team Deputy Leader", "qualifications": "Bachelor of Engineering (Hons)(Biomedical)/ Master of Engineering (Biomedical)", "email": "deng0160@flinders.edu.au"},
+	{"name": "Riley Spencer", "photo": "riley.jpeg", "role": "Electronics/Electrical Team", "qualifications": "Bachelor of Engineering (Electrical and Electronic)(Hons)", "email": "spen0177@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/riley-spencer-2953a1205"},
+	{"name": "Angello Deionno", "photo": "Angello-De-Ionno.jpg", "role": "Mechanical Team", "qualifications": "Bachelor of Engineering (Biomedical)(Hons)", "email": "deio0005@flinders.edu.au"},
+	{"name": "William Tran", "photo": "William-Tran-1.jpg", "role": "Software Team", "qualifications": "Bachelor of Engineering (Biomedical)(Hons)/Bachelor of Engineering(Electrical and Electronic)(Graduate)", "email": "william.tran@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/william-tran-68509b1a7"},
+	{"name": "Zechariah Wicks", "photo": "Zechariah-Wicks.jpg", "role": "Software Team", "qualifications": "Bachelor of Engineering (Software)(Hons)/Bachelor of Information Technology (Network and Cybersecurity Systems)", "email": "zechariah.wicks@flinders.edu.au"},
+	{"name": "Brianna Mciver", "photo": "Brianna-McIver-scaled.jpg", "role": "Mechanical Team", "qualifications": "Bachelor of Engineering (Biomedical)(Hons)/Master of Engineering (Biomedical)", "email": "brianna.mciver@flinders.edu.au"},
+	{"name": "Scott Brownridge", "photo": "Scott-Brownridge-scaled.jpg", "role": "Mechanical Team", "qualifications": "Bachelor of Engineering(Mechanical)(Hons)/Bachelor of Design and Innovation Technology", "email": "brow1097@flinders.edu.au"},
+	{"name": "Sebastian Hoey", "photo": "Sebastian-Hoey.jpg", "role": "Software Team", "qualifications": "Bachelor of Engineering(Mechanical)(Hons)", "email": "hoey0017@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/sebastianhoey"},
+	{"name": "Hayden Graham", "photo": "Hayden-Graham_2.jpg", "role": "Software Team", "qualifications": "Bachelor of Engineering (Software)(Hons)/Bachelor of Information Technology (Networks and Cyber Security)(Hons)", "email": "grah0227@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/hayden-graham-7661051b4"},
+	{"name": "Heath Eickhoff", "photo": "Heath-Eickhoff_2.jpg", "role": "Software Team", "qualifications": "Bachelor of Engineering (Electrical and Electronic)(Hons)", "email": "eick0004@flinders.edu.au"}
 ]

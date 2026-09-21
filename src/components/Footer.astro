@@ -1,106 +1,127 @@
 ---
-const year = new Date().getFullYear();
+import { Image } from 'astro:assets';
+import flindersLogo from '../assets/Flinders-Logo-white.png';
+
 const base = import.meta.env.BASE_URL;
 const href = (path: string) => `${base}${path}`.replace(/\/{2,}/g, '/');
+
+const links = [
+	['About Us', 'about/'],
+	['Technical Specifications', 'technical-specifications/'],
+	['Research', 'research/'],
+	['Competitions', 'competitions/'],
+	['Contact', 'contact/'],
+];
 ---
 
 <footer class="footer">
 	<div class="footer__inner">
-		<div>
-			<h2 class="title-large">Team Australis2</h2>
-			<p class="body-medium">
-				Maritime RobotX Challenge team, Centre for Defence Engineering Research and Training,
-				Flinders University.
-			</p>
-			<p class="body-medium">
-				<a href="mailto:FlindersRoboticsTeam@gmail.com">FlindersRoboticsTeam@gmail.com</a>
-			</p>
-		</div>
+		<img
+			class="footer__mark"
+			src={href('brand/frt-mark-white.svg')}
+			alt="Flinders Robotics Team"
+			width="40"
+			height="40"
+		/>
 
 		<nav class="footer__nav" aria-label="Footer">
-			<h2 class="title-large">Explore</h2>
-			<ul>
-				<li><a href={href('about/')}>About Us</a></li>
-				<li><a href={href('technical-specifications/')}>Technical Specifications</a></li>
-				<li><a href={href('research/')}>Research</a></li>
-				<li><a href={href('competitions/')}>Competitions</a></li>
-				<li><a href={href('gallery/')}>Gallery</a></li>
-				<li><a href={href('contact/')}>Contact</a></li>
-				<li><a href={href('sitemap/')}>Sitemap</a></li>
-			</ul>
+			{links.map(([label, path]) => <a href={href(path)}>{label}</a>)}
 		</nav>
 
-		<div>
-			<h2 class="title-large">Flinders University</h2>
-			<p class="body-medium">South Australia · Northern Territory · Global · Online</p>
-			<p class="body-medium">CRICOS Provider No. 00114A</p>
-		</div>
-	</div>
+		<a class="footer__flinders" href="https://www.flinders.edu.au/" target="_blank" rel="noopener noreferrer">
+			<Image src={flindersLogo} alt="Flinders University" width={240} loading="lazy" />
+		</a>
 
-	<div class="footer__base">
-		<p class="body-medium">&copy; {year} Maritime RobotX Challenge, Flinders University.</p>
+		<p class="footer__uni body-medium">
+			<span>South Australia | Northern Territory</span>
+			<span>Global | Online</span>
+			<span>CRICOS Provider: 00114A</span>
+		</p>
 	</div>
 </footer>
 
 <style>
 	.footer {
-		background: var(--md-sys-color-surface-container-high);
-		color: var(--md-sys-color-on-surface-variant);
-		margin-top: 4rem;
+		background: var(--brand-navy);
+		color: rgb(255 255 255 / 0.78);
 	}
 
 	.footer__inner {
 		max-width: var(--content-width);
 		margin-inline: auto;
-		padding: 3rem 1.5rem 2rem;
+		padding: 1rem 1.5rem;
 		display: grid;
-		gap: 2rem;
+		gap: 0.6rem 2rem;
+		align-items: center;
 		grid-template-columns: 1fr;
 	}
 
 	@media (min-width: 48rem) {
 		.footer__inner {
-			grid-template-columns: 2fr 1fr 1fr;
+			grid-template-columns: auto 1fr auto;
+			grid-template-areas:
+				'logo nav flinders'
+				'logo uni flinders';
+		}
+
+		.footer__flinders {
+			grid-area: flinders;
+			justify-self: end;
+		}
+
+		.footer__mark {
+			grid-area: logo;
+		}
+
+		.footer__nav {
+			grid-area: nav;
+		}
+
+		.footer__uni {
+			grid-area: uni;
 		}
 	}
 
-	.footer h2 {
-		font-size: 1rem;
-		font-weight: 500;
-		color: var(--md-sys-color-on-surface);
-		margin-bottom: 0.75rem;
+	.footer__mark {
+		width: 2.5rem;
+		height: 2.5rem;
 	}
 
-	.footer p {
-		margin: 0 0 0.5rem;
-		max-width: 32rem;
+	/* the Flinders logo's white version, as used on the original site's footer */
+	.footer__flinders {
+		display: block;
+		line-height: 0;
 	}
 
-	.footer__nav ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: grid;
-		gap: 0.4rem;
+	.footer__flinders :global(img) {
+		display: block;
+		height: 2.5rem;
+		width: auto;
+	}
+
+	.footer__nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 1.5rem;
 	}
 
 	.footer__nav a {
+		color: #fff;
 		font-size: 0.875rem;
+		font-weight: 500;
 		text-decoration: none;
 	}
 
 	.footer__nav a:hover {
+		color: var(--brand-yellow);
 		text-decoration: underline;
 	}
 
-	.footer__base {
-		border-top: 1px solid var(--md-sys-color-outline-variant);
-	}
-
-	.footer__base p {
-		max-width: var(--content-width);
-		margin-inline: auto;
-		padding: 1rem 1.5rem;
+	.footer__uni {
+		margin: 0;
 		font-size: 0.8125rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.15rem 1.25rem;
 	}
 </style>

@@ -3,8 +3,8 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	// TODO: set to the real host once decided (GitHub Pages URL or custom domain).
-	// If this moves to a project repo (username.github.io/<repo>/), set `base` to '/<repo>/'.
-	site: 'https://example.github.io',
-	base: '/',
+	// GitHub Pages project site. Moving to a custom domain or a <owner>.github.io
+	// repo means base: '/' and the new site URL.
+	site: 'https://artyom-kurguzkin.github.io',
+	base: '/flinders-robotics-team-website/',
 });

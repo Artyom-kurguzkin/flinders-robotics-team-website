@@ -1,35 +1,35 @@
 ---
 title: Maritime RobotX 2016
-year: 2016
-location: Sand Island, O'ahu, Hawaii
-dates: 9–20 December 2016
-summary: Team Australis2's second international outing, following a major upgrade to sensors, computing and superstructure.
+order: 2
 ---
 
-## Overview
+## Sand Island – O’ahu, Hawaii
 
-The second Maritime RobotX Challenge ran at Sand Island on O'ahu. Team Australis2
-represented Flinders University and South Australia, arriving after a year of
-substantial upgrade work through 2016 — new sensors, new onboard computing, and a
-redesigned superstructure.
+### 09-20 December 2016
 
-## The course
+The 2016 Maritime RobotX Challenge was hosted at Sand Island on O’ahu, Hawaii. Team Australis<sup>2</sup> was proud to once again represent Flinders University and South Australia.
 
-Eight tasks covered the breadth of autonomous surface operation:
+### Competition Challenges
 
-- Navigation and control through a marked channel
-- Identifying symbols and docking against the matching bay
-- Detecting objects and delivering to them
-- Locating totems in the course
-- Scanning and recording a light sequence
-- Identifying an underwater shape
-- Acoustic beacon navigation
+This years competition consisted of eight tasks. These tasks included:
 
-## Lessons learnt
+- Navigation and Control
+- Identify Symbols and Docking
+- Detect and Deliver
+- Finding Totems and avoiding obstacles
+- Scanning Code on Totem
+- Underwater shape identification
+- Find the break
+- Acoustic Pinger-based Transit
 
-- **Test the hardware and the software together.** Subsystems that pass in isolation
-  still fail at the seams.
-- **Keep the scope honest.** Ambition consistently outran the calendar; the simplest
-  approach that scores is worth more than an elegant one that does not finish.
-- **Fundamentals matter under pressure.** Debugging at a competition is not the moment
-  to be learning the toolchain.
+![Maritime RobotX 2016, Hawaii](../../assets/RobotXHawaii.jpg)
+
+### Lessons Learnt
+
+what did we learn from this comp
+
+- testing hardware/software
+- KISS – scope of the project
+- programming nuts and bolts
+
+overall we did things and stuff

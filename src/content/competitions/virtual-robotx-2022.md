@@ -1,31 +1,32 @@
 ---
 title: Virtual RobotX 2022
-year: 2022
-location: Online
-dates: 12 April 2022
-summary: A largely undergraduate team new to field robotics used the event to learn ROS and rebuild the mission planner.
+order: 4
 ---
 
-## Overview
+## Virtual RobotX Challenge
 
-The 2022 team was mostly undergraduates with little prior field robotics experience, so
-the competition doubled as a structured introduction to ROS and to robot development
-practice generally.
+### 12th April 2022
 
-## Developments
+The 2022 VRX competition was hosted online. Team Australis<sup>2</sup> are proud to once again represent Flinders University and South Australia.
 
-The existing codebase was reviewed and substantially overhauled, with a new approach to
-mission planning replacing what had been inherited. The team performed particularly
-strongly in the Gymkhana tasks.
+The 2022 team is almost completely comprised of undergraduates who are new to field robotics. As such, the 2022 Virtual RobotX was an opportunity for the team to learn about the techniques required for development of field robots and the fundamentals of software development with the Robotics Operating System.
 
-## The course
+The software codebase of previous years was examined and overhauled, and new approaches were examined for mission planning. Overall the result was succesful, with the team doing particularly well in the Gymkhana task.
 
-Eight simulated tasks: station keeping, way-finding, landmark localisation, wildlife
-avoidance, channel navigation with acoustic beacons, and scan-dock-and-deliver.
+### Competition Challenges
 
-## Lessons learnt
+This years competition consisted of eight tasks. These tasks included:
 
-- **Set timelines against reality.** Both the difficulty and the duration of the tasks
-  were underestimated at the outset.
-- **Decompose the problem.** Breaking each task into small, separately testable pieces
-  worked considerably better than writing one large program per task.
+- Station Keeping
+- Way finding
+- Landmark Localization and Characterization
+- Wildlife Encounter and Avoid
+- Channel Navigation, Acoustic Beacon Localization and Obstacle Avoidance
+- Scan and Dock and Deliver
+
+![Virtual RobotX](../../assets/robotxvrx.png)
+
+### Lessons Learnt
+
+- Setting realistic timelines. When starting the project we underestimated the challenges that occured and the time it would take to complete a challenge.
+- Breaking tasks into smaller tasks. Rather than trying to complete tasks with one huge program we ended up breaking tasks into smaller subtasks that could be completed easier.

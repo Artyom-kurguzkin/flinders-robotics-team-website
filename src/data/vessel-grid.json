@@ -1,0 +1,47 @@
+[
+	{
+		"image": "gallery/tank_test.jpg",
+		"title": "Wam-V",
+		"lines": ["Topcat is based on the wave adaptive modular vessel (WAM-V) platform developed by Marine Advanced Research. To this platform we have added a sensor mounting array, an underwater deploying arm, a battery cradle and two neutrally buoyant motor modules, allowing Topcat to operate safely in the open ocean."]
+	},
+	{
+		"image": "propulsion.jpg",
+		"title": "Propulsion",
+		"lines": ["Topcat is a fully electrical vehicle powered by two Torqeedo Cruise 2 electric outboard and two large Kokam lithium polymer batteries. A steering system has been added to ensure high manoeuvrability of the vessel in all conditions."]
+	},
+	{
+		"image": "comms.jpg",
+		"title": "Communication",
+		"lines": ["Communication is critical for safety and reliability of the system. Topcat uses long range, low power 900MHz communication for teleoperation, telemetry and safety communications as well as long range 5GHz WiFi for data and video streaming."]
+	},
+	{
+		"image": "robotxElectronics.jpg",
+		"title": "Electronics",
+		"lines": ["Topcat uses a main electronics distribution box which contains power regulators, network switch, USB devices and microcontrollers. This connects to all the sensors and provides the interface to the computer, housed in a separate box.", "Image courtesy of Christelle Richardson"]
+	},
+	{
+		"image": "velodyne.jpg",
+		"title": "LiDAR",
+		"lines": ["Topcat carries a Velodyne HDL32E LiDAR. This sensor is capable of providing a precise 360 degree volumetric scan of the area up to 100m away. It is the primary close range obstacle detection sensor."]
+	},
+	{
+		"image": "radar.jpg",
+		"title": "Radar",
+		"lines": ["Topcat also uses a low power Simrad 4G Radar system for longer range obstacle detection and coastal mapping. This system can detect larger obstacles up to the horizon and is useful in offshore operations."]
+	},
+	{
+		"image": "gps.jpg",
+		"title": "GPS",
+		"lines": ["Topcat uses a dual antenna Trimble BX982 GPS system for position and heading. This system when used with an RTK base station can provide sub centimeter accuracy."]
+	},
+	{
+		"image": "wind.jpg",
+		"title": "Wind",
+		"lines": ["Topcat is a very light vessel and wind affects can be significant. It carries on board an ultrasonic wind speed sensor to allow the software systems to compensate for wind in real time."]
+	},
+	{
+		"image": "teledyne-reson-tc4013.jpg",
+		"title": "Hydrophone",
+		"lines": ["Hydrophones", "This years challenge includes the location of underwater beacons. This is achieved through the use of a quad hydrophones array, processed through a Digital to Analog Converter. The Hydrophones chosen for this project were the Teledyene Marine RESON TC4013."]
+	}
+]

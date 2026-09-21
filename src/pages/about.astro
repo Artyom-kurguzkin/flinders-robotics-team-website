@@ -5,164 +5,152 @@ import PageHeader from '../components/PageHeader.astro';
 import { Content as AboutContent } from '../data/about.md';
 import { Content as VesselContent } from '../data/vessel.md';
 import team from '../data/team.json';
+import vesselGrid from '../data/vessel-grid.json';
 import timeline from '../data/timeline.json';
 import sponsors from '../data/sponsors.json';
-import vesselImage from '../assets/vessel_main.jpeg';
-import vesselRender from '../assets/vessel_render.jpg';
-import thalesLogo from '../assets/Thales-Logo.png';
-import flindersLogo from '../assets/Flinders-Logo.png';
-import redarcLogo from '../assets/REDARC-Logo.png';
-import fuseLogo from '../assets/fuselogo.png';
-import sageLogo from '../assets/SAGE-Automation.png';
-import initialDev from '../assets/initial_dev.jpg';
-import singapore from '../assets/singappore.jpg';
-import demonstration from '../assets/demonstration.jpg';
-import conference from '../assets/conference.jpg';
-import hawaii from '../assets/RobotXHawaii.jpg';
-import electronics from '../assets/robotxElectronics.jpg';
-import beachport from '../assets/robotx2020Beachport.jpg';
+import linkedinIcon from '../assets/linkedin.png';
 
-// Astro image imports must be static, so the timeline photos are mapped by title here.
-const sponsorLogos: Record<string, ImageMetadata> = {
-	Thales: thalesLogo,
-	'Flinders University': flindersLogo,
-	REDARC: redarcLogo,
-	FUSE: fuseLogo,
-	'SAGE Group': sageLogo,
-};
+// Images are named in the JSON files, so resolve them by glob rather than one
+// static import each.
+const assets = import.meta.glob<{ default: ImageMetadata }>('../assets/**/*.{jpg,jpeg,png}', {
+	eager: true,
+});
+const img = (file: string) => assets[`../assets/${file}`]?.default;
 
-const timelinePhotos: Record<string, ImageMetadata> = {
-	'First build': initialDev,
-	'Maritime RobotX, Singapore': singapore,
-	'Port River demonstration': demonstration,
-	'Driverless Cars Conference': conference,
-	'Maritime RobotX 2, Hawaii': hawaii,
-	'Electronics refresh': electronics,
-	'Beachport survey': beachport,
-};
-
-const groups = ['Academic Staff', 'Student Team Leaders', 'Team Members'];
-const tiers = ['Platinum', 'Silver', 'Bronze'];
-
-// 21 portraits — glob rather than 21 import lines. Anyone without a photo on the
-// source site falls back to the placeholder.
-const portraits = import.meta.glob<{ default: ImageMetadata }>(
-	'../assets/team/*.{jpg,jpeg,png}',
-	{ eager: true }
-);
-const portraitFor = (photo: string) =>
-	(portraits[`../assets/team/${photo}`] ?? portraits['../assets/team/default-profile-pic.jpg'])
-		.default;
-
-const specs = [
-	{ label: 'Length', value: '5 m', icon: 'straighten' },
-	{ label: 'Top speed', value: '11 knots', icon: 'speed' },
-	{ label: 'Endurance', value: '~12 hours', icon: 'battery_charging_full' },
-	{ label: 'Platform', value: 'WAM-V catamaran', icon: 'sailing' },
-	{ label: 'Propulsion', value: '2 × Torqeedo Cruise 2R', icon: 'bolt' },
-	{ label: 'Sensing', value: 'Lidar, radar, cameras, GNSS', icon: 'sensors' },
-];
+const tiers = [...new Set(sponsors.map((s) => s.tier))];
+const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'];
 ---
 
-<Layout title="About Us" description="Team Australis2, the TopCat autonomous surface vessel, and how the project developed from 2014 onwards.">
-	<PageHeader title="About Us" eyebrow="Team Australis2" />
+<Layout title="About Us">
+	<PageHeader title="About Us" />
 
 	<div class="page">
-		<section class="section prose">
-			<AboutContent />
-			<p class="body-large">
-				<a href="mailto:FlindersRoboticsTeam@gmail.com">FlindersRoboticsTeam@gmail.com</a>
-			</p>
-		</section>
-
-		<section class="section">
-			<h2>Meet the team</h2>
-			{
-				groups.map((group) => {
-					const members = team.filter((m) => m.group === group);
-					return members.length > 0 ? (
-						<div class="group">
-							<h3 class="title-large">{group}</h3>
-							<div class="card-grid">
-								{members.map((member) => (
-									<div class="md-card md-card--outlined member">
-										<Image
-											class="member__photo"
-											src={portraitFor(member.photo)}
-											alt={member.name}
-											width={240}
-											height={240}
-											loading="lazy"
-										/>
-										<span class="member__name">{member.name}</span>
-										<span class="member__role body-medium">{member.role}</span>
-										{member.linkedin && (
-											<a
-												class="member__linkedin label-large"
-												href={member.linkedin}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												<md-icon>link</md-icon>
-												LinkedIn
-											</a>
-										)}
-									</div>
-								))}
-							</div>
-						</div>
-					) : null;
-				})
-			}
-		</section>
-
-		<section class="section">
-			<h2>The vessel</h2>
-			<div class="vessel-media">
-				<figure>
-					<Image
-						src={vesselImage}
-						alt="TopCat, the Flinders University autonomous surface vessel, under way"
-						width={800}
-						height={450}
-						loading="lazy"
-					/>
-					<figcaption class="body-medium">TopCat on the water.</figcaption>
-				</figure>
-				<figure>
-					<Image
-						src={vesselRender}
-						alt="CAD render of the TopCat vessel"
-						width={800}
-						height={450}
-						loading="lazy"
-					/>
-					<figcaption class="body-medium">The vessel as designed.</figcaption>
-				</figure>
+		<section class="section intro">
+			<div class="prose">
+				<AboutContent />
 			</div>
-			<div class="spec-grid">
+
+			<div class="video">
+				<iframe
+					src="https://www.youtube-nocookie.com/embed/iNDHslCrS4c"
+					title="Flinders University Meet the Team"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					referrerpolicy="strict-origin-when-cross-origin"
+					allowfullscreen
+				></iframe>
+			</div>
+		</section>
+
+		<div class="tabbar">
+			<md-tabs aria-label="About section">
 				{
-					specs.map((spec) => (
-						<div class="md-card spec">
-							<md-icon class="spec__icon">{spec.icon}</md-icon>
-							<span class="spec__value">{spec.value}</span>
-							<span class="spec__label body-medium">{spec.label}</span>
-						</div>
+					panels.map((label, i) => (
+						<md-primary-tab
+							id={`tab-${i}`}
+							aria-controls={`panel-${i}`}
+							active={i === 0 ? true : undefined}
+						>
+							{label}
+						</md-primary-tab>
+					))
+				}
+			</md-tabs>
+		</div>
+
+		<!-- Meet the Team -->
+		<section id="panel-0" role="tabpanel" aria-labelledby="tab-0" class="panel">
+			<h2>Meet the Team</h2>
+			<p class="body-large">Team Name: Team Australis<sup>2</sup></p>
+			<p class="body-large">
+				Team Contact: <a href="mailto:FlindersRoboticsTeam@gmail.com">FlindersRoboticsTeam@gmail.com</a>
+			</p>
+
+			<div class="people">
+				{
+					team.map((member) => (
+						<article class="person">
+							<Image
+								class="person__photo"
+								src={img(`team/${member.photo}`)!}
+								alt={member.name}
+								width={240}
+								height={240}
+								loading="lazy"
+							/>
+							<h3 class="person__name">{member.name}</h3>
+							<p class="person__role">{member.role}</p>
+							<p class="person__qual">{member.qualifications}</p>
+							<p class="person__contact">
+								<a href={`mailto:${member.email}`}>{member.email}</a>
+								{member.linkedin && (
+									<a
+										class="linkedin"
+										href={member.linkedin}
+										target="_blank"
+										rel="noopener noreferrer"
+										aria-label={`${member.name} on LinkedIn`}
+									>
+										<Image src={linkedinIcon} alt="" width={22} height={22} loading="lazy" />
+									</a>
+								)}
+							</p>
+						</article>
 					))
 				}
 			</div>
+		</section>
+
+		<!-- The Vessel -->
+		<section id="panel-1" role="tabpanel" aria-labelledby="tab-1" class="panel">
 			<div class="prose vessel-prose">
 				<VesselContent />
 			</div>
+
+			<div class="tiles">
+				{
+					vesselGrid.map((tile) => (
+						<article class="tile">
+							<Image
+								class="tile__photo"
+								src={img(tile.image)!}
+								alt={tile.title}
+								width={480}
+								height={360}
+								loading="lazy"
+							/>
+							<div class="tile__body">
+								<h3>{tile.title}</h3>
+								{tile.lines.map((line) => (
+									<p>{line}</p>
+								))}
+							</div>
+						</article>
+					))
+				}
+			</div>
 		</section>
 
-		<section class="section">
-			<h2>Development process</h2>
-			<p class="prose body-large">
-				The Maritime RobotX Challenge was launched in 2012 by the US Office of Naval Research.
-				Flinders University, through CDERT, took part in the inaugural event in 2014 and has
-				been developing TopCat ever since.
-			</p>
+		<!-- Development Process -->
+		<section id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="panel">
+			<div class="prose">
+				<h2>Where we started</h2>
+				<p>
+					In 2012 the Maritime RobotX Challenge was launched by the{' '}
+					<a href="http://www.onr.navy.mil/" target="_blank" rel="noopener noreferrer">US Office of Naval Research.</a>{' '}
+					A joint Flinders University and Centre for Defence Engineering Research and Training (<a href="https://www.flinders.edu.au/cdert" target="_blank" rel="noopener noreferrer">CDERT</a>) was successful in applying to be part of the inaugural event and herein was born Topcat.
+				</p>
+				<h3>Hardware Design</h3>
+				<p>
+					Developing Topcat has been a very iterative process. The initial vessel design focussed on
+					solving the 2014 RobotX challenge tasks including navigation, obstacle avoidance and
+					docking. This was a great base but new and ongoing research tasks and challenges have
+					necessitated continual upgrades for Topcat.
+				</p>
+			</div>
+
+			<hr />
+
+			<h2>Development Timeline</h2>
 			<ol class="timeline">
 				{
 					timeline.map((entry) => (
@@ -170,18 +158,20 @@ const specs = [
 							<div class="timeline__marker" aria-hidden="true" />
 							<div class="timeline__body">
 								<span class="timeline__period label-large">{entry.period}</span>
-								<h3 class="title-large">{entry.title}</h3>
-								<p class="body-medium">{entry.detail}</p>
-								{timelinePhotos[entry.title] && (
-									<Image
-										class="timeline__photo"
-										src={timelinePhotos[entry.title]}
-										alt={`${entry.title}, ${entry.period}`}
-										width={640}
-										height={360}
-										loading="lazy"
-									/>
+								<h3>{entry.title}</h3>
+								{img(entry.photo) && (
+									<figure class="timeline__figure">
+										<Image
+											src={img(entry.photo)!}
+											alt=""
+											width={640}
+											height={360}
+											loading="lazy"
+										/>
+										{entry.caption && <figcaption class="body-medium">{entry.caption}</figcaption>}
+									</figure>
 								)}
+								<p set:html={entry.html} />
 							</div>
 						</li>
 					))
@@ -189,139 +179,280 @@ const specs = [
 			</ol>
 		</section>
 
-		<section class="section">
+		<!-- Sponsors -->
+		<section id="panel-3" role="tabpanel" aria-labelledby="tab-3" class="panel">
 			<h2>Sponsors</h2>
+			<p class="body-large prose">
+				We gratefully appreciate all of our sponsors for their time and commitment to the project.
+				A special thank you to the following sponsors for their contribution to the project.
+			</p>
+
 			{
-				tiers.map((tier) => {
-					const group = sponsors.filter((s) => s.tier === tier);
-					return group.length > 0 ? (
-						<div class="group">
-							<h3 class="title-large tier">
-								<span class={`tier__dot tier__dot--${tier.toLowerCase()}`} aria-hidden="true" />
-								{tier}
-							</h3>
-							<div class="card-grid">
-								{group.map((sponsor) => (
-									<div class="md-card md-card--outlined sponsor">
-										{sponsorLogos[sponsor.name] && (
-											<div class="sponsor__logo">
-												<Image
-													src={sponsorLogos[sponsor.name]}
-													alt={`${sponsor.name} logo`}
-													width={320}
-													loading="lazy"
-												/>
-											</div>
-										)}
-										<span class="member__name">{sponsor.name}</span>
-										<span class="member__role body-medium">{sponsor.blurb}</span>
-									</div>
+				tiers.map((tier) => (
+					<div class="tier">
+						<h3 class="tier__title">{tier}</h3>
+						<div class="sponsors">
+							{sponsors
+								.filter((s) => s.tier === tier)
+								.map((sponsor) => (
+									<article class="sponsor">
+										<div class="sponsor__body">
+											<h4 class="sponsor__name">{sponsor.name}</h4>
+											<p class="sponsor__text">{sponsor.text}</p>
+											<p>
+												To find out more please visit:{' '}
+												<a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+													{sponsor.linkText}
+												</a>
+											</p>
+										</div>
+										<a
+											class="sponsor__logo"
+											href={sponsor.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											aria-label={sponsor.name}
+										>
+											<Image src={img(sponsor.logo)!} alt="" width={420} loading="lazy" />
+										</a>
+									</article>
 								))}
-							</div>
 						</div>
-					) : null;
-				})
+					</div>
+				))
 			}
 		</section>
 	</div>
 </Layout>
 
 <script>
-	import '@material/web/icon/icon.js';
+	import '@material/web/tabs/tabs.js';
+	import '@material/web/tabs/primary-tab.js';
+
+	const tabs = document.querySelector('md-tabs');
+	const panels = [...document.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+
+	function show(index: number) {
+		panels.forEach((panel, i) => (panel.hidden = i !== index));
+	}
+
+	if (tabs && panels.length) {
+		show(0);
+		tabs.addEventListener('change', () => {
+			show((tabs as HTMLElement & { activeTabIndex: number }).activeTabIndex);
+		});
+	}
 </script>
 
 <style>
-	.group {
-		margin-block: 2rem;
+	.intro {
+		display: grid;
+		gap: 2rem;
+		align-items: start;
+		grid-template-columns: 1fr;
 	}
 
-	.group h3 {
-		margin-bottom: 0.75rem;
-		color: var(--md-sys-color-primary);
+	@media (min-width: 52rem) {
+		.intro {
+			grid-template-columns: 1fr 1fr;
+		}
 	}
 
-	.member {
+	.video {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		border-radius: var(--md-sys-shape-corner-large);
+		overflow: hidden;
+		box-shadow: var(--md-sys-elevation-2);
+		background: var(--brand-navy);
+	}
+
+	.video iframe {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+
+	/* === Photo tiles: people === */
+	.people {
+		display: grid;
+		gap: 1.25rem;
+		margin-top: 1.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+	}
+
+	.person {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		gap: 0.2rem;
+		padding: 1.75rem 1.25rem 1.5rem;
+		/* blue bar along the top edge; a gradient follows the rounded corners */
+		background: linear-gradient(var(--brand-blue), var(--brand-blue)) top / 100% 0.4rem no-repeat,
+			var(--md-sys-color-surface-container-lowest);
+		border-radius: var(--md-sys-shape-corner-large);
+		box-shadow: var(--md-sys-elevation-1);
 	}
 
-	.member__photo {
+	.person__photo {
 		width: 6.5rem;
 		height: 6.5rem;
 		border-radius: 50%;
 		object-fit: cover;
-		object-position: center top;
-		margin-bottom: 0.85rem;
-		background: var(--md-sys-color-surface-variant);
+		object-position: center 20%;
+		box-shadow: 0 0 0 0.2rem #fff, 0 0 0 0.4rem var(--brand-blue);
+		margin-bottom: 1.1rem;
 	}
 
-	.member__name {
-		font-weight: 500;
+	.person__name {
+		margin: 0;
+		font-size: 1.125rem;
 	}
 
-	.member__role {
+	.person__role {
+		margin: 0.25rem 0 0;
+		font-weight: 600;
+		color: var(--md-sys-color-on-surface);
+	}
+
+	.person__qual {
+		margin: 0.4rem 0 0.85rem;
+		font-size: 0.875rem;
+		line-height: 1.45;
 		color: var(--md-sys-color-on-surface-variant);
 	}
 
-	.member__linkedin {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.3rem;
-		margin-top: 0.6rem;
-		text-decoration: none;
+	/* === Card contact line === */
+	.person__contact {
+		margin: auto 0 0;
+		padding-top: 0.85rem;
+		width: 100%;
+		border-top: 1px solid var(--md-sys-color-outline-variant);
+		font-size: 0.875rem;
+		line-height: 1.5;
+		overflow-wrap: anywhere;
 	}
 
-	.member__linkedin md-icon {
-		--md-icon-size: 18px;
+	.linkedin {
+		display: inline-block;
+		vertical-align: middle;
+		margin-left: 0.4rem;
 	}
 
-	.member__linkedin:hover {
-		text-decoration: underline;
+	.linkedin :global(img) {
+		width: 1.375rem;
+		height: 1.375rem;
 	}
 
-	.spec-grid {
+	/* === Vessel === */
+	.vessel-prose :global(h2) {
+		margin-top: 2rem;
+	}
+
+	.vessel-prose :global(h2:first-child) {
+		margin-top: 0;
+	}
+
+	/* Full-width column, with the reading width kept on the text itself; the photo
+	   floats right on a wide screen so the right half is not left empty. */
+	.vessel-prose {
+		max-width: none;
+	}
+
+	.vessel-prose :global(p),
+	.vessel-prose :global(h2) {
+		max-width: 46rem;
+	}
+
+	/* the paragraph markdown wraps around an image must not carry that limit, or the
+	   float lands at the edge of a narrow box instead of the panel's right edge */
+	.vessel-prose :global(p:has(> img)) {
+		max-width: none;
+	}
+
+	.vessel-prose :global(img) {
+		width: 100%;
+		max-width: 32rem;
+		height: auto;
+		border-radius: var(--md-sys-shape-corner-large);
+		margin-block: 1rem;
+	}
+
+	@media (min-width: 64rem) {
+		.vessel-prose :global(img) {
+			float: right;
+			width: min(38%, 28rem);
+			margin: 0 0 1.5rem 2.5rem;
+		}
+	}
+
+	.vessel-prose :global(hr) {
+		border: none;
+		border-top: 1px solid var(--md-sys-color-outline-variant);
+		margin-block: 2rem;
+	}
+
+	.tiles {
 		display: grid;
-		gap: 1rem;
-		grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-		margin-bottom: 2rem;
+		gap: 1.25rem;
+		margin-top: 2rem;
+		grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
 	}
 
-	.spec {
-		background: var(--md-sys-color-secondary-container);
-		color: var(--md-sys-color-on-secondary-container);
+	.tile {
 		display: flex;
 		flex-direction: column;
-		gap: 0.15rem;
+		background: var(--md-sys-color-surface-container-lowest);
+		border-radius: var(--md-sys-shape-corner-large);
+		box-shadow: var(--md-sys-elevation-1);
+		overflow: hidden;
 	}
 
-	.spec__icon {
-		--md-icon-size: 28px;
-		margin-bottom: 0.35rem;
+	.tile__photo {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
 	}
 
-	.spec__value {
-		font-size: 1.125rem;
-		font-weight: 500;
+	.tile__body {
+		padding: 1.1rem 1.25rem 1.4rem;
+		border-top: 0.4rem solid var(--brand-blue);
 	}
 
-	.spec__label {
-		opacity: 0.8;
+	.tile:nth-child(3n + 2) .tile__body {
+		border-top-color: var(--brand-yellow);
 	}
 
-	.vessel-prose :global(h3) {
-		margin-top: 2rem;
-		color: var(--md-sys-color-primary);
+	.tile:nth-child(3n) .tile__body {
+		border-top-color: var(--brand-orange);
 	}
 
-	/* === Timeline === */
+	.tile__body h3 {
+		margin: 0 0 0.4rem;
+	}
+
+	.tile__body p {
+		margin: 0 0 0.5rem;
+		font-size: 0.9375rem;
+		line-height: 1.55;
+		color: var(--md-sys-color-on-surface-variant);
+	}
+
+	/* === Development process === */
+	.panel hr {
+		border: none;
+		border-top: 1px solid var(--md-sys-color-outline-variant);
+		margin-block: 2.5rem;
+	}
+
 	.timeline {
 		list-style: none;
 		padding: 0;
-		margin: 2rem 0 0;
-		max-width: var(--prose-width);
+		margin: 1.5rem 0 0;
+		max-width: 46rem;
 	}
 
 	.timeline__item {
@@ -329,7 +460,7 @@ const specs = [
 		display: grid;
 		grid-template-columns: 1.5rem 1fr;
 		gap: 1rem;
-		padding-bottom: 2rem;
+		padding-bottom: 2.5rem;
 	}
 
 	.timeline__item:not(:last-child) .timeline__marker::after {
@@ -337,7 +468,7 @@ const specs = [
 		position: absolute;
 		left: 50%;
 		top: 1rem;
-		bottom: -1rem;
+		bottom: -1.5rem;
 		width: 2px;
 		transform: translateX(-50%);
 		background: var(--md-sys-color-outline-variant);
@@ -350,104 +481,129 @@ const specs = [
 		margin-top: 0.35rem;
 		margin-inline: auto;
 		border-radius: 50%;
-		background: var(--md-sys-color-primary);
+		background: var(--brand-yellow);
+		box-shadow: 0 0 0 0.2rem var(--brand-butter);
+	}
+
+	.timeline__item:nth-child(3n + 2) .timeline__marker {
+		background: var(--brand-orange);
+		box-shadow: 0 0 0 0.2rem var(--brand-peach);
+	}
+
+	.timeline__item:nth-child(3n) .timeline__marker {
+		background: var(--brand-blue);
+		box-shadow: 0 0 0 0.2rem var(--brand-sky);
 	}
 
 	.timeline__period {
 		display: block;
-		color: var(--md-sys-color-primary);
+		color: var(--brand-blue);
+		font-weight: 700;
 		margin-bottom: 0.15rem;
 	}
 
 	.timeline__body h3 {
-		margin-bottom: 0.25rem;
+		margin-bottom: 0.75rem;
 	}
 
 	.timeline__body p {
 		margin: 0;
+		line-height: 1.6;
 		color: var(--md-sys-color-on-surface-variant);
+		overflow-wrap: anywhere;
 	}
 
-	.timeline__photo {
+	.timeline__figure {
+		margin: 0 0 0.85rem;
+	}
+
+	.timeline__figure :global(img) {
 		width: 100%;
 		height: auto;
 		aspect-ratio: 16 / 9;
 		object-fit: cover;
 		border-radius: var(--md-sys-shape-corner-medium);
-		margin-top: 0.85rem;
 	}
 
-	.vessel-media {
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: 1fr;
-		margin-bottom: 1.5rem;
-	}
-
-	@media (min-width: 44rem) {
-		.vessel-media {
-			grid-template-columns: 1fr 1fr;
-		}
-	}
-
-	.vessel-media figure {
-		margin: 0;
-	}
-
-	.vessel-media :global(img) {
-		width: 100%;
-		height: auto;
-		aspect-ratio: 16 / 9;
-		object-fit: cover;
-		border-radius: var(--md-sys-shape-corner-large);
-	}
-
-	.vessel-media figcaption {
-		margin-top: 0.5rem;
+	.timeline__figure figcaption {
+		margin-top: 0.4rem;
+		font-style: italic;
 		color: var(--md-sys-color-on-surface-variant);
 	}
 
-	/* Sponsor logos are supplied artwork in assorted aspect ratios and mostly
-	   assume a white background — box them so they sit consistently in dark mode. */
+	/* === Sponsors === */
+	.tier {
+		margin-top: 2.5rem;
+	}
+
+	.tier__title {
+		margin-bottom: 1rem;
+		padding: 0.35rem 1rem;
+		width: fit-content;
+		border-radius: 999px;
+		background: var(--brand-sky);
+	}
+
+	.tier:nth-of-type(2) .tier__title {
+		background: var(--brand-butter);
+	}
+
+	.tier:nth-of-type(3) .tier__title {
+		background: var(--brand-peach);
+	}
+
+	.sponsors {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.sponsor {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.5rem;
+		align-items: center;
+		background: var(--md-sys-color-surface-container-lowest);
+		border-radius: var(--md-sys-shape-corner-large);
+		box-shadow: var(--md-sys-elevation-1);
+		padding: 1.75rem;
+	}
+
+	@media (min-width: 48rem) {
+		.sponsor {
+			grid-template-columns: 1fr 14rem;
+			gap: 2.5rem;
+		}
+	}
+
+	.sponsor__name {
+		margin: 0 0 0.5rem;
+		font-size: 1.25rem;
+	}
+
+	.sponsor__body p {
+		margin: 0 0 0.6rem;
+		line-height: 1.6;
+		color: var(--md-sys-color-on-surface-variant);
+		overflow-wrap: anywhere;
+	}
+
+	/* Supplied logo artwork assumes a light background and comes in mixed aspect
+	   ratios, so box it. */
 	.sponsor__logo {
-		background: #fff;
-		border-radius: var(--md-sys-shape-corner-small);
-		padding: 0.85rem;
-		margin-bottom: 0.85rem;
-		height: 5rem;
 		display: grid;
 		place-items: center;
+		background: #fff;
+		border: 1px solid var(--md-sys-color-outline-variant);
+		border-radius: var(--md-sys-shape-corner-medium);
+		padding: 1.25rem;
+		min-height: 7rem;
 	}
 
 	.sponsor__logo :global(img) {
 		max-width: 100%;
-		max-height: 100%;
+		max-height: 4.5rem;
 		width: auto;
 		height: auto;
 		object-fit: contain;
-	}
-
-	.tier {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.tier__dot {
-		width: 0.75rem;
-		height: 0.75rem;
-		border-radius: 50%;
-	}
-
-	.tier__dot--platinum {
-		background: #9aa5b1;
-	}
-
-	.tier__dot--silver {
-		background: #c0c6cc;
-	}
-
-	.tier__dot--bronze {
-		background: #b08152;
 	}
 </style>

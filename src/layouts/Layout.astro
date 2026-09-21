@@ -9,7 +9,7 @@ interface Props {
 
 const {
 	title,
-	description = 'Team Australis2 — the Flinders University Maritime RobotX Challenge team and the TopCat autonomous surface vessel.',
+	description = 'The Flinders Robotics Team: the TopCat autonomous surface vessel and the competitions we enter, including Maritime RobotX.',
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
@@ -21,9 +21,12 @@ const nav = [
 	{ label: 'Technical Specifications', path: 'technical-specifications/', icon: 'settings' },
 	{ label: 'Research', path: 'research/', icon: 'science' },
 	{ label: 'Competitions', path: 'competitions/', icon: 'emoji_events' },
-	{ label: 'Gallery', path: 'gallery/', icon: 'photo_library' },
 	{ label: 'Contact', path: 'contact/', icon: 'mail' },
 ];
+
+// Contact is the pill's button; the rest sit centred. The drawer lists all of them.
+const cta = nav[nav.length - 1];
+const centre = nav.slice(0, -1);
 
 const current = Astro.url.pathname.replace(/\/{2,}/g, '/');
 const isActive = (path: string) => current === href(path);
@@ -34,14 +37,25 @@ const isActive = (path: string) => current === href(path);
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- SVG first for browsers that take it (scales to any size); .ico and PNG
+		     are the fallbacks, and /favicon.ico also covers direct probes. -->
 		<link rel="icon" href={href('favicon.svg')} type="image/svg+xml" />
+		<link rel="icon" href={href('favicon.ico')} sizes="any" />
+		<link rel="apple-touch-icon" href={href('icon-180.png')} />
+		<meta name="theme-color" content="#16294d" />
 		<meta name="description" content={description} />
-		<title>{title} | Maritime RobotX Challenge</title>
+		<title>{title} | Flinders Robotics Team</title>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- display=block: hide the icon glyphs until the font arrives, instead of
+		     briefly showing the ligature names as text ("place", "calendar_month"). -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block"
 			rel="stylesheet"
 		/>
 	</head>
@@ -49,18 +63,15 @@ const isActive = (path: string) => current === href(path);
 		<a class="skip-link" href="#main">Skip to content</a>
 
 		<header class="app-bar">
-			<div class="app-bar__inner">
+			<div class="app-bar__pill">
 				<a class="brand" href={href('')}>
-					<span class="material-symbols-outlined brand__mark" aria-hidden="true">sailing</span>
-					<span class="brand__text">
-						<span class="brand__title">Maritime RobotX Challenge</span>
-						<span class="brand__sub">Flinders University</span>
-					</span>
+					<img class="brand__mark" src={href('brand/frt-mark.svg')} alt="" width="28" height="28" />
+					<span class="brand__title">Flinders Robotics Team</span>
 				</a>
 
 				<nav class="nav-desktop" aria-label="Main">
 					{
-						nav.map((item) => (
+						centre.map((item) => (
 							<a
 								href={href(item.path)}
 								class:list={['nav-link', 'state-layer', { 'is-active': isActive(item.path) }]}
@@ -71,6 +82,14 @@ const isActive = (path: string) => current === href(path);
 						))
 					}
 				</nav>
+
+				<a
+					class:list={['nav-cta', { 'is-active': isActive(cta.path) }]}
+					href={href(cta.path)}
+					aria-current={isActive(cta.path) ? 'page' : undefined}
+				>
+					{cta.label}
+				</a>
 
 				<md-icon-button id="nav-toggle" class="nav-toggle" aria-label="Open navigation menu">
 					<md-icon>menu</md-icon>
@@ -123,6 +142,36 @@ const isActive = (path: string) => current === href(path);
 			drawer?.addEventListener('click', (event) => {
 				if (event.target === drawer) drawer.close();
 			});
+
+			// Hide the header while scrolling down; bring it back on any scroll up, near the
+			// top of the page, or when something inside it takes keyboard focus.
+			const bar = document.querySelector<HTMLElement>('.app-bar');
+			let lastY = window.scrollY;
+			let anchor = lastY; // where the current scroll direction began
+			let dir = 0;
+			let queued = false;
+			window.addEventListener(
+				'scroll',
+				() => {
+					if (queued) return;
+					queued = true;
+					requestAnimationFrame(() => {
+						const y = window.scrollY;
+						const d = Math.sign(y - lastY);
+						if (d && d !== dir) {
+							dir = d;
+							anchor = lastY;
+						}
+						// hide only after a real stretch of scrolling down, show on a short way back up
+						if (y < 90 || (dir < 0 && anchor - y > 24)) bar?.classList.remove('is-hidden');
+						else if (dir > 0 && y - anchor > 80) bar?.classList.add('is-hidden');
+						lastY = y;
+						queued = false;
+					});
+				},
+				{ passive: true }
+			);
+			bar?.addEventListener('focusin', () => bar.classList.remove('is-hidden'));
 		</script>
 
 		<style>
@@ -141,79 +190,126 @@ const isActive = (path: string) => current === href(path);
 				left: 0;
 			}
 
-			/* === Top app bar ===
+			/* === Floating pill header ===
 			   ponytail: hand-rolled. @material/web 2.5 has no stable top app bar
-			   (labs/navigationbar only), and this is a row of links on M3 tokens. */
+			   (labs/navigationbar only). The wrapper is transparent and sticky; only the
+			   rounded pill inside it is visible, so content scrolls under it. */
 			.app-bar {
 				position: sticky;
 				top: 0;
 				z-index: 10;
-				background: var(--md-sys-color-surface-container);
-				color: var(--md-sys-color-on-surface);
-				box-shadow: var(--md-sys-elevation-1);
+				padding: 0.75rem 0.75rem 0;
+				/* the gap between the pill and whatever follows, on every page */
+				margin-bottom: 0.75rem;
+				pointer-events: none;
+				transition:
+					transform 0.7s cubic-bezier(0.22, 0.8, 0.24, 1),
+					opacity 0.55s ease,
+					visibility 0s;
 			}
 
-			.app-bar__inner {
-				max-width: var(--content-width);
+			/* slid up out of view (its own shadow included) while scrolling down */
+			.app-bar.is-hidden {
+				transform: translateY(calc(-100% - 1rem));
+				opacity: 0;
+				visibility: hidden;
+				/* visibility flips only once the slide has finished */
+				transition:
+					transform 0.7s cubic-bezier(0.22, 0.8, 0.24, 1),
+					opacity 0.55s ease,
+					visibility 0s 0.7s;
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.app-bar {
+					transition: none;
+				}
+			}
+
+			.app-bar__pill {
+				pointer-events: auto;
+				max-width: var(--shell-width);
 				margin-inline: auto;
-				min-height: var(--app-bar-height);
-				padding-inline: 1rem;
-				display: flex;
+				height: 3.5rem;
+				padding: 0 0.5rem 0 1.1rem;
+				display: grid;
+				grid-template-columns: auto 1fr auto auto;
 				align-items: center;
 				gap: 1rem;
+				background: rgb(255 255 255 / 0.94);
+				-webkit-backdrop-filter: blur(10px);
+				backdrop-filter: blur(10px);
+				border: 1px solid var(--md-sys-color-outline-variant);
+				border-radius: 1.25rem;
+				box-shadow: 0 6px 24px rgb(22 41 77 / 0.07);
 			}
 
 			.brand {
 				display: flex;
 				align-items: center;
-				gap: 0.75rem;
+				gap: 0.6rem;
 				text-decoration: none;
-				color: inherit;
-				margin-right: auto;
-				padding-block: 0.5rem;
+				color: var(--brand-navy);
 			}
 
 			.brand__mark {
-				font-size: 2rem;
-				color: var(--md-sys-color-primary);
-			}
-
-			.brand__text {
-				display: flex;
-				flex-direction: column;
-				line-height: 1.2;
+				width: 1.75rem;
+				height: 1.75rem;
+				flex: none;
+				object-fit: contain;
 			}
 
 			.brand__title {
-				font-weight: 500;
+				font-weight: 800;
 				font-size: 1rem;
-			}
-
-			.brand__sub {
-				font-size: 0.75rem;
-				color: var(--md-sys-color-on-surface-variant);
+				letter-spacing: -0.015em;
+				white-space: nowrap;
 			}
 
 			.nav-desktop {
 				display: none;
-				gap: 0.25rem;
+				justify-content: center;
+				gap: 0.15rem;
 			}
 
 			.nav-link {
 				display: inline-flex;
 				align-items: center;
-				padding: 0.5rem 0.75rem;
-				border-radius: var(--md-sys-shape-corner-small);
+				padding: 0.4rem 0.8rem;
+				border-radius: 999px;
 				text-decoration: none;
-				color: var(--md-sys-color-on-surface-variant);
+				color: var(--brand-navy);
 				font-size: 0.875rem;
-				font-weight: 500;
+				font-weight: 600;
 				white-space: nowrap;
 			}
 
-			.nav-link.is-active {
-				background: var(--md-sys-color-secondary-container);
-				color: var(--md-sys-color-on-secondary-container);
+			.nav-link:hover {
+				background: var(--brand-sky);
+			}
+
+			.nav-link.is-active,
+			.nav-cta.is-active {
+				background: var(--brand-yellow);
+				color: #1447b0;
+			}
+
+
+			.nav-cta {
+				display: none;
+				align-items: center;
+				height: 2.5rem;
+				padding: 0 1.25rem;
+				border-radius: 999px;
+				background: var(--brand-orange);
+				color: var(--brand-navy);
+				text-decoration: none;
+				font-size: 0.875rem;
+				font-weight: 700;
+			}
+
+			.nav-cta:hover {
+				background: #ff9d4d;
 			}
 
 			/* Full nav needs room for 7 items; below this the drawer takes over. */
@@ -222,8 +318,26 @@ const isActive = (path: string) => current === href(path);
 					display: flex;
 				}
 
+				.nav-cta {
+					display: inline-flex;
+				}
+
 				.nav-toggle {
 					display: none;
+				}
+
+				.app-bar__pill {
+					grid-template-columns: 1fr auto 1fr;
+				}
+
+				.nav-cta {
+					justify-self: end;
+				}
+			}
+
+			@media (max-width: 61.99rem) {
+				.nav-toggle {
+					grid-column: 4;
 				}
 			}
 
@@ -253,8 +367,7 @@ const isActive = (path: string) => current === href(path);
 			}
 
 			main {
-				display: block;
-				min-height: 60vh;
+				flex: 1 0 auto;
 			}
 		</style>
 	</body>

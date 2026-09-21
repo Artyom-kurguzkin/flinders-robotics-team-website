@@ -1,7 +1,42 @@
 [
-	{ "name": "Thales", "tier": "Platinum", "blurb": "Defence and aerospace technology." },
-	{ "name": "Flinders University", "tier": "Platinum", "blurb": "Host institution, through CDERT." },
-	{ "name": "REDARC", "tier": "Silver", "blurb": "Power management and towing solutions." },
-	{ "name": "FUSE", "tier": "Bronze", "blurb": "Flinders University Society of Engineers." },
-	{ "name": "SAGE Group", "tier": "Bronze", "blurb": "Industrial automation and control." }
+	{
+		"tier": "Platinum Sponsors",
+		"name": "Thales",
+		"text": "“Building a future we can all trust” – Thales is an international innovation company building the world’s defence and security, aerospace, and transportation capabilities.",
+		"url": "https://www.thalesgroup.com/en",
+		"linkText": "https://www.thalesgroup.com/en",
+		"logo": "Thales-Logo.png"
+	},
+	{
+		"tier": "Platinum Sponsors",
+		"name": "Flinders University",
+		"text": "“Find your Fearless” – Flinders University is an educational establishment aiming to inspire high achievement, passion and drive within their students.",
+		"url": "https://www.flinders.edu.au/",
+		"linkText": "https://www.flinders.edu.au/",
+		"logo": "Flinders-Logo.png"
+	},
+	{
+		"tier": "Silver Sponsors",
+		"name": "REDARC",
+		"text": "“The Power of REDARC” – “REDARC has over 40 years’ experience in the research, design, development and manufacture of a range of off-grid power and towing safety solutions.”",
+		"url": "https://www.redarc.com.au/",
+		"linkText": "https://www.redarc.com.au",
+		"logo": "REDARC-Logo.png"
+	},
+	{
+		"tier": "Bronze Sponsors",
+		"name": "FUSE – Flinders University Society of Engineers",
+		"text": "FUSE is a student lead academic society passionate about supporting the engineering cohort to receive a well rounded and supported education. FUSE is proud to help shape a student’s university experience; providing opportunities to engage in further special interest projects, career progression, personal development, academic support, and various social events.",
+		"url": "https://www.facebook.com/groups/224265061569458",
+		"linkText": "FUSE – Facebook",
+		"logo": "fuselogo.png"
+	},
+	{
+		"tier": "Bronze Sponsors",
+		"name": "SAGE Group",
+		"text": "“Smarter Future. Better World.” – SAGE Group is a specialist industrial services provider and working alongside some of Australia’s most iconic brands, we combine the best thinking with world-leading technology to accelerate your digital journey.",
+		"url": "https://www.gotosage.com/",
+		"linkText": "https://www.gotosage.com/",
+		"logo": "SAGE-Automation.png"
+	}
 ]

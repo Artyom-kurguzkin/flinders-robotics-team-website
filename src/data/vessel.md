@@ -1,27 +1,26 @@
 ---
-title: The Vessel
+title: Topcat
 ---
 
-**TopCat** is a five-metre, electrically powered autonomous surface vessel built on a
-WAM-V catamaran platform. It runs to a top speed of around 11 knots with roughly twelve
-hours of endurance, and its suspension and modular payload design let it be reconfigured
-for different research tasks.
+## Topcat
 
-### User interface
+TopCat is an electrically powered autonomous surface vessel that carries a range of advanced sensing equipment. The vessel uses the suspension system on the [WAM-V](http://www.wam-v.com/) platform to provide a stable base for the sensor suite and power systems.<br />
+Five metres long with a top speed of 11 knots (20 km/h), a cruising speed of around 4 knots (8 km/h) and a cruise endurance close to 12 hours, TopCat is well suited to monitoring tasks in hostile conditions or protected areas. The vessel is currently capable of mapping and monitoring tasks using the onboard Lidar and Radar systems. Additional sensors such as sonars can be attached to the underwater deployer to perform specific tasks such as sea bed mapping or environmental surveying.
 
-Two systems share the load. A base control station gives a mission supervisor full
-oversight and direct control when it is needed. Alongside it, a web-based data interface
-provides broader access to telemetry and visualisation without requiring a seat at the
-control station.
+![TopCat](../assets/vessel_main.jpeg)
 
-### Software
+## User Interface
 
-The autonomy stack is built on the Robot Operating System (ROS), with the team's own
-algorithms layered on top for object recognition, mission planning, navigation, and
-autonomous task execution.
+A key part of developing unmanned vehicles is ensuring an easy to use and reliable user interface. Developing a system which both provides sufficient information for systems analysis while allowing non technical researchers to easily view data has been our main focus.
 
-### Hardware and sensors
+Our user interface consists of a base control station which relays system information and safety data to the mission supervisor, as well as a web based data interface which allows users to access and visualise only the data relevant to them.
 
-Propulsion comes from a pair of Torqeedo Cruise 2R electric outboards running off Li-Ion
-batteries. The sensor suite combines lidar and radar with cameras and GNSS for
-navigation, obstacle avoidance, and mapping.
+## Software
+
+The software which runs TopCat is based on the Robot Operating System (ROS). ROS is a collection of open source software libraries and tools which enable rapid development of robot software infrastructure. On top of this backbone we have developed multiple algorithms including object recognition and classification, mission planning, navigation and control systems. These systems allow TopCat to autonomously plan and execute given tasks such as mapping a selected area.
+
+---
+
+## Hardware and Sensors
+
+TopCat’s hardware is a combination of off the shelf parts and custom built systems. The focus for the overall hardware design was stability, reliability and modularity to allow safe, easy operation and upgrades. The vessel is a stable inflatable catamaran (WAM-V ’16) platform powered by two independently steered Torqeedo Cruise 2R electric motors and 2 x 3.88 kWh Li-Ion batteries. This hardware setup provides a reliable and easy to use platform to develop and test our software algorithms. TopCat carries a broad selection of on board sensors for navigation, control, obstacle avoidance, and mapping above and below the water. Additionally, mission specific sensors can be easily integrated as required.

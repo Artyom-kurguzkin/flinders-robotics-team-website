@@ -2,169 +2,158 @@
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import karlPhoto from '../assets/Karl-Photo-2022.jpg';
-import russellPhoto from '../assets/RussellBrinkworth-1.jpg';
+import karlPhoto from '../assets/team/Karl-Photo-2022-scaled.jpg';
+import russellPhoto from '../assets/team/RussellBrinkworth-1.jpg';
 
 const staff = [
 	{
 		name: 'Professor Karl Sammut',
-		role: 'Project Supervisor',
-		location: 'Tonsley 4.22, Flinders University',
-		phone: '+61 8 8201 5051',
-		tel: '+61882015051',
-		email: 'karl.sammut@flinders.edu.au',
 		photo: karlPhoto,
+		location: 'Tonsley (4.22)',
+		telephone: '+61 8 82015051',
+		email: 'karl.sammut@flinders.edu.au',
 	},
 	{
 		name: 'Associate Professor Russell Brinkworth',
-		role: 'Academic Supervisor',
-		location: 'Tonsley 4.31, Flinders University',
-		phone: '+61 8 8201 7840',
-		tel: '+61882017840',
-		email: 'russell.brinkworth@flinders.edu.au',
 		photo: russellPhoto,
+		location: 'Tonsley (4.31)',
+		telephone: '+61 8 82017840',
+		email: 'russell.brinkworth@flinders.edu.au',
 	},
 ];
 ---
 
-<Layout title="Contact" description="Contact Team Australis2 and the academic supervisors of the Flinders Maritime RobotX project.">
-	<PageHeader
-		title="Contact"
-		eyebrow="Get in touch"
-		lead="For team enquiries, sponsorship, or research collaboration."
-	/>
+<Layout title="Contact">
+	<PageHeader title="Contact" />
 
 	<div class="page">
-		<section class="section">
-			<div class="md-card team-card">
-				<md-icon class="team-card__icon">groups</md-icon>
-				<div>
-					<h2 class="title-large">Team Australis2</h2>
-					<p class="body-medium">
-						General enquiries, student involvement, and sponsorship.
-					</p>
-					<md-text-button href="mailto:FlindersRoboticsTeam@gmail.com" trailing-icon>
-						FlindersRoboticsTeam@gmail.com
-						<md-icon slot="icon">arrow_outward</md-icon>
-					</md-text-button>
-				</div>
-			</div>
-		</section>
-
-		<section class="section">
-			<h2>Academic staff</h2>
-			<div class="card-grid staff-grid">
-				{
-					staff.map((person) => (
-						<article class="md-card md-card--outlined person">
+		<div class="cards">
+			{
+				staff.map((person) => (
+					<article class="card">
+						<div class="card__top">
 							<Image
-								class="person__photo"
+								class="card__photo"
 								src={person.photo}
 								alt={person.name}
-								width={200}
-								height={200}
+								width={400}
+								height={400}
 								loading="lazy"
 							/>
-							<h3 class="title-large">{person.name}</h3>
-							<p class="person__role body-medium">{person.role}</p>
-
-							<ul class="person__details">
+						</div>
+						<div class="card__body">
+							<h2>{person.name}</h2>
+							<p class="card__uni">Flinders University</p>
+							<ul class="facts">
 								<li>
-									<md-icon>place</md-icon>
-									<span class="body-medium">{person.location}</span>
+									<md-icon aria-hidden="true">location_on</md-icon>
+									<span>Location: {person.location}</span>
 								</li>
 								<li>
-									<md-icon>call</md-icon>
-									<a class="body-medium" href={`tel:${person.tel}`}>
-										{person.phone}
-									</a>
+									<md-icon aria-hidden="true">call</md-icon>
+									<span>
+										Telephone:{' '}
+										<a href={`tel:${person.telephone.replace(/\s/g, '')}`}>{person.telephone}</a>
+									</span>
 								</li>
 								<li>
-									<md-icon>mail</md-icon>
-									<a class="body-medium" href={`mailto:${person.email}`}>
-										{person.email}
-									</a>
+									<md-icon aria-hidden="true">mail</md-icon>
+									<span>
+										Email: <a href={`mailto:${person.email}`}>{person.email}</a>
+									</span>
 								</li>
 							</ul>
-						</article>
-					))
-				}
-			</div>
-		</section>
+						</div>
+					</article>
+				))
+			}
+		</div>
 	</div>
 </Layout>
 
-<script>
-	import '@material/web/icon/icon.js';
-	import '@material/web/button/text-button.js';
-</script>
-
 <style>
-	.team-card {
-		display: flex;
-		gap: 1.25rem;
-		align-items: flex-start;
-		background: var(--md-sys-color-primary-container);
-		color: var(--md-sys-color-on-primary-container);
-		padding: 1.5rem;
+	.cards {
+		display: grid;
+		gap: 1.5rem;
+		margin-top: 0.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+		align-items: start;
 	}
 
-	.team-card__icon {
-		--md-icon-size: 32px;
-		flex: none;
+	.card {
+		overflow: hidden;
+		border-radius: 1.75rem;
+		background: #fff;
+		box-shadow: var(--md-sys-elevation-1);
 	}
 
-	.team-card h2 {
-		margin-bottom: 0.25rem;
+	/* solid yellow top band; the portrait sits across its edge */
+	.card__top {
+		position: relative;
+		height: 7.5rem;
+		background: var(--brand-yellow);
 	}
 
-	.team-card p {
-		margin: 0 0 0.75rem;
-	}
-
-	.staff-grid {
-		grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
-	}
-
-	.person__photo {
-		width: 5rem;
-		height: 5rem;
+	.card__photo {
+		position: absolute;
+		left: 1.75rem;
+		top: 3rem;
+		width: 9rem;
+		height: 9rem;
 		border-radius: 50%;
 		object-fit: cover;
-		margin-bottom: 0.85rem;
+		object-position: center 20%;
+		border: 0.4rem solid #fff;
+		background: #fff;
 	}
 
-	.person h3 {
-		margin-bottom: 0.15rem;
+	.card__body {
+		/* clears the part of the portrait that hangs below the band */
+		padding: 5.75rem 1.75rem 2rem;
 	}
 
-	.person__role {
-		margin: 0 0 1rem;
-		color: var(--md-sys-color-primary);
+	.card__body h2 {
+		margin: 0 0 0.6rem;
+		font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+		line-height: 1.15;
 	}
 
-	.person__details {
+	.card__uni {
+		display: inline-block;
+		margin: 0 0 1.25rem;
+		padding: 0.3rem 0.9rem;
+		border-radius: 999px;
+		font-weight: 700;
+		font-size: 0.875rem;
+		color: var(--brand-navy);
+		background: var(--brand-butter);
+	}
+
+	.facts {
 		list-style: none;
-		padding: 0;
 		margin: 0;
+		padding: 0;
 		display: grid;
-		gap: 0.6rem;
+		gap: 0.75rem;
 	}
 
-	.person__details li {
+	.facts li {
 		display: flex;
 		align-items: center;
-		gap: 0.65rem;
-		color: var(--md-sys-color-on-surface-variant);
-	}
-
-	.person__details md-icon {
-		--md-icon-size: 20px;
-		flex: none;
-		color: var(--md-sys-color-on-surface-variant);
-	}
-
-	.person__details a {
+		gap: 0.85rem;
+		line-height: 1.5;
 		overflow-wrap: anywhere;
+	}
+
+	.facts md-icon {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+		font-size: 1.25rem;
+		color: #fff;
+		background: var(--brand-blue);
 	}
 </style>

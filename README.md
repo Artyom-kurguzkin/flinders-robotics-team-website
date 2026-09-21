@@ -1,6 +1,6 @@
-# Maritime RobotX Challenge — Flinders University
+# Flinders Robotics Team website
 
-Static site for Team Australis2 and the TopCat autonomous surface vessel. Astro, styled
+Static site for the Flinders Robotics Team and the TopCat autonomous surface vessel. Astro, styled
 with Material Design 3 via [`@material/web`](https://github.com/material-components/material-web).
 
 Rebuild of https://sites.flinders.edu.au/maritime-robotx-challenge/
@@ -35,15 +35,16 @@ src/
 Most text lives in `src/data/` as plain markdown — edit the `.md` file, no HTML involved.
 Structured content is JSON in the same folder:
 
-- `team.json` — roster (name, role, group)
-- `timeline.json` — development history
+- `team.json` — the 24 photo cards: name, role, qualifications, email, LinkedIn
+- `vessel-grid.json` — the nine photo tiles under The Vessel (Wam-V, Propulsion, …)
+- `timeline.json` — development timeline
 - `sponsors.json` — sponsors by tier
-- `tasks.json` — the competition task breakdown
-- `gallery.json` — filename → caption map
+- `tasks.json` — the competition task breakdown, with nested steps
+- `gallery.json` — gallery photos in source order, with their titles and a `category` (drives the filter chips on the home page)
 
-Competition writeups are a content collection in `src/content/competitions/`. Adding a
-markdown file there adds a tab to the Competitions page; the schema is in
-`src/content.config.ts`.
+Competition write-ups are a content collection in `src/content/competitions/`. Each
+markdown file is one tab on the Competitions page: frontmatter names the tab and orders it,
+the body is the whole write-up. The schema is in `src/content.config.ts`.
 
 ### Images
 
@@ -52,7 +53,7 @@ the source photos are up to 5 MB each and ship as ~30 kB webp thumbnails. Refere
 with a static `import` and the `<Image>` component.
 
 Gallery images are picked up automatically by a glob; add the file to
-`src/assets/gallery/` and a caption to `src/data/gallery.json`.
+`src/assets/gallery/` and an entry to `src/data/gallery.json`.
 
 ## Material Design
 
@@ -69,6 +70,12 @@ if the brand colour changes.
 GitHub Actions workflow in `.github/workflows/deploy.yml` builds and deploys to GitHub
 Pages on push to `main`.
 
-**Before deploying:** set `site` and `base` in `astro.config.mjs`. `base` is currently
-`'/'`, which suits a custom domain or a `*.github.io` root. For a project repo
-(`username.github.io/<repo>/`) set `base: '/<repo>/'`.
+The site lives at `https://artyom-kurguzkin.github.io/flinders-robotics-team-website/`,
+set by `site` and `base` in `astro.config.mjs`. Locally, `npm run dev` therefore serves at
+`http://localhost:4321/flinders-robotics-team-website/`.
+
+One-time setup: a brand-new empty repo cannot have a Pages source set until it has a commit.
+Push first (that first deploy will fail, since Pages is not enabled yet), then repo
+Settings → Pages → Source → **GitHub Actions**, then Actions → the failed run → **Re-run all
+jobs**. After that every push to `main` deploys on its own. Moving to a custom domain (or a repo
+named `<owner>.github.io`) means `base: '/'` and the new `site`.

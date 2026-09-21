@@ -1,12 +1,15 @@
 ---
-title: Research
+title: Research Areas
 ---
 
-The Centre for Defence Engineering Research and Training (CDERT) at Flinders University
-investigates maritime autonomy across uncrewed surface and undersea vehicles, taking in
-robotics, signal processing, artificial intelligence and machine learning, and cyber
-systems.
+## Research Areas
 
-TopCat is both a competition entry and a research platform. Work on the vessel feeds
-directly into the centre's wider programme, and the competition provides a hard deadline
-and an objective scoreboard against which to test what the research produces.
+The Centre for Defence Engineering Research and Training ([CDERT](https://www.flinders.edu.au/cdert)) conducts research in maritime autonomy, robotics, signal processing, AI/ML and cyber systems.
+
+Aspects of our research activities are concerned with improving the robustness, reliability, and autonomy of Topcat. We are currently conducting research in three main areas:
+
+- Mission planning
+- Control systems
+- Object recognition and classification
+
+This research has led to the ongoing development of state of the art predictive control systems and new mission planning algorithms which we will be testing out on TopCat in the near future.
