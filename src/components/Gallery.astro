@@ -79,6 +79,16 @@ const categories = [...new Set(items.map((i) => i.category).filter(Boolean))].ma
 		}
 	</ul>
 
+	<div class="pager" id="gallery-pager">
+		<button type="button" class="pager__btn" data-step="-1" aria-label="Previous photos">
+			<span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+		</button>
+		<span class="pager__status" aria-live="polite"></span>
+		<button type="button" class="pager__btn" data-step="1" aria-label="More photos">
+			<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+		</button>
+	</div>
+
 	<md-dialog id="lightbox">
 		<div slot="content">
 			<img id="lightbox-img" src="" alt="" />
@@ -98,14 +108,30 @@ const categories = [...new Set(items.map((i) => i.category).filter(Boolean))].ma
 	const chips = document.querySelectorAll<HTMLButtonElement>('.gallery .chip');
 	const sortSelect = document.getElementById('gallery-sort') as HTMLSelectElement;
 
+	// At most PAGE photos show at once; the arrows under the grid step through the rest.
+	const PAGE = 8;
+	const pager = document.getElementById('gallery-pager')!;
+	const [prevBtn, nextBtn] = pager.querySelectorAll<HTMLButtonElement>('.pager__btn');
+	const status = pager.querySelector('.pager__status')!;
+	let page = 0;
+
 	function applyFilter() {
 		const active =
 			document.querySelector<HTMLElement>('.gallery .chip.is-active')?.dataset.filter ?? 'all';
-		for (const cell of grid.children) {
-			const el = cell as HTMLElement;
-			el.classList.toggle('is-hidden', active !== 'all' && el.dataset.category !== active);
-		}
+		const matching = ([...grid.children] as HTMLElement[]).filter(
+			(el) => active === 'all' || el.dataset.category === active
+		);
+		const pages = Math.max(1, Math.ceil(matching.length / PAGE));
+		page = Math.min(page, pages - 1);
+		const shown = new Set(matching.slice(page * PAGE, (page + 1) * PAGE));
+		for (const cell of grid.children) cell.classList.toggle('is-hidden', !shown.has(cell as HTMLElement));
+
+		pager.hidden = pages === 1;
+		prevBtn.disabled = page === 0;
+		nextBtn.disabled = page === pages - 1;
+		status.textContent = `${page * PAGE + 1}–${page * PAGE + shown.size} of ${matching.length}`;
 	}
+	applyFilter();
 
 	function applySort() {
 		const [key, dir] = sortSelect.value.split('-');
@@ -195,6 +221,7 @@ const categories = [...new Set(items.map((i) => i.category).filter(Boolean))].ma
 			c.classList.toggle('is-active', c === chip);
 			c.setAttribute('aria-pressed', String(c === chip));
 		});
+		page = 0;
 		swap();
 	}
 
@@ -240,7 +267,17 @@ const categories = [...new Set(items.map((i) => i.category).filter(Boolean))].ma
 	sortSelect.addEventListener('change', () => {
 		stop();
 		applySort();
+		page = 0;
+		applyFilter();
 	});
+
+	[prevBtn, nextBtn].forEach((btn) =>
+		btn.addEventListener('click', () => {
+			stop();
+			page += Number(btn.dataset.step);
+			swap();
+		})
+	);
 
 	// lightbox
 	const dialog = document.getElementById('lightbox') as HTMLElement & {
@@ -370,8 +407,54 @@ const categories = [...new Set(items.map((i) => i.category).filter(Boolean))].ma
 		display: grid;
 		gap: 0.75rem;
 		/* auto-fill, not auto-fit: a filtered set keeps its tile size instead of
-		   stretching two photos across the whole row */
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+		   stretching two photos across the whole row. The 50% cap keeps phones at two
+		   small columns, like a tablet, instead of one column of big photos. */
+		grid-template-columns: repeat(auto-fill, minmax(min(calc(50% - 0.375rem), 16rem), 1fr));
+	}
+
+	.pager {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	.pager[hidden] {
+		display: none;
+	}
+
+	.pager__btn {
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0;
+		border-radius: 50%;
+		border: 1px solid var(--md-sys-color-outline-variant);
+		background: #fff;
+		color: var(--brand-navy);
+		cursor: pointer;
+		transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+	}
+
+	.pager__btn:not(:disabled):hover {
+		border-color: var(--brand-navy);
+		background: var(--brand-navy);
+		color: #fff;
+	}
+
+	.pager__btn:disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+
+	.pager__status {
+		min-width: 6.5rem;
+		text-align: center;
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--brand-navy);
 	}
 
 	.cell.is-hidden {
@@ -431,6 +514,20 @@ const categories = [...new Set(items.map((i) => i.category).filter(Boolean))].ma
 		line-height: 1.15;
 		text-align: left;
 		overflow-wrap: anywhere;
+	}
+
+	/* phone tiles are half as wide, so the corners and captions scale down with them */
+	@media (max-width: 39.99rem) {
+		.tile {
+			border-radius: 1rem;
+		}
+
+		.label {
+			left: 0.6rem;
+			right: 0.6rem;
+			bottom: 0.55rem;
+			font-size: 0.8rem;
+		}
 	}
 
 	md-dialog {
