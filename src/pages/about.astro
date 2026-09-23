@@ -8,7 +8,10 @@ import team from '../data/team.json';
 import vesselGrid from '../data/vessel-grid.json';
 import timeline from '../data/timeline.json';
 import sponsors from '../data/sponsors.json';
-import linkedinIcon from '../assets/linkedin.png';
+// ponytail: inline SVG, not the 512px PNG it replaces — that was being squeezed
+// into a 22px box and came out mushy on every display.
+const LINKEDIN_PATH =
+	'M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13m1.78 13.02H3.55V9h3.57v11.45M22.22 0H1.77C.8 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0';
 
 // Images are named in the JSON files, so resolve them by glob rather than one
 // static import each.
@@ -107,7 +110,9 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 										rel="noopener noreferrer"
 										aria-label={`${member.name} on LinkedIn`}
 									>
-										<Image src={linkedinIcon} alt="" width={22} height={22} loading="lazy" />
+										<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+											<path d={LINKEDIN_PATH} />
+										</svg>
 									</a>
 								)}
 							</p>
@@ -380,11 +385,18 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 		display: inline-block;
 		vertical-align: middle;
 		margin-left: 0.4rem;
+		color: var(--brand-navy);
 	}
 
-	.linkedin :global(img) {
+	.linkedin:hover {
+		color: var(--brand-orange);
+	}
+
+	.linkedin svg {
+		display: block;
 		width: 1.375rem;
 		height: 1.375rem;
+		fill: currentColor;
 	}
 
 	/* === Vessel === */

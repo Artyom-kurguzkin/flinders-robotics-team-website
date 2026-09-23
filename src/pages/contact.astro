@@ -46,18 +46,18 @@ const staff = [
 							<p class="card__uni">Flinders University</p>
 							<ul class="facts">
 								<li>
-									<md-icon aria-hidden="true">location_on</md-icon>
+									<span class="material-symbols-outlined" aria-hidden="true">location_on</span>
 									<span>Location: {person.location}</span>
 								</li>
 								<li>
-									<md-icon aria-hidden="true">call</md-icon>
+									<span class="material-symbols-outlined" aria-hidden="true">call</span>
 									<span>
 										Telephone:{' '}
 										<a href={`tel:${person.telephone.replace(/\s/g, '')}`}>{person.telephone}</a>
 									</span>
 								</li>
 								<li>
-									<md-icon aria-hidden="true">mail</md-icon>
+									<span class="material-symbols-outlined" aria-hidden="true">mail</span>
 									<span>
 										Email: <a href={`mailto:${person.email}`}>{person.email}</a>
 									</span>
@@ -145,7 +145,7 @@ const staff = [
 		overflow-wrap: anywhere;
 	}
 
-	.facts md-icon {
+	.facts .material-symbols-outlined {
 		flex: none;
 		display: grid;
 		place-items: center;

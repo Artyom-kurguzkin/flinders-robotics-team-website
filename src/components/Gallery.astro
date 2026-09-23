@@ -265,7 +265,9 @@ const categories = [...new Set(items.map((i) => i.category).filter(Boolean))].ma
 
 <style>
 	.gallery {
-		margin-top: clamp(2.5rem, 6vw, 5rem);
+		/* the max used to be 5rem, which left a large empty band under the hero on a
+		   desktop viewport; the 2.5rem floor keeps mobile exactly as it was */
+		margin-top: clamp(2.5rem, 4vw, 3rem);
 		/* the sticky pill header would otherwise cover the heading after a #gallery jump */
 		scroll-margin-top: 5.5rem;
 	}

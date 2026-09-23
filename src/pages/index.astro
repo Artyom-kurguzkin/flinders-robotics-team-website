@@ -4,7 +4,6 @@ import Layout from '../layouts/Layout.astro';
 import { href } from '../href';
 import { Content as HomeContent } from '../data/home.md';
 import Gallery from '../components/Gallery.astro';
-import teamGroup from '../assets/team-group.png';
 import vessel from '../assets/conference.jpg';
 import singapore from '../assets/singapore_course.jpg';
 ---
@@ -28,13 +27,16 @@ import singapore from '../assets/singapore_course.jpg';
 			</div>
 
 			<div class="tile hero__photo">
-				<Image
+				<video
 					class="fill fill--team"
-					src={teamGroup}
-					alt="The Flinders Robotics Team walking together on campus"
-					width={1800}
-					loading="eager"
-				/>
+					src={href('media/team-loop.mp4')}
+					poster={href('media/team-loop-poster.jpg')}
+					autoplay
+					muted
+					loop
+					playsinline
+					aria-label="The Flinders Robotics Team walking together on campus"></video
+				>
 				<a class="badge riso-hover riso-hover--warm" href={href('about/')}>Meet the Team</a>
 				<div class="hero__actions">
 					<a class="pill pill--solid riso-hover riso-hover--warm" href={href('contact/')}>
@@ -71,6 +73,49 @@ import singapore from '../assets/singapore_course.jpg';
 
 		<Gallery />
 	</div>
+
+	<script>
+		// Glass blur across the loop seam. The clip is short, so a CSS animation of the
+		// same length drifts out of step with the video within a few loops; reading the
+		// video's own clock each frame keeps the blur exactly on the cut.
+		const video = document.querySelector<HTMLVideoElement>('.fill--team');
+		const FADE = 0.32; // seconds of blur either side of the seam
+
+		if (video) {
+			// The `autoplay` attribute alone is refused often enough (power saving, a
+			// background tab on load, Safari's rules) that it is worth asking directly
+			// and keeping the poster if the answer is no.
+			// 1.5x slower. playbackRate rather than a re-encode: no extra bytes, and the
+			// blur below reads currentTime, which still spans 0..duration either way.
+			video.defaultPlaybackRate = 1 / 1.5;
+			video.playbackRate = 1 / 1.5;
+
+			const start = () => video.play().catch(() => {});
+			start();
+			video.addEventListener('canplay', start, { once: true });
+
+			// Only the blur pulse is gated on reduced motion — the clip itself is the
+			// content, not an effect, so it keeps playing.
+			if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				// Start fully glassed so the very first frames resolve out of the blur
+				// the same way the loop seam does, rather than snapping in sharp.
+				video.style.setProperty('--blur-k', '1');
+				const tick = () => {
+					const { currentTime: t, duration: d } = video;
+					if (d) {
+						const edge = Math.min(t, d - t);
+						video.style.setProperty('--blur-k', String(Math.max(0, 1 - edge / FADE).toFixed(3)));
+					}
+					if (!document.hidden) requestAnimationFrame(tick);
+				};
+				requestAnimationFrame(tick);
+				// rAF is parked while the tab is hidden; restart it on return
+				document.addEventListener('visibilitychange', () => {
+					if (!document.hidden) requestAnimationFrame(tick);
+				});
+			}
+		}
+	</script>
 </Layout>
 
 <style>
@@ -99,10 +144,16 @@ import singapore from '../assets/singapore_course.jpg';
 		transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
 	}
 
-	/* a wide group shot in a tall tile: hold the centre of the group and the faces,
-	   which sit above the middle of the frame */
+	/* a 16:9 clip in a tall tile: hold the group and the faces, which sit above centre */
 	.fill--team {
-		object-position: 50% 38%;
+		object-position: 50% 42%;
+		/* Glass blur with a darkening fall-off, on the loop seam and on the first
+		   frames after the page opens. --blur-k is driven from the video clock in the
+		   script below, so it stays locked to the cut instead of drifting off it. */
+		filter: blur(calc(var(--blur-k, 0) * 18px)) saturate(calc(1 + var(--blur-k, 0) * 0.3))
+			brightness(calc(1 - var(--blur-k, 0) * 0.45)) contrast(calc(1 + var(--blur-k, 0) * 0.08));
+		/* the blur samples transparent pixels at the edges without this */
+		scale: 1.04;
 	}
 
 	/* This source photo has a credit strip baked into its bottom edge. Let the image
@@ -194,7 +245,8 @@ import singapore from '../assets/singapore_course.jpg';
 		--pad: clamp(1.5rem, 3vw, 2.75rem);
 		--h1-size: clamp(2.4rem, 5.3vw, 6.25rem);
 		--join-size: 10rem;
-		--rule: 0.2rem;
+		--rule: 0.4rem;
+		--head: 1.6rem;
 		padding: var(--pad);
 	}
 
@@ -221,7 +273,7 @@ import singapore from '../assets/singapore_course.jpg';
 		min-width: 2rem;
 		margin-inline: 0.9rem 0;
 		background: currentColor;
-		border-radius: 2px;
+		border-radius: 999px;
 	}
 
 	/* ...and the hook carries on: down the right-hand side, back along the bottom,
@@ -235,21 +287,25 @@ import singapore from '../assets/singapore_course.jpg';
 		left: calc(var(--pad) + var(--join-size));
 		border-right: var(--rule) solid var(--brand-navy);
 		border-bottom: var(--rule) solid var(--brand-navy);
-		border-bottom-right-radius: 1.5rem;
+		border-bottom-right-radius: 1.9rem;
 		pointer-events: none;
 	}
 
-	/* the head, pointing left at the button */
+	/* the head: one solid triangle pointing at the button, not two crossed strokes.
+	   `bottom: 0` puts its lower edge on the padding box, so the Y translate drops it
+	   half its own height plus half the rule to centre it on the line. The X translate
+	   pulls it left past the end of the line: the triangle tapers to nothing at the
+	   tip, so without it the line is thicker than the head and shows through. */
 	.arrow-hook::after {
 		content: '';
 		position: absolute;
 		left: 0;
-		bottom: calc(var(--rule) / -2);
-		width: 0.85rem;
-		height: 0.85rem;
-		border-bottom: var(--rule) solid var(--brand-navy);
-		border-left: var(--rule) solid var(--brand-navy);
-		transform: translateY(50%) rotate(45deg);
+		bottom: 0;
+		width: var(--head);
+		height: var(--head);
+		background: var(--brand-navy);
+		clip-path: polygon(0 50%, 100% 0, 100% 100%);
+		transform: translate(-45%, calc(50% + var(--rule) / 2));
 	}
 
 	/* the Meet the Team badge in Summer Red: same circle, size and hover */
@@ -379,8 +435,12 @@ import singapore from '../assets/singapore_course.jpg';
 				'vessel comps';
 		}
 
+		/* The 3.5rem gap here was spacing the heading off the old lede paragraph. With
+		   the Join Us button in its place it just made the card tall and pushed the
+		   button away from the title. */
 		.hero__head {
-			gap: 3.5rem;
+			gap: 1rem;
+			--pad: 1.25rem;
 		}
 
 		/* the hook reads this, so the two stay in step */
