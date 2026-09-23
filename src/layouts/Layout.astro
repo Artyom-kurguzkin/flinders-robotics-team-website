@@ -42,14 +42,14 @@ const isActive = (path: string) => current === href(path);
 		<link rel="icon" href={href('favicon.svg')} type="image/svg+xml" />
 		<link rel="icon" href={href('favicon.ico')} sizes="any" />
 		<link rel="apple-touch-icon" href={href('icon-180.png')} />
-		<meta name="theme-color" content="#16294d" />
+		<meta name="theme-color" content="#232d4b" />
 		<meta name="description" content={description} />
 		<title>{title} | Flinders Robotics Team</title>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap"
+			href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
 			rel="stylesheet"
 		/>
 		<!-- display=block: hide the icon glyphs until the font arrives, instead of
@@ -74,7 +74,7 @@ const isActive = (path: string) => current === href(path);
 						centre.map((item) => (
 							<a
 								href={href(item.path)}
-								class:list={['nav-link', 'state-layer', { 'is-active': isActive(item.path) }]}
+								class:list={['nav-link', { 'is-active': isActive(item.path) }]}
 								aria-current={isActive(item.path) ? 'page' : undefined}
 							>
 								{item.label}
@@ -236,9 +236,9 @@ const isActive = (path: string) => current === href(path);
 				grid-template-columns: auto 1fr auto auto;
 				align-items: center;
 				gap: 1rem;
-				background: rgb(255 255 255 / 0.94);
-				-webkit-backdrop-filter: blur(10px);
-				backdrop-filter: blur(10px);
+				/* solid white: it now floats over the gold band, and at 94% it took on a
+				   cream tint from it */
+				background: #fff;
 				border: 1px solid var(--md-sys-color-outline-variant);
 				border-radius: 1.25rem;
 				box-shadow: 0 6px 24px rgb(22 41 77 / 0.07);
@@ -284,17 +284,23 @@ const isActive = (path: string) => current === href(path);
 				white-space: nowrap;
 			}
 
-			.nav-link:hover {
-				background: var(--brand-sky);
+			/* One hover treatment across the site: fill with Midnight Navy, text goes
+			   white. The gallery chips use the same pair. */
+			.nav-link:hover,
+			.nav-cta:not(.is-active):hover {
+				background: var(--brand-navy);
+				color: #fff;
 			}
 
 			.nav-link.is-active,
 			.nav-cta.is-active {
 				background: var(--brand-yellow);
-				color: #1447b0;
+				color: #232d4b;
 			}
 
 
+			/* Summer Red with white text — the standalone call-to-action button on
+			   flinders.edu.au (Brand Guidelines p.54). Navy on Summer Red reads muddy. */
 			.nav-cta {
 				display: none;
 				align-items: center;
@@ -302,14 +308,10 @@ const isActive = (path: string) => current === href(path);
 				padding: 0 1.25rem;
 				border-radius: 999px;
 				background: var(--brand-orange);
-				color: var(--brand-navy);
+				color: #fff;
 				text-decoration: none;
 				font-size: 0.875rem;
 				font-weight: 700;
-			}
-
-			.nav-cta:hover {
-				background: #ff9d4d;
 			}
 
 			/* Full nav needs room for 7 items; below this the drawer takes over. */

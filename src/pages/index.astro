@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import { href } from '../href';
 import { Content as HomeContent } from '../data/home.md';
 import Gallery from '../components/Gallery.astro';
-import beached from '../assets/topcat_beached.jpg';
+import teamGroup from '../assets/team-group.png';
 import vessel from '../assets/conference.jpg';
 import singapore from '../assets/singapore_course.jpg';
 ---
@@ -18,14 +18,20 @@ import singapore from '../assets/singapore_course.jpg';
 					<span class="h1__line">Flinders<span class="arrow" aria-hidden="true"></span></span>
 					<span class="h1__line">Robotics Team</span>
 				</h1>
-				<p class="hero__lede">This project is called TopCat Autonomous Surface Vessel.</p>
+				<a
+					class="join riso-hover riso-hover--warm"
+					href="https://campus.hellorubric.com/?tab=memberships&s=12176"
+					target="_blank"
+					rel="noopener noreferrer">Join Us</a
+				>
+				<span class="arrow-hook" aria-hidden="true"></span>
 			</div>
 
 			<div class="tile hero__photo">
 				<Image
-					class="fill fill--vessel"
-					src={beached}
-					alt="TopCat beached at the water's edge"
+					class="fill fill--team"
+					src={teamGroup}
+					alt="The Flinders Robotics Team walking together on campus"
 					width={1800}
 					loading="eager"
 				/>
@@ -40,7 +46,7 @@ import singapore from '../assets/singapore_course.jpg';
 				</div>
 			</div>
 
-			<a class="tile tile--photo riso-hover hero__vessel" href={href('technical-specifications/')}>
+			<a class="tile tile--photo riso-hover hero__vessel" href={`${href('about/')}#panel-1`}>
 				<Image class="fill" src={vessel} alt="" width={900} loading="eager" />
 				<span class="label">The Vessel</span>
 			</a>
@@ -55,7 +61,7 @@ import singapore from '../assets/singapore_course.jpg';
 		<section class="welcome-wrap">
 			<div class="tile welcome">
 				<div class="welcome__flow">
-					<h2 class="display">Welcome</h2>
+					<h2 class="display">Welcome <span class="display__emoji">😊</span></h2>
 					<div class="welcome__body">
 						<HomeContent />
 					</div>
@@ -93,9 +99,10 @@ import singapore from '../assets/singapore_course.jpg';
 		transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
 	}
 
-	/* frame the beached vessel a little right of centre so both pontoons read */
-	.fill--vessel {
-		object-position: 58% 50%;
+	/* a wide group shot in a tall tile: hold the centre of the group and the faces,
+	   which sit above the middle of the frame */
+	.fill--team {
+		object-position: 50% 38%;
 	}
 
 	/* This source photo has a credit strip baked into its bottom edge. Let the image
@@ -103,15 +110,6 @@ import singapore from '../assets/singapore_course.jpg';
 	.fill--nocredit {
 		height: 118%;
 		object-position: 25% top;
-	}
-
-	/* bottom-up shade so white labels stay legible on any photo */
-	.tile--photo::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		z-index: -1;
-		background: linear-gradient(to top, rgb(13 27 53 / 0.82), rgb(13 27 53 / 0) 60%);
 	}
 
 	a.tile--photo:hover .fill {
@@ -164,10 +162,6 @@ import singapore from '../assets/singapore_course.jpg';
 		background: var(--brand-navy);
 	}
 
-	.pill--solid .pill__icon {
-		background: var(--brand-blue);
-	}
-
 	.pill__icon svg {
 		width: 1.15rem;
 		height: 1.15rem;
@@ -196,12 +190,17 @@ import singapore from '../assets/singapore_course.jpg';
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		padding: clamp(1.5rem, 3vw, 2.75rem);
+		/* shared by the padding, the heading and the arrow hook's geometry */
+		--pad: clamp(1.5rem, 3vw, 2.75rem);
+		--h1-size: clamp(2.4rem, 5.3vw, 6.25rem);
+		--join-size: 10rem;
+		--rule: 0.2rem;
+		padding: var(--pad);
 	}
 
 	.hero__head h1 {
 		margin: 0;
-		font-size: clamp(2.4rem, 5.3vw, 6.25rem);
+		font-size: var(--h1-size);
 		font-weight: 800;
 		letter-spacing: -0.04em;
 		line-height: 0.94;
@@ -214,34 +213,68 @@ import singapore from '../assets/singapore_course.jpg';
 		align-items: center;
 	}
 
+	/* The horizontal run after "FLINDERS". It stops flush with the heading's right
+	   edge so the hook below picks it up exactly. */
 	.arrow {
-		position: relative;
 		flex: 1;
-		height: 0.2rem;
+		height: var(--rule);
 		min-width: 2rem;
-		margin-inline: 0.9rem 0.25rem;
+		margin-inline: 0.9rem 0;
 		background: currentColor;
 		border-radius: 2px;
 	}
 
-	.arrow::after {
-		content: '';
+	/* ...and the hook carries on: down the right-hand side, back along the bottom,
+	   and points into the Join Us circle. Anchored off the same custom properties
+	   as the padding, heading size and button, so it tracks every breakpoint. */
+	.arrow-hook {
 		position: absolute;
-		right: 0;
-		top: 50%;
-		width: 0.85rem;
-		height: 0.85rem;
-		border-top: 0.2rem solid currentColor;
-		border-right: 0.2rem solid currentColor;
-		transform: translateY(-50%) rotate(45deg);
+		top: calc(var(--pad) + var(--h1-size) * 0.47);
+		right: var(--pad);
+		bottom: calc(var(--pad) + var(--join-size) / 2);
+		left: calc(var(--pad) + var(--join-size));
+		border-right: var(--rule) solid var(--brand-navy);
+		border-bottom: var(--rule) solid var(--brand-navy);
+		border-bottom-right-radius: 1.5rem;
+		pointer-events: none;
 	}
 
-	.hero__lede {
-		margin: 0;
-		max-width: 26ch;
-		font-size: clamp(1rem, 1.25vw, 1.25rem);
-		line-height: 1.45;
-		color: var(--brand-navy);
+	/* the head, pointing left at the button */
+	.arrow-hook::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: calc(var(--rule) / -2);
+		width: 0.85rem;
+		height: 0.85rem;
+		border-bottom: var(--rule) solid var(--brand-navy);
+		border-left: var(--rule) solid var(--brand-navy);
+		transform: translateY(50%) rotate(45deg);
+	}
+
+	/* the Meet the Team badge in Summer Red: same circle, size and hover */
+	.join {
+		align-self: flex-start;
+		display: grid;
+		place-items: center;
+		width: var(--join-size);
+		height: var(--join-size);
+		padding: 0.75rem;
+		border-radius: 50%;
+		background: var(--brand-orange);
+		color: #fff;
+		text-align: center;
+		text-decoration: none;
+		font-size: 1.375rem;
+		font-weight: 800;
+		line-height: 1.15;
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		transition: transform 0.25s ease;
+	}
+
+	.join:hover {
+		transform: scale(1.08) rotate(-4deg);
 	}
 
 	.hero__photo {
@@ -276,7 +309,7 @@ import singapore from '../assets/singapore_course.jpg';
 		line-height: 1.15;
 		letter-spacing: 0.02em;
 		text-transform: uppercase;
-		color: #1447b0;
+		color: #232d4b;
 		background: var(--brand-yellow);
 		transition: transform 0.25s ease;
 	}
@@ -308,34 +341,22 @@ import singapore from '../assets/singapore_course.jpg';
 		border: 2px solid #000;
 	}
 
-	/* Only this word: a blue -> yellow gradient with print grain, clipped to the letters, then
-	   given a glow. */
 	.welcome .display {
-		/* padding gives the glow room so its edge isn't clipped to the text box; the negative
-		   margin cancels it so the layout doesn't move */
-		padding: 0.45em 0.6em;
-		margin: -0.45em -0.6em calc(1.5rem - 0.45em);
-		color: transparent;
-		background:
-			url('../assets/patterns/riso-grain.svg') 0 0 / 300px 300px repeat,
-			linear-gradient(
-				90deg,
-				var(--brand-blue) 0%,
-				var(--brand-blue) 34%,
-				var(--brand-yellow) 62%,
-				var(--brand-yellow) 100%
-			);
-		-webkit-background-clip: text;
-		background-clip: text;
-		/* soft glow like a blurred print: feathered letter edges, a violet-blue halo that fades outwards, and a thin orange fringe on the lower left */
-		filter: blur(1.3px) drop-shadow(-3px 2px 1px rgb(255 138 43 / 1)) drop-shadow(0 0 2px rgb(40 40 200 / 0.8))
-			drop-shadow(0 0 5px rgb(60 45 215 / 0.55)) drop-shadow(0 0 10px rgb(85 50 225 / 0.35));
+		margin-bottom: 1.5rem;
+	}
+
+	/* Emoji carry their own metrics and come out short next to cap-height letters;
+	   sized up and nudged down so it reads the same height as WELCOME. */
+	.display__emoji {
+		font-size: 0.82em;
+		line-height: 1;
+		vertical-align: -0.04em;
 	}
 
 	@media (min-width: 48rem) {
 		.welcome .display {
 			float: left;
-			margin: calc(0.1rem - 0.45em) calc(clamp(2rem, 4vw, 3.5rem) - 0.6em) calc(0.75rem - 0.45em) -0.6em;
+			margin: 0.1rem clamp(2rem, 4vw, 3.5rem) 0.75rem 0;
 		}
 	}
 
@@ -360,6 +381,15 @@ import singapore from '../assets/singapore_course.jpg';
 
 		.hero__head {
 			gap: 3.5rem;
+		}
+
+		/* the hook reads this, so the two stay in step */
+		.hero__head {
+			--join-size: 7.5rem;
+		}
+
+		.join {
+			font-size: 1rem;
 		}
 
 		.badge {

@@ -330,15 +330,17 @@ const categories = [...new Set(items.map((i) => i.category).filter(Boolean))].ma
 		transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 	}
 
-	.chip:hover {
-		border-color: var(--brand-yellow);
-		background: var(--brand-butter);
+	/* same hover as the header nav: Midnight Navy fill, white label */
+	.chip:not(.is-active):hover {
+		border-color: var(--brand-navy);
+		background: var(--brand-navy);
+		color: #fff;
 	}
 
 	.chip.is-active {
 		background: var(--brand-yellow);
 		border-color: var(--brand-yellow);
-		color: #1447b0;
+		color: #232d4b;
 	}
 
 	.chip__n {

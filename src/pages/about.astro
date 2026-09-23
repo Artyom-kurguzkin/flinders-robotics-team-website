@@ -18,6 +18,16 @@ const assets = import.meta.glob<{ default: ImageMetadata }>('../assets/**/*.{jpg
 const img = (file: string) => assets[`../assets/${file}`]?.default;
 
 const tiers = [...new Set(sponsors.map((s) => s.tier))];
+
+// A new member can be listed before their photo and details arrive; the card
+// falls back to their initials and drops the rows it has nothing for.
+const initials = (name: string) =>
+	name
+		.split(/\s+/)
+		.map((word) => word[0])
+		.join('')
+		.slice(0, 2)
+		.toUpperCase();
 const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'];
 ---
 
@@ -69,19 +79,26 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 				{
 					team.map((member) => (
 						<article class="person">
-							<Image
-								class="person__photo"
-								src={img(`team/${member.photo}`)!}
-								alt={member.name}
-								width={240}
-								height={240}
-								loading="lazy"
-							/>
+							{img(`team/${member.photo}`) ? (
+								<Image
+									class="person__photo"
+									src={img(`team/${member.photo}`)!}
+									alt={member.name}
+									width={240}
+									height={240}
+									loading="lazy"
+								/>
+							) : (
+								<span class="person__photo person__photo--initials" aria-hidden="true">
+									{initials(member.name)}
+								</span>
+							)}
 							<h3 class="person__name">{member.name}</h3>
-							<p class="person__role">{member.role}</p>
-							<p class="person__qual">{member.qualifications}</p>
+							{member.role && <p class="person__role">{member.role}</p>}
+							{member.qualifications && <p class="person__qual">{member.qualifications}</p>}
+							{(member.email || member.linkedin) && (
 							<p class="person__contact">
-								<a href={`mailto:${member.email}`}>{member.email}</a>
+								{member.email && <a href={`mailto:${member.email}`}>{member.email}</a>}
 								{member.linkedin && (
 									<a
 										class="linkedin"
@@ -94,6 +111,7 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 									</a>
 								)}
 							</p>
+							)}
 						</article>
 					))
 				}
@@ -237,7 +255,19 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 	}
 
 	if (tabs && panels.length) {
-		show(0);
+		// A link ending in #panel-N opens that tab (the home page's "The Vessel"
+		// tile points at #panel-1).
+		const start = Math.max(
+			panels.findIndex((panel) => `#${panel.id}` === location.hash),
+			0
+		);
+		show(start);
+		if (start) {
+			(tabs as HTMLElement & { activeTabIndex: number }).activeTabIndex = start;
+			// after a frame: the browser's own jump to #panel-N lands last, and
+			// un-hiding the panel has moved everything below it anyway
+			requestAnimationFrame(() => document.querySelector('.tabbar')?.scrollIntoView());
+		}
 		tabs.addEventListener('change', () => {
 			show((tabs as HTMLElement & { activeTabIndex: number }).activeTabIndex);
 		});
@@ -290,7 +320,7 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 		text-align: center;
 		padding: 1.75rem 1.25rem 1.5rem;
 		/* blue bar along the top edge; a gradient follows the rounded corners */
-		background: linear-gradient(var(--brand-blue), var(--brand-blue)) top / 100% 0.4rem no-repeat,
+		background: linear-gradient(var(--brand-navy), var(--brand-navy)) top / 100% 0.4rem no-repeat,
 			var(--md-sys-color-surface-container-lowest);
 		border-radius: var(--md-sys-shape-corner-large);
 		box-shadow: var(--md-sys-elevation-1);
@@ -302,8 +332,19 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 		border-radius: 50%;
 		object-fit: cover;
 		object-position: center 20%;
-		box-shadow: 0 0 0 0.2rem #fff, 0 0 0 0.4rem var(--brand-blue);
+		box-shadow: 0 0 0 0.2rem #fff, 0 0 0 0.4rem var(--brand-navy);
 		margin-bottom: 1.1rem;
+	}
+
+	/* stand-in until a photo arrives */
+	.person__photo--initials {
+		display: grid;
+		place-items: center;
+		background: var(--brand-sky);
+		color: var(--brand-navy);
+		font-size: 2rem;
+		font-weight: 800;
+		letter-spacing: 0.02em;
 	}
 
 	.person__name {
@@ -419,7 +460,7 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 
 	.tile__body {
 		padding: 1.1rem 1.25rem 1.4rem;
-		border-top: 0.4rem solid var(--brand-blue);
+		border-top: 0.4rem solid var(--brand-deep-gold);
 	}
 
 	.tile:nth-child(3n + 2) .tile__body {
@@ -491,13 +532,14 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 	}
 
 	.timeline__item:nth-child(3n) .timeline__marker {
-		background: var(--brand-blue);
-		box-shadow: 0 0 0 0.2rem var(--brand-sky);
+		background: var(--brand-deep-gold);
+		box-shadow: 0 0 0 0.2rem var(--brand-gold-tint);
 	}
 
+	/* navy, not Deep Gold: gold on white is ~2:1 and unreadable at this size */
 	.timeline__period {
 		display: block;
-		color: var(--brand-blue);
+		color: var(--brand-navy);
 		font-weight: 700;
 		margin-bottom: 0.15rem;
 	}
@@ -525,9 +567,12 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 		border-radius: var(--md-sys-shape-corner-medium);
 	}
 
+	/* Reckless Neue Medium Italic — the brand's sub-heading/caption pairing (p.52) */
 	.timeline__figure figcaption {
 		margin-top: 0.4rem;
+		font-family: var(--brand-typeface-accent);
 		font-style: italic;
+		font-weight: 500;
 		color: var(--md-sys-color-on-surface-variant);
 	}
 
@@ -541,7 +586,7 @@ const panels = ['Meet the Team', 'The Vessel', 'Development Process', 'Sponsors'
 		padding: 0.35rem 1rem;
 		width: fit-content;
 		border-radius: 999px;
-		background: var(--brand-sky);
+		background: var(--brand-gold-tint);
 	}
 
 	.tier:nth-of-type(2) .tier__title {

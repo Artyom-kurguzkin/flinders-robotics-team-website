@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
-	<!-- Warm-only variant (no blue) for small yellow or white elements so their labels stay readable. Drawn to be laid over a picture with mix-blend-mode: multiply, like a two-colour print:
+	<!-- Warm-only variant (gold and Summer Red only) for small yellow or white elements so their labels stay readable. Drawn to be laid over a picture with mix-blend-mode: multiply, like a two-colour print:
 	     soft colour blocks, a fine halftone screen over everything, heavier dots on the block edges. -->
 	<defs>
 		<filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
@@ -9,16 +9,16 @@
 			<feGaussianBlur stdDeviation="18"/>
 		</filter>
 		<pattern id="screen" width="7" height="7" patternUnits="userSpaceOnUse">
-			<circle cx="3.5" cy="3.5" r="1.5" fill="#16294d" fill-opacity=".3"/>
+			<circle cx="3.5" cy="3.5" r="1.5" fill="#232d4b" fill-opacity=".3"/>
 		</pattern>
 		<pattern id="dotsA" width="11" height="11" patternUnits="userSpaceOnUse">
-			<circle cx="5.5" cy="5.5" r="2.8" fill="#16294d" fill-opacity=".6"/>
+			<circle cx="5.5" cy="5.5" r="2.8" fill="#232d4b" fill-opacity=".6"/>
 		</pattern>
 		<pattern id="dotsB" width="11" height="11" patternUnits="userSpaceOnUse">
-			<circle cx="0" cy="0" r="2.3" fill="#ff8a2b"/>
-			<circle cx="11" cy="0" r="2.3" fill="#ff8a2b"/>
-			<circle cx="0" cy="11" r="2.3" fill="#ff8a2b"/>
-			<circle cx="11" cy="11" r="2.3" fill="#ff8a2b"/>
+			<circle cx="0" cy="0" r="2.3" fill="#dc5300"/>
+			<circle cx="11" cy="0" r="2.3" fill="#dc5300"/>
+			<circle cx="0" cy="11" r="2.3" fill="#dc5300"/>
+			<circle cx="11" cy="11" r="2.3" fill="#dc5300"/>
 		</pattern>
 		<mask id="edges">
 			<rect width="800" height="600" fill="#000"/>
@@ -35,11 +35,11 @@
 	</defs>
 
 	<g filter="url(#soft)" opacity=".85">
-		<rect x="-100" y="260" width="520" height="420" rx="80" fill="#ff8a2b"/>
-		<rect x="300" y="-120" width="640" height="340" rx="80" fill="#ffd23f"/>
+		<rect x="-100" y="260" width="520" height="420" rx="80" fill="#dc5300"/>
+		<rect x="300" y="-120" width="640" height="340" rx="80" fill="#ffd300"/>
 		<rect x="430" y="150" width="400" height="250" rx="60" fill="#ffb84d"/>
 		<rect x="520" y="200" width="170" height="90" rx="40" fill="#ffe4b0"/>
-		<rect x="110" y="380" width="190" height="120" rx="40" fill="#ff8a2b" fill-opacity=".7"/>
+		<rect x="110" y="380" width="190" height="120" rx="40" fill="#dc5300" fill-opacity=".7"/>
 	</g>
 
 	<rect width="800" height="600" fill="url(#screen)"/>

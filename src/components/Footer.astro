@@ -5,12 +5,22 @@ import flindersLogo from '../assets/Flinders-Logo-white.png';
 const base = import.meta.env.BASE_URL;
 const href = (path: string) => `${base}${path}`.replace(/\/{2,}/g, '/');
 
-const links = [
-	['About Us', 'about/'],
-	['Technical Specifications', 'technical-specifications/'],
-	['Research', 'research/'],
-	['Competitions', 'competitions/'],
-	['Contact', 'contact/'],
+// Off-site: the team's own channels plus the competition we enter. The tracking
+// and share parameters these links came with are stripped — they identify
+// whoever copied the link, and the bare URLs resolve to the same pages.
+// ponytail: only Instagram and Facebook need inline SVG; Material Symbols is
+// already loaded site-wide, so RobotX reuses the nav's trophy glyph.
+const external = [
+	{
+		label: 'Instagram',
+		url: 'https://www.instagram.com/flindersrobotics',
+		path: 'M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.38A5.9 5.9 0 0 0 .63 4.14c-.3.76-.5 1.64-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.8.72 1.47 1.38 2.13a5.9 5.9 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.38 5.9 5.9 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.38-2.13A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0m0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8m7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0',
+	},
+	{
+		label: 'Facebook',
+		url: 'https://www.facebook.com/people/Flinders-Robotics-Team/100085788091298/',
+		path: 'M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07',
+	},
 ];
 ---
 
@@ -24,8 +34,19 @@ const links = [
 			height="40"
 		/>
 
-		<nav class="footer__nav" aria-label="Footer">
-			{links.map(([label, path]) => <a href={href(path)}>{label}</a>)}
+		<nav class="footer__social" aria-label="Elsewhere">
+			{
+				external.map((item) => (
+					<a href={item.url} target="_blank" rel="noopener noreferrer" aria-label={item.label}>
+						<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+							<path d={item.path} />
+						</svg>
+					</a>
+				))
+			}
+			<a class="footer__robotx" href="https://robotx.org/programs/2026/" target="_blank" rel="noopener noreferrer">
+				RobotX Challenge 2026
+			</a>
 		</nav>
 
 		<a class="footer__flinders" href="https://www.flinders.edu.au/" target="_blank" rel="noopener noreferrer">
@@ -46,39 +67,59 @@ const links = [
 		color: rgb(255 255 255 / 0.78);
 	}
 
+	/* Mobile: three tidy rows — the two logos bookending the first, then the links,
+	   then the CRICOS line. Stacking all four items in one column left them at four
+	   different indents. */
 	.footer__inner {
 		max-width: var(--content-width);
 		margin-inline: auto;
-		padding: 1rem 1.5rem;
+		padding: 1.5rem;
 		display: grid;
-		gap: 0.6rem 2rem;
+		gap: 1.1rem 1.25rem;
 		align-items: center;
-		grid-template-columns: 1fr;
+		grid-template-columns: auto 1fr;
+		grid-template-areas:
+			'logo flinders'
+			'social social'
+			'uni uni';
+	}
+
+	.footer__mark {
+		grid-area: logo;
+	}
+
+	.footer__flinders {
+		grid-area: flinders;
+		/* sits directly beside the club mark on mobile; pushed to the far edge only
+		   once the row is wide enough to spread out */
+		justify-self: start;
+	}
+
+	.footer__social {
+		grid-area: social;
+		/* pull the first icon's round hit area back so the glyph lines up with the
+		   text and logos rather than sitting indented */
+		margin-inline-start: -0.65rem;
+	}
+
+	.footer__uni {
+		grid-area: uni;
 	}
 
 	@media (min-width: 48rem) {
 		.footer__inner {
-			grid-template-columns: auto 1fr auto;
-			grid-template-areas:
-				'logo nav flinders'
-				'logo uni flinders';
+			padding: 1rem 1.5rem;
+			gap: 0.6rem 2rem;
+			grid-template-columns: auto 1fr auto auto;
+			grid-template-areas: 'logo uni social flinders';
+		}
+
+		.footer__social {
+			margin-inline-start: 0;
 		}
 
 		.footer__flinders {
-			grid-area: flinders;
 			justify-self: end;
-		}
-
-		.footer__mark {
-			grid-area: logo;
-		}
-
-		.footer__nav {
-			grid-area: nav;
-		}
-
-		.footer__uni {
-			grid-area: uni;
 		}
 	}
 
@@ -99,22 +140,46 @@ const links = [
 		width: auto;
 	}
 
-	.footer__nav {
+	.footer__social {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 0.4rem 1.5rem;
+		align-items: center;
+		gap: 0.35rem;
 	}
 
-	.footer__nav a {
+	/* 44px hit area around a 20px glyph — these are the smallest targets on the page */
+	.footer__social a {
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 50%;
 		color: #fff;
+	}
+
+	.footer__social a:hover {
+		background: var(--brand-yellow);
+		color: var(--brand-navy);
+	}
+
+	.footer__social svg {
+		width: 1.25rem;
+		height: 1.25rem;
+		fill: currentColor;
+	}
+
+	/* a text link, so it gets the nav's type rather than the icons' round hit area */
+	.footer__social .footer__robotx {
+		width: auto;
+		height: auto;
+		padding: 0.55rem 0.85rem;
+		border-radius: 999px;
 		font-size: 0.875rem;
 		font-weight: 500;
-		text-decoration: none;
-	}
-
-	.footer__nav a:hover {
-		color: var(--brand-yellow);
+		/* underlined so it reads as a link — the icons beside it are obviously
+		   clickable, a bare word is not */
 		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		white-space: nowrap;
 	}
 
 	.footer__uni {

@@ -19,43 +19,35 @@ const { title } = Astro.props;
 		color: var(--md-sys-color-on-surface);
 	}
 
-	/* Same treatment as the tab strips: a yellow base that fades into the page at the top and
-	   bottom, with the hand-drawn halftone artwork fading into that yellow from the right. */
-	.header::before,
-	.header::after {
+	/* A flat, hard-edged gold block and nothing else. No decorative artwork: the
+	   guideline's curve device is built for poster-shaped space, and in a band this
+	   short it can only read as a corner sticker or a cropped fragment. Flinders'
+	   own site carries no artwork in its page headers either — the title does the
+	   work. Same treatment as the tab strips. */
+	.header::before {
 		content: '';
 		position: absolute;
-		inset: 0;
+		/* Run the gold up behind the floating pill header, so there is no white strip
+		   above, beside or below it. The pill stays white and sits on top: the app bar
+		   is z-index 10, this is -1 inside .header. */
+		inset: calc(-1 * (var(--app-bar-height) + 0.75rem)) 0 0;
 		z-index: -1;
 		pointer-events: none;
-	}
-
-	.header::before {
 		background: var(--brand-yellow);
-		-webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
-		mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
-	}
-
-	.header::after {
-		background: url('../assets/patterns/riso-band.svg') right center / cover no-repeat;
-		-webkit-mask-image: linear-gradient(90deg, transparent 30%, #000 72%),
-			linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
-		mask-image: linear-gradient(90deg, transparent 30%, #000 72%),
-			linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
-		-webkit-mask-composite: source-in;
-		mask-composite: intersect;
 	}
 
 	.header__inner {
 		max-width: var(--content-width);
 		margin-inline: auto;
-		padding: clamp(1.5rem, 3vw, 2.25rem) 1.5rem;
+		padding: clamp(0.9rem, 1.6vw, 1.25rem) 1.5rem;
 	}
 
-
+	/* A title band, not a hero — it repeats on every page, so it stays tight rather
+	   than growing with the viewport the way the shared h1 scale does. */
 	.header h1 {
 		margin: 0;
 		max-width: 18ch;
+		font-size: clamp(1.6rem, 1.3rem + 0.9vw, 2rem);
 	}
 
 </style>

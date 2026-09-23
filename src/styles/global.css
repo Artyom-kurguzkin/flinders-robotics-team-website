@@ -1,21 +1,116 @@
+/* === Brand typefaces ===
+   Circular is the primary face — "This font should always be used" (Brand
+   Guidelines p.50). Reckless Neue is its serif companion, used for the italic
+   secondary headings, sub headings and pull quotes (p.52).
+
+   Both are commercial licences (Lineto / Displaay) with no public CDN, so they
+   are self-hosted from public/fonts/ — see the README there for the exact
+   filenames. `local()` comes first so a copy installed on the machine is used
+   without a download. Until the files are dropped in, every face falls through
+   to DM Sans, which is what the guideline itself prescribes "where Circular is
+   unavailable" (p.54), so the site stays on-brand either way.
+
+   ponytail: woff2 only. Every browser that runs this site supports it, and one
+   format means one conversion per weight instead of three. */
+@font-face {
+	font-family: 'Circular';
+	src: local('Circular Std Book'), local('LL Circular Book'),
+		url('/fonts/circular-book.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Circular';
+	src: local('Circular Std Medium'), local('LL Circular Medium'),
+		url('/fonts/circular-medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* 600 in our CSS resolves here: above 500 the browser looks heavier first. */
+@font-face {
+	font-family: 'Circular';
+	src: local('Circular Std Bold'), local('LL Circular Bold'),
+		url('/fonts/circular-bold.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* the display weight — our 800 headings resolve here */
+@font-face {
+	font-family: 'Circular';
+	src: local('Circular Std Black'), local('LL Circular Black'),
+		url('/fonts/circular-black.woff2') format('woff2');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Reckless Neue';
+	src: local('Reckless Neue Regular'), url('/fonts/reckless-neue-regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Reckless Neue';
+	src: local('Reckless Neue Regular Italic'),
+		url('/fonts/reckless-neue-regular-italic.woff2') format('woff2');
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Reckless Neue';
+	src: local('Reckless Neue Medium'), url('/fonts/reckless-neue-medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Reckless Neue';
+	src: local('Reckless Neue Medium Italic'),
+		url('/fonts/reckless-neue-medium-italic.woff2') format('woff2');
+	font-weight: 500;
+	font-style: italic;
+	font-display: swap;
+}
+
 /* === Brand palette ===
-   Matched to the Flinders University web identity: navy type, cream section
-   bands on white, yellow primary CTA, orange secondary. */
+   Flinders University official brand colours (Brand Guidelines Ver 11.0):
+   Midnight Navy + Sand as primary neutrals against Flinders Gold, with Deep Gold
+   and Summer Red as the secondaries. The guideline's own weighting (p.9) is
+   Gold 40 / Navy 20 / Deep Gold 12.5 / Sand 10 / Summer Red 7.5, so Deep Gold —
+   not a tertiary — carries the repeating accents.
+
+   The tertiaries (Sunset Pink, Eucalypt Green) are deliberately absent. */
 :root {
-	--brand-navy: #16294d;
-	--brand-cream: #f6efe3;
-	--brand-yellow: #ffd23f;
-	--brand-blue: #1e63d6;
-	--brand-orange: #ff8a2b;
+	--brand-navy: #232d4b; /* Midnight Navy */
+	--brand-cream: #f6eee1; /* Sand */
+	--brand-yellow: #ffd300; /* Flinders Gold */
+	--brand-deep-gold: #cb9828; /* Deep Gold (secondary) */
+	--brand-orange: #dc5300; /* Summer Red (secondary) */
 	/* text-safe orange for use on white */
-	--brand-orange-deep: #c4520a;
-	/* soft tints for backgrounds */
+	--brand-orange-deep: #9c3d00;
+	/* Outside the Flinders palette, kept by choice: the pale blue the hero tiles
+	   and the initials placeholders sit on. The blue accents themselves use
+	   --brand-navy, the same blue as the footer. */
 	--brand-sky: #dceafd;
+	/* soft tints for backgrounds */
+	--brand-gold-tint: #f4e6c4;
 	--brand-butter: #fff1bf;
-	--brand-peach: #ffe3cc;
+	--brand-peach: #ffe0cc;
 	--brand-stripe: linear-gradient(
 		90deg,
-		var(--brand-blue) 0 34%,
+		var(--brand-deep-gold) 0 34%,
 		var(--brand-yellow) 34% 67%,
 		var(--brand-orange) 67% 100%
 	);
@@ -31,17 +126,17 @@
 :root {
 	color-scheme: light;
 
-	--md-sys-color-primary: #16294d;
+	--md-sys-color-primary: #232d4b;
 	--md-sys-color-on-primary: #ffffff;
-	--md-sys-color-primary-container: #f6efe3;
-	--md-sys-color-on-primary-container: #16294d;
+	--md-sys-color-primary-container: #f6eee1;
+	--md-sys-color-on-primary-container: #232d4b;
 	--md-sys-color-secondary: #4a5875;
 	--md-sys-color-on-secondary: #ffffff;
-	--md-sys-color-secondary-container: #dceafd;
-	--md-sys-color-on-secondary-container: #16294d;
-	--md-sys-color-tertiary: #c4520a;
+	--md-sys-color-secondary-container: #f4e6c4;
+	--md-sys-color-on-secondary-container: #232d4b;
+	--md-sys-color-tertiary: #9c3d00;
 	--md-sys-color-on-tertiary: #ffffff;
-	--md-sys-color-tertiary-container: #ffd23f;
+	--md-sys-color-tertiary-container: #ffd300;
 	--md-sys-color-on-tertiary-container: #2a1d00;
 	--md-sys-color-error: #ba1a1a;
 	--md-sys-color-on-error: #ffffff;
@@ -58,22 +153,24 @@
 	--md-sys-color-outline-variant: #d9d5cc;
 	--md-sys-color-shadow: #000000;
 	--md-sys-color-scrim: #000000;
-	--md-sys-color-inverse-surface: #16294d;
+	--md-sys-color-inverse-surface: #232d4b;
 	--md-sys-color-inverse-on-surface: #f4f3f0;
-	--md-sys-color-inverse-primary: #b9c6e4;
+	--md-sys-color-inverse-primary: #b7c0d4;
 
 	--md-sys-color-surface-dim: #e6e2da;
 	--md-sys-color-surface-bright: #ffffff;
 	--md-sys-color-surface-container-lowest: #ffffff;
 	--md-sys-color-surface-container-low: #ffffff;
-	--md-sys-color-surface-container: #f6efe3;
+	--md-sys-color-surface-container: #f6eee1;
 	--md-sys-color-surface-container-high: #efe5d4;
 	--md-sys-color-surface-container-highest: #e8dcc7;
 
 	/* Typeface — components read these refs.
-	   Plus Jakarta Sans is the closest free match to the brand's geometric sans. */
-	--md-ref-typeface-brand: 'Plus Jakarta Sans', system-ui, sans-serif;
-	--md-ref-typeface-plain: 'Plus Jakarta Sans', system-ui, sans-serif;
+	   Circular first, DM Sans as the sanctioned fallback (Brand Guidelines p.50, p.54). */
+	--md-ref-typeface-brand: 'Circular', 'DM Sans', system-ui, sans-serif;
+	--md-ref-typeface-plain: 'Circular', 'DM Sans', system-ui, sans-serif;
+	/* the serif companion, for italic captions and pull quotes (p.52) */
+	--brand-typeface-accent: 'Reckless Neue', Georgia, 'Times New Roman', serif;
 
 	/* Shape — the reference uses generous, soft corners */
 	--md-sys-shape-corner-extra-small: 6px;
@@ -198,7 +295,7 @@ h4,
 }
 
 .task:nth-child(3n + 2) h2::after {
-	background: var(--brand-blue);
+	background: var(--brand-deep-gold);
 }
 
 .task:nth-child(3n) h2::after {
@@ -346,11 +443,14 @@ body {
 }
 
 /* === Tab bar ===
-   Full-bleed cream strip behind md-tabs, shared by every tabbed page. */
+   Full-bleed gold strip behind md-tabs, shared by every tabbed page. Square edges,
+   like every colour block in the guideline. */
 .tabbar {
 	position: relative;
 	margin-bottom: 1.5rem;
 	padding-block: 0.9rem 0.6rem;
+	/* the sticky pill header would otherwise cover the tabs after a #panel-N jump */
+	scroll-margin-top: 5rem;
 }
 
 .tabbar::before {
@@ -361,42 +461,26 @@ body {
 	translate: -50% 0;
 	width: 100vw;
 	background: var(--brand-yellow);
-	-webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
-	mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
 	z-index: -1;
 }
 
-.tabbar::after {
-	content: '';
-	position: absolute;
-	inset-block: 0;
-	left: 50%;
-	translate: -50% 0;
-	width: 100vw;
-	background: url('../assets/patterns/riso-strip.svg') right center / cover no-repeat;
-	-webkit-mask-image: linear-gradient(90deg, transparent 38%, #000 76%), linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
-	mask-image: linear-gradient(90deg, transparent 38%, #000 76%), linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
-	-webkit-mask-composite: source-in;
-	mask-composite: intersect;
-	z-index: -1;
-	pointer-events: none;
-}
+/* No artwork on the strip — see the note in PageHeader.astro. */
 
 md-tabs {
 	--md-primary-tab-container-color: transparent;
 	--md-primary-tab-active-indicator-height: 4px;
 	/* the default hover/press layer is a hard-edged rectangle that cuts across the artwork;
-	   hovering just turns the label blue instead */
+	   hovering just turns the label navy instead */
 	--md-primary-tab-hover-state-layer-opacity: 0;
 	--md-primary-tab-pressed-state-layer-opacity: 0;
 	--md-primary-tab-active-hover-state-layer-opacity: 0;
 	--md-primary-tab-active-pressed-state-layer-opacity: 0;
-	--md-primary-tab-hover-label-text-color: #1447b0;
-	--md-primary-tab-pressed-label-text-color: #1447b0;
-	--md-primary-tab-active-label-text-color: #1447b0;
-	--md-primary-tab-active-focus-label-text-color: #1447b0;
-	--md-primary-tab-active-hover-label-text-color: #1447b0;
-	--md-primary-tab-active-pressed-label-text-color: #1447b0;
+	--md-primary-tab-hover-label-text-color: #232d4b;
+	--md-primary-tab-pressed-label-text-color: #232d4b;
+	--md-primary-tab-active-label-text-color: #232d4b;
+	--md-primary-tab-active-focus-label-text-color: #232d4b;
+	--md-primary-tab-active-hover-label-text-color: #232d4b;
+	--md-primary-tab-active-pressed-label-text-color: #232d4b;
 	--md-primary-tab-active-indicator-color: var(--brand-navy);
 	--md-primary-tab-label-text-color: var(--brand-navy);
 	--md-primary-tab-label-text-weight: 700;
