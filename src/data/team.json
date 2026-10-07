@@ -6,8 +6,8 @@
 	{"name": "Kartikeya Dashora", "photo": "kartikeya-dashora.png", "role": "President", "qualifications": "Bachelor of Engineering (Robotics)", "email": "kartikeya.dashora@flinders.edu.au", "linkedin": "https://www.linkedin.com/in/kartikeya-dashora"},
 	{"name": "Edison Irankunda", "photo": "edison-irankunda.jpg", "role": "Vice President", "qualifications": "Bachelor of Engineering (Mechanical)", "email": "edison.irankunda@flinders.edu.au", "linkedin": "https://www.linkedin.com/in/edison-irankunda-647657198"},
 	{"name": "Caleb Mitson", "email": "mits0023@flinders.edu.au"},
-	{"name": "Minjun Cha", "email": "minjun.cha@flinders.edu.au"},
-	{"name": "Jonathan Tassell", "email": "tass0055@flinders.edu.au"},
+	{"name": "Minjun Cha", "photo": "minjun-cha.jpg", "email": "minjun.cha@flinders.edu.au"},
+	{"name": "Jonathan Tassell", "photo": "jonathan-tassell.jpg", "email": "tass0055@flinders.edu.au"},
 	{"name": "Levi Will", "email": "will1408@flinders.edu.au"},
-	{"name": "Omkar Pradhan", "email": "omkar.pradhan@flinders.edu.au"}
+	{"name": "Omkar Pradhan", "photo": "omkar-pradhan.jpg", "email": "omkar.pradhan@flinders.edu.au"}
 ]
