@@ -5,9 +5,9 @@
 	{"name": "Andrew Lammas", "photo": "Andrew-Lammas-scaled.jpg", "role": "Academic Support/Long term member", "qualifications": "BEng (Computer Systems Engineering), PhD (Electronics)", "email": "andrew.lammas@flinders.edu.au", "linkedin": "https://au.linkedin.com/in/andrew-lammas-a67249ab"},
 	{"name": "Kartikeya Dashora", "photo": "kartikeya-dashora.png", "role": "President", "qualifications": "Bachelor of Engineering (Robotics)", "email": "kartikeya.dashora@flinders.edu.au", "linkedin": "https://www.linkedin.com/in/kartikeya-dashora"},
 	{"name": "Edison Irankunda", "photo": "edison-irankunda.jpg", "role": "Vice President", "qualifications": "Bachelor of Engineering (Mechanical)", "email": "edison.irankunda@flinders.edu.au", "linkedin": "https://www.linkedin.com/in/edison-irankunda-647657198"},
-	{"name": "Caleb Mitson", "email": "mits0023@flinders.edu.au"},
+	{"name": "Caleb Mitson", "photo": "caleb-mitson.png", "role": "Drone Team Member", "email": "mits0023@flinders.edu.au"},
 	{"name": "Minjun Cha", "photo": "minjun-cha.jpg", "email": "minjun.cha@flinders.edu.au"},
-	{"name": "Jonathan Tassell", "photo": "jonathan-tassell.jpg", "email": "tass0055@flinders.edu.au"},
-	{"name": "Levi Will", "email": "will1408@flinders.edu.au"},
-	{"name": "Omkar Pradhan", "photo": "omkar-pradhan.jpg", "email": "omkar.pradhan@flinders.edu.au"}
+	{"name": "Jonathan Tassell", "photo": "jonathan-tassell.jpg", "role": "Drone Team Member", "email": "tass0055@flinders.edu.au"},
+	{"name": "Levi Will", "photo": "levi-will.png", "role": "USV Team Lead", "email": "will1408@flinders.edu.au"},
+	{"name": "Omkar Pradhan", "photo": "omkar-pradhan.jpg", "role": "Drone Team Lead", "email": "omkar.pradhan@flinders.edu.au"}
 ]
